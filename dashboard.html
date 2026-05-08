@@ -1030,8 +1030,11 @@ async function generateDraft(reviewId, name, rating, text) {
     .limit(1)
     .maybeSingle()
 
-  // Send email notification (non-blocking) — email sends even if ID fetch failed
-  sendDraftEmail(name, rating, text, draft, inserted?.id, reviewId).catch(() => {})
+  // Send email notification
+  sendDraftEmail(name, rating, text, draft, inserted?.id, reviewId).catch(err => {
+    console.error('Email send failed:', err)
+    toast('Draft generated ✓ (email failed — check console)', true)
+  })
 
   toast('Draft generated ✓ — email sent to ' + user.email)
   showSection('drafts')
@@ -1039,7 +1042,7 @@ async function generateDraft(reviewId, name, rating, text) {
 
 async function sendDraftEmail(reviewerName, rating, reviewText, draftText, draftId, reviewId) {
   const { data: { session } } = await sb.auth.getSession()
-  await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/send-draft-email', {
+  const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/send-draft-email', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -1057,6 +1060,10 @@ async function sendDraftEmail(reviewerName, rating, reviewText, draftText, draft
       dashboardUrl: window.location.origin + '/dashboard.html',
     }),
   })
+  if (!res.ok) {
+    const body = await res.text()
+    throw new Error(`Edge Function error ${res.status}: ${body}`)
+  }
 }
 
 function buildDraft(name, rating, text) {
