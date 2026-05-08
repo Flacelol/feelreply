@@ -102,10 +102,26 @@
       border-radius: 20px;
     }
 
+    /* ── Nav links ── */
+    .nav-link {
+      font-size: .8125rem;
+      font-weight: 500;
+      color: #71717a;
+      padding: .35rem .85rem;
+      border-radius: 999px;
+      transition: color 0.18s ease, background 0.18s ease;
+      white-space: nowrap;
+    }
+    .nav-link:hover {
+      color: #e4e4e7;
+      background: rgba(255,255,255,0.07);
+    }
+
     /* ── Nav glass on scroll ── */
     #nav.scrolled {
-      background: rgba(10,10,10,0.88) !important;
+      background: rgba(10,10,10,0.92) !important;
       border-color: rgba(255,255,255,0.1) !important;
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 8px 32px rgba(0,0,0,0.6) !important;
     }
 
     /* ── WhatsApp bubbles ── */
@@ -129,25 +145,27 @@
 <!-- ══════════════════════════════════════════
      NAVBAR
 ════════════════════════════════════════════ -->
-<header class="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
-  <nav id="nav" class="glass max-w-6xl mx-auto flex items-center justify-between px-6 py-3.5 rounded-2xl" style="transition: background 0.3s, border-color 0.3s;">
+<header class="fixed top-0 left-0 right-0 z-50 px-5 pt-4">
+  <nav id="nav" class="max-w-6xl mx-auto flex items-center justify-between px-5 rounded-2xl"
+    style="background:rgba(10,10,10,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);box-shadow:0 0 0 1px rgba(124,58,237,0.1),0 8px 32px rgba(0,0,0,0.4);transition:background 0.3s,border-color 0.3s;height:64px;">
+
     <!-- Logo -->
-    <a href="#" class="flex items-center gap-2 cursor-pointer select-none">
-      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:70px;width:auto;object-fit:contain;">
-      <span style="font-size:1.05rem;font-weight:700;letter-spacing:-0.01em;">Feel<span style="color:#a78bfa;">Reply</span></span>
+    <a href="#" class="flex items-center gap-1 cursor-pointer select-none" style="flex-shrink:0;">
+      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:54px;width:auto;object-fit:contain;">
+      <span style="font-size:1.05rem;font-weight:700;letter-spacing:-0.02em;margin-left:-2px;">Feel<span style="color:#a78bfa;">Reply</span></span>
     </a>
 
-    <!-- Links -->
-    <div class="hidden md:flex items-center gap-7">
-      <a href="#how" style="font-size:.875rem;color:#71717a;" class="hover:text-white transition-colors duration-200 cursor-pointer">How It Works</a>
-      <a href="#features" style="font-size:.875rem;color:#71717a;" class="hover:text-white transition-colors duration-200 cursor-pointer">Features</a>
-      <a href="#pricing" style="font-size:.875rem;color:#71717a;" class="hover:text-white transition-colors duration-200 cursor-pointer">Pricing</a>
+    <!-- Links — centered pill -->
+    <div class="hidden md:flex items-center gap-1" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:999px;padding:4px 6px;">
+      <a href="#how" class="nav-link">How It Works</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
     </div>
 
     <!-- CTA -->
-    <div class="flex items-center gap-3">
-      <a href="#" style="font-size:.875rem;color:#71717a;" class="hidden md:block hover:text-white transition-colors duration-200 cursor-pointer">Log in</a>
-      <a href="#pricing" class="btn-p" style="font-size:.875rem;padding:.55rem 1.2rem;">Start Free Trial</a>
+    <div class="flex items-center gap-3" style="flex-shrink:0;">
+      <a href="#" style="font-size:.8125rem;color:#71717a;font-weight:500;" class="hidden md:block hover:text-white transition-colors duration-200 cursor-pointer">Log in</a>
+      <a href="#pricing" class="btn-p" style="font-size:.8125rem;padding:.5rem 1.1rem;border-radius:9px;background:linear-gradient(135deg,#7c3aed,#6d28d9);box-shadow:0 0 20px rgba(124,58,237,0.35);">Get Started →</a>
     </div>
   </nav>
 </header>
