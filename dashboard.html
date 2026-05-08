@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FeelReply – Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { font-family: 'Inter', sans-serif; box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { background: #0a0a0a; color: #fff; display: flex; overflow: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: 232px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.015);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem .875rem;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: .575rem .875rem;
+      border-radius: 10px;
+      font-size: .875rem;
+      font-weight: 500;
+      color: #52525b;
+      cursor: pointer;
+      transition: color 0.16s, background 0.16s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      line-height: 1;
+    }
+    .nav-item:hover { color: #a1a1aa; background: rgba(255,255,255,0.04); }
+    .nav-item.active { color: #e4e4e7; background: rgba(124,58,237,0.16); }
+    .nav-item.active svg { color: #a78bfa; }
+
+    /* ── Main ── */
+    #main { flex: 1; overflow-y: auto; height: 100vh; }
+
+    /* ── Topbar ── */
+    #topbar {
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+      gap: 1rem;
+    }
+
+    /* ── Cards ── */
+    .glass {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+    }
+    .review-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .review-card:hover { border-color: rgba(124,58,237,0.25); box-shadow: 0 0 24px rgba(124,58,237,0.06); }
+
+    /* ── Inputs ── */
+    .input-field {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: .7rem 1rem;
+      color: #fff;
+      font-size: .9375rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .input-field:focus { border-color: rgba(124,58,237,0.55); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+    .input-field::placeholder { color: #3f3f46; }
+    textarea.input-field { resize: vertical; min-height: 90px; line-height: 1.6; }
+    select.input-field {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2352525b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 2.5rem;
+    }
+
+    /* ── Buttons ── */
+    .btn-p {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 9px;
+      padding: .5rem 1rem;
+      cursor: pointer;
+      border: none;
+      font-size: .875rem;
+      transition: opacity 0.2s, box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 0 18px rgba(124,58,237,0.28);
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-p:hover { opacity: 0.87; box-shadow: 0 0 28px rgba(124,58,237,0.45); transform: translateY(-1px); }
+    .btn-p:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .btn-g {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #71717a;
+      font-weight: 500;
+      border-radius: 9px;
+      padding: .5rem 1rem;
+      cursor: pointer;
+      background: none;
+      font-size: .875rem;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-g:hover { border-color: rgba(255,255,255,0.22); color: #d4d4d8; background: rgba(255,255,255,0.04); }
+
+    .btn-danger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(239,68,68,0.2);
+      color: #f87171;
+      font-weight: 500;
+      border-radius: 9px;
+      padding: .5rem 1rem;
+      cursor: pointer;
+      background: none;
+      font-size: .875rem;
+      transition: border-color 0.2s, background 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-danger:hover { border-color: rgba(239,68,68,0.45); background: rgba(239,68,68,0.07); }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: .6875rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .badge-pending  { background: rgba(234,179,8,0.12);  color: #fbbf24; border: 1px solid rgba(234,179,8,0.2); }
+    .badge-replied  { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+    .badge-approved { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+    .badge-rejected { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+    /* ── Stars ── */
+    .star      { color: #fbbf24; font-size: .9375rem; line-height: 1; }
+    .star.off  { color: #27272a; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      background: rgba(18,18,18,0.97);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: .8rem 1.1rem;
+      font-size: .875rem;
+      color: #e4e4e7;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(12px);
+      max-width: 320px;
+    }
+    #toast.show { display: flex; animation: fadeIn 0.22s ease; }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: rgba(255,255,255,0.06); margin: .625rem 0; }
+
+    /* ── Animations ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin-el { animation: spin 0.75s linear infinite; }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease forwards; }
+
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    .pulse { animation: pulse 2s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loading-screen" style="position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px;">
+  <img src="feelreply_logo_R.png" alt="FeelReply" style="height:44px;width:auto;margin-bottom:4px;">
+  <div style="width:28px;height:28px;border:2px solid rgba(124,58,237,0.25);border-top-color:#7c3aed;border-radius:50%;" class="spin-el"></div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════
+     SIDEBAR
+════════════════════════════════════ -->
+<aside id="sidebar">
+
+  <!-- Logo -->
+  <a href="index.html" style="display:flex;align-items:center;gap:6px;text-decoration:none;margin-bottom:1.75rem;padding:.125rem .25rem;flex-shrink:0;">
+    <img src="feelreply_logo_R.png" alt="FeelReply" style="height:38px;width:auto;">
+    <span style="font-size:.95rem;font-weight:700;letter-spacing:-.02em;color:#fff;">Feel<span style="color:#a78bfa;">Reply</span></span>
+  </a>
+
+  <!-- Nav items -->
+  <nav style="display:flex;flex-direction:column;gap:2px;flex:1;">
+    <button class="nav-item active" id="nav-reviews" onclick="showSection('reviews')">
+      <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
+      Reviews
+    </button>
+    <button class="nav-item" id="nav-drafts" onclick="showSection('drafts')">
+      <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+      AI Drafts
+    </button>
+    <button class="nav-item" id="nav-logs" onclick="showSection('logs')">
+      <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"/></svg>
+      WhatsApp Log
+    </button>
+
+    <div class="divider" style="margin:.5rem 0;"></div>
+
+    <button class="nav-item" id="nav-settings" onclick="showSection('settings')">
+      <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.869a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+      Settings
+    </button>
+  </nav>
+
+  <!-- User profile + logout -->
+  <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:.875rem;margin-top:.5rem;">
+    <div style="display:flex;align-items:center;gap:9px;padding:.5rem .875rem;margin-bottom:4px;">
+      <div style="width:28px;height:28px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span id="user-initial" style="font-size:.6875rem;font-weight:700;color:#fff;">U</span>
+      </div>
+      <div style="min-width:0;flex:1;">
+        <p id="user-business" style="font-size:.8125rem;font-weight:600;color:#e4e4e7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading…</p>
+        <p id="user-email" style="font-size:.6875rem;color:#3f3f46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">-</p>
+      </div>
+    </div>
+    <button class="nav-item" onclick="signOut()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/></svg>
+      Log out
+    </button>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════════
+     MAIN
+════════════════════════════════════ -->
+<main id="main">
+
+  <!-- Topbar -->
+  <div id="topbar">
+    <div>
+      <h1 id="section-title" style="font-size:1.0625rem;font-weight:700;color:#fff;line-height:1.2;">Reviews</h1>
+      <p id="section-sub" style="font-size:.8125rem;color:#3f3f46;margin-top:2px;">Google Maps reviews collected for your business</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:.625rem;">
+      <button class="btn-p" id="btn-add-review" onclick="openModal()" style="display:none;font-size:.8125rem;padding:.45rem .9rem;">
+        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        Add review
+      </button>
+    </div>
+  </div>
+
+  <!-- ════════ REVIEWS ════════ -->
+  <section id="sec-reviews" style="padding:1.5rem 1.75rem;">
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;margin-bottom:1.25rem;">
+      <div class="stat-card">
+        <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
+        <p id="s-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+      </div>
+      <div class="stat-card">
+        <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Rating</p>
+        <p id="s-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+      </div>
+      <div class="stat-card">
+        <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Pending Reply</p>
+        <p id="s-pending" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+      </div>
+    </div>
+    <!-- List -->
+    <div id="reviews-list"></div>
+  </section>
+
+  <!-- ════════ DRAFTS ════════ -->
+  <section id="sec-drafts" style="padding:1.5rem 1.75rem;display:none;">
+    <div id="drafts-list"></div>
+  </section>
+
+  <!-- ════════ WHATSAPP LOG ════════ -->
+  <section id="sec-logs" style="padding:1.5rem 1.75rem;display:none;">
+    <div id="logs-list"></div>
+  </section>
+
+  <!-- ════════ SETTINGS ════════ -->
+  <section id="sec-settings" style="padding:1.5rem 1.75rem;display:none;">
+    <div style="max-width:540px;display:flex;flex-direction:column;gap:1rem;">
+
+      <div class="glass" style="padding:1.5rem;">
+        <h2 style="font-size:.9375rem;font-weight:700;color:#fff;margin-bottom:1.25rem;">Business Profile</h2>
+        <div style="display:flex;flex-direction:column;gap:.875rem;">
+          <div>
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Business name</label>
+            <input type="text" id="s-name" class="input-field" placeholder="My Restaurant">
+          </div>
+          <div>
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Google Maps URL</label>
+            <input type="url" id="s-maps" class="input-field" placeholder="https://maps.google.com/...">
+          </div>
+          <div>
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">WhatsApp number</label>
+            <input type="tel" id="s-whatsapp" class="input-field" placeholder="+39 333 000 0000">
+          </div>
+          <div>
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">AI reply tone</label>
+            <select id="s-tone" class="input-field">
+              <option value="professional">Professional</option>
+              <option value="friendly">Friendly & Warm</option>
+              <option value="casual">Casual</option>
+              <option value="formal">Formal</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-p" id="save-btn" onclick="saveSettings()" style="margin-top:1.25rem;">Save changes</button>
+      </div>
+
+      <div class="glass" style="padding:1.5rem;">
+        <h2 style="font-size:.9375rem;font-weight:700;color:#fff;margin-bottom:.375rem;">Account</h2>
+        <p style="font-size:.8125rem;color:#52525b;margin-bottom:1.25rem;">Manage your account and billing.</p>
+        <div style="display:flex;gap:.625rem;flex-wrap:wrap;">
+          <button class="btn-g" style="font-size:.8125rem;padding:.45rem .875rem;">Change password</button>
+          <button class="btn-danger" style="font-size:.8125rem;padding:.45rem .875rem;" onclick="signOut()">Sign out</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════════════════════
+     ADD REVIEW MODAL
+════════════════════════════════════ -->
+<div id="modal" class="modal-overlay" style="display:none;">
+  <div class="glass" style="width:100%;max-width:460px;padding:1.75rem;border-radius:20px;animation:fadeIn .22s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+      <h2 style="font-size:.9375rem;font-weight:700;color:#fff;">Add review manually</h2>
+      <button onclick="closeModal()" style="background:none;border:none;color:#52525b;cursor:pointer;padding:4px;line-height:0;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#52525b'">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.875rem;">
+      <div>
+        <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Reviewer name</label>
+        <input type="text" id="m-name" class="input-field" placeholder="John Smith">
+      </div>
+      <div>
+        <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:8px;">Rating</label>
+        <div id="star-picker" style="display:flex;gap:4px;"></div>
+        <input type="hidden" id="m-rating" value="5">
+      </div>
+      <div>
+        <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Review text <span style="color:#3f3f46;font-weight:400;">(optional)</span></label>
+        <textarea id="m-text" class="input-field" placeholder="Great service! Would definitely recommend..." rows="4"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:.625rem;margin-top:1.25rem;">
+      <button class="btn-p" id="m-submit" onclick="submitReview()" style="font-size:.875rem;">Add review</button>
+      <button class="btn-g" onclick="closeModal()" style="font-size:.875rem;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const { createClient } = supabase
+const sb = createClient(
+  'https://alqevbdpeuwrosjcvauf.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFscWV2YmRwZXV3cm9zamN2YXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDQxNDksImV4cCI6MjA5MzU4MDE0OX0.pb8d-ZCnDJuJR42-hTfF_O-5xDdIYaAukHj5sXCxXtE'
+)
+
+let user = null
+let profile = null
+
+// ── Startup ─────────────────────────────────────────────
+async function init() {
+  const { data: { session } } = await sb.auth.getSession()
+  if (!session) { window.location.href = 'auth.html'; return }
+  user = session.user
+
+  const { data: p } = await sb.from('profiles').select('*').eq('id', user.id).single()
+  profile = p || {}
+
+  // Sidebar user info
+  document.getElementById('user-email').textContent = user.email
+  document.getElementById('user-business').textContent = profile.business_name || 'My Business'
+  document.getElementById('user-initial').textContent = (profile.business_name || user.email)[0].toUpperCase()
+
+  // Settings pre-fill
+  document.getElementById('s-name').value      = profile.business_name   || ''
+  document.getElementById('s-maps').value      = profile.google_maps_url || ''
+  document.getElementById('s-whatsapp').value  = profile.whatsapp_number || ''
+  document.getElementById('s-tone').value      = profile.tone_preference || 'professional'
+
+  await loadReviews()
+  document.getElementById('loading-screen').style.display = 'none'
+  renderStarPicker(5)
+}
+
+// ── Navigation ───────────────────────────────────────────
+const SECTIONS = ['reviews','drafts','logs','settings']
+const META = {
+  reviews:  ['Reviews',      'Google Maps reviews collected for your business'],
+  drafts:   ['AI Drafts',    'AI-generated replies awaiting your approval'],
+  logs:     ['WhatsApp Log', 'Messages sent via WhatsApp'],
+  settings: ['Settings',     'Configure your business profile and preferences'],
+}
+
+function showSection(key) {
+  SECTIONS.forEach(s => {
+    document.getElementById(`sec-${s}`).style.display  = s === key ? '' : 'none'
+    document.getElementById(`nav-${s}`).classList.toggle('active', s === key)
+  })
+  document.getElementById('section-title').textContent = META[key][0]
+  document.getElementById('section-sub').textContent   = META[key][1]
+  document.getElementById('btn-add-review').style.display = key === 'reviews' ? '' : 'none'
+
+  if (key === 'reviews') loadReviews()
+  if (key === 'drafts')  loadDrafts()
+  if (key === 'logs')    loadLogs()
+}
+
+// ── Reviews ──────────────────────────────────────────────
+async function loadReviews() {
+  const list = document.getElementById('reviews-list')
+  list.innerHTML = loading()
+
+  const { data: rows, error } = await sb
+    .from('reviews')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+
+  if (error) { list.innerHTML = errMsg(error.message); return }
+
+  const total   = rows.length
+  const avg     = total ? (rows.reduce((s,r) => s + r.rating, 0) / total).toFixed(1) : '–'
+  const pending = rows.filter(r => r.status === 'pending').length
+
+  document.getElementById('s-total').textContent   = total
+  document.getElementById('s-avg').textContent     = total ? avg + ' ★' : '–'
+  document.getElementById('s-pending').textContent = pending
+
+  if (!rows.length) {
+    list.innerHTML = `
+      <div class="empty-state glass">
+        <svg width="44" height="44" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
+        <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No reviews yet</p>
+        <p style="font-size:.875rem;color:#3f3f46;max-width:260px;line-height:1.65;margin-bottom:1.25rem;">Add your first review manually or connect your Google Maps listing.</p>
+        <button class="btn-p" onclick="openModal()" style="font-size:.875rem;">Add first review</button>
+      </div>`
+    return
+  }
+
+  list.innerHTML = `<div style="display:flex;flex-direction:column;gap:.75rem;" class="fade-in">${rows.map(reviewCard).join('')}</div>`
+}
+
+function stars(n) {
+  return [1,2,3,4,5].map(i => `<span class="star${i > n ? ' off' : ''}">★</span>`).join('')
+}
+
+function reviewCard(r) {
+  const date = new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
+  const initial = r.reviewer_name[0].toUpperCase()
+  const isPending = r.status === 'pending'
+
+  return `
+    <div class="review-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.875rem;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <div style="width:36px;height:36px;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:.875rem;color:#a78bfa;">${initial}</div>
+          <div>
+            <p style="font-size:.9375rem;font-weight:600;color:#e4e4e7;margin-bottom:3px;">${r.reviewer_name}</p>
+            <div style="display:flex;align-items:center;gap:.5rem;">
+              <span style="letter-spacing:2px;font-size:.875rem;">${stars(r.rating)}</span>
+              <span style="font-size:.75rem;color:#3f3f46;">${date}</span>
+            </div>
+          </div>
+        </div>
+        <span class="badge ${isPending ? 'badge-pending' : 'badge-replied'}">${isPending ? 'Pending' : 'Replied'}</span>
+      </div>
+      ${r.review_text ? `<p style="font-size:.9375rem;color:#71717a;line-height:1.7;margin-bottom:1rem;">${r.review_text}</p>` : '<p style="font-size:.875rem;color:#3f3f46;margin-bottom:1rem;font-style:italic;">No review text</p>'}
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        ${isPending ? `<button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="generateDraft('${r.id}','${esc(r.reviewer_name)}',${r.rating},\`${esc(r.review_text||'')}\`)">Generate reply</button>` : ''}
+        <button class="btn-danger" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="deleteReview('${r.id}')">Delete</button>
+      </div>
+    </div>`
+}
+
+async function deleteReview(id) {
+  if (!confirm('Delete this review and its drafts?')) return
+  await sb.from('reply_drafts').delete().eq('review_id', id)
+  await sb.from('reviews').delete().eq('id', id)
+  toast('Review deleted')
+  loadReviews()
+}
+
+// ── Add Review Modal ─────────────────────────────────────
+function openModal() {
+  document.getElementById('modal').style.display = 'flex'
+  document.getElementById('m-name').value = ''
+  document.getElementById('m-text').value = ''
+  renderStarPicker(5)
+}
+function closeModal() { document.getElementById('modal').style.display = 'none' }
+
+let pickedRating = 5
+function renderStarPicker(n) {
+  pickedRating = n
+  document.getElementById('m-rating').value = n
+  document.getElementById('star-picker').innerHTML = [1,2,3,4,5].map(i => `
+    <button type="button"
+      onclick="renderStarPicker(${i})"
+      onmouseover="hoverStars(${i})"
+      onmouseout="renderStarPicker(${pickedRating})"
+      style="background:none;border:none;cursor:pointer;font-size:1.875rem;color:${i <= n ? '#fbbf24' : '#27272a'};padding:0 2px;line-height:1;transition:color .12s;outline:none;">★</button>
+  `).join('')
+}
+function hoverStars(n) {
+  document.getElementById('star-picker').querySelectorAll('button').forEach((b, i) => {
+    b.style.color = i < n ? '#fbbf24' : '#27272a'
+  })
+}
+
+async function submitReview() {
+  const name = document.getElementById('m-name').value.trim()
+  if (!name) { toast('Enter a reviewer name', true); return }
+  const btn = document.getElementById('m-submit')
+  btn.disabled = true; btn.textContent = 'Adding…'
+
+  const { error } = await sb.from('reviews').insert({
+    user_id: user.id,
+    reviewer_name: name,
+    rating: parseInt(document.getElementById('m-rating').value),
+    review_text: document.getElementById('m-text').value.trim() || null,
+    status: 'pending'
+  })
+
+  btn.disabled = false; btn.textContent = 'Add review'
+  if (error) { toast(error.message, true); return }
+  closeModal()
+  toast('Review added ✓')
+  loadReviews()
+}
+
+// ── AI Drafts ─────────────────────────────────────────────
+async function generateDraft(reviewId, name, rating, text) {
+  const draft = buildDraft(name, rating, text)
+  const { error } = await sb.from('reply_drafts').insert({
+    review_id: reviewId,
+    user_id: user.id,
+    draft_text: draft,
+    status: 'pending'
+  })
+  if (error) { toast(error.message, true); return }
+
+  // Send email notification (non-blocking)
+  sendDraftEmail(name, rating, text, draft).catch(() => {})
+
+  toast('Draft generated ✓ — email sent to ' + user.email)
+  showSection('drafts')
+}
+
+async function sendDraftEmail(reviewerName, rating, reviewText, draftText) {
+  const { data: { session } } = await sb.auth.getSession()
+  await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/send-draft-email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session.access_token}`,
+    },
+    body: JSON.stringify({
+      reviewerName,
+      rating,
+      reviewText,
+      draftText,
+      ownerEmail: user.email,
+      businessName: profile.business_name || 'My Business',
+      dashboardUrl: window.location.origin + '/dashboard.html',
+    }),
+  })
+}
+
+function buildDraft(name, rating, text) {
+  const tone = profile.tone_preference || 'professional'
+  const biz  = profile.business_name || 'Our Team'
+  const hi   = { professional:`Dear ${name},`, friendly:`Hi ${name}!`, casual:`Hey ${name},`, formal:`Dear ${name},` }[tone]
+  const bye  = { professional:'We hope to serve you again soon.', friendly:'Hope to see you again soon!', casual:'See you around!', formal:'We remain at your full disposal.' }[tone]
+
+  if (rating >= 4) return `${hi}\n\nThank you so much for your wonderful review! It truly means a lot to our team to hear that you had a great experience.\n\nWe work hard every day to deliver the best, and your kind words are a great reminder of why we do it. ${bye}\n\nWarm regards,\n${biz}`
+  if (rating >= 3) return `${hi}\n\nThank you for taking the time to leave a review. We appreciate your honest feedback — it helps us improve continuously.\n\nWe'd love the chance to exceed your expectations next time. ${bye}\n\nBest,\n${biz}`
+  return `${hi}\n\nThank you for bringing this to our attention. We sincerely apologize that your experience didn't meet your expectations — that's never what we want.\n\nWe take every review seriously and would genuinely like the opportunity to make it right. Please reach out to us directly so we can address your concerns personally. ${bye}\n\nSincerely,\n${biz}`
+}
+
+async function loadDrafts() {
+  const list = document.getElementById('drafts-list')
+  list.innerHTML = loading()
+
+  const { data: rows, error } = await sb
+    .from('reply_drafts')
+    .select('*, review:reviews(*)')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+
+  if (error) { list.innerHTML = errMsg(error.message); return }
+
+  if (!rows.length) {
+    list.innerHTML = `
+      <div class="empty-state glass">
+        <svg width="44" height="44" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+        <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No drafts yet</p>
+        <p style="font-size:.875rem;color:#3f3f46;max-width:280px;line-height:1.65;margin-bottom:1.25rem;">Click "Generate reply" on a pending review to create an AI draft.</p>
+        <button class="btn-g" onclick="showSection('reviews')" style="font-size:.875rem;">Go to Reviews</button>
+      </div>`
+    return
+  }
+
+  list.innerHTML = `<div style="display:flex;flex-direction:column;gap:.75rem;" class="fade-in">${rows.map(draftCard).join('')}</div>`
+}
+
+function draftCard(d) {
+  const r = d.review || {}
+  return `
+    <div class="review-card" id="dc-${d.id}">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.875rem;">
+        <div style="display:flex;align-items:center;gap:.625rem;">
+          <span style="font-size:.9375rem;font-weight:600;color:#e4e4e7;">${r.reviewer_name || 'Unknown'}</span>
+          <span style="letter-spacing:2px;font-size:.875rem;">${stars(r.rating || 0)}</span>
+        </div>
+        <span class="badge ${d.status === 'pending' ? 'badge-pending' : d.status === 'approved' ? 'badge-approved' : 'badge-rejected'}">${d.status}</span>
+      </div>
+      ${r.review_text ? `
+      <div style="background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:.875rem;margin-bottom:.75rem;">
+        <p style="font-size:.6875rem;font-weight:600;color:#3f3f46;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Original review</p>
+        <p style="font-size:.875rem;color:#71717a;line-height:1.65;">${r.review_text}</p>
+      </div>` : ''}
+      <div style="background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.15);border-radius:10px;padding:.875rem;margin-bottom:1rem;">
+        <p style="font-size:.6875rem;font-weight:600;color:#7c3aed;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">AI reply draft</p>
+        <p id="dt-${d.id}" style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;white-space:pre-line;">${d.draft_text}</p>
+      </div>
+      ${d.status === 'pending' ? `
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="approveDraft('${d.id}','${d.review_id}')">✓ Approve</button>
+        <button class="btn-g" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="editDraft('${d.id}')">Edit</button>
+        <button class="btn-danger" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="rejectDraft('${d.id}')">Reject</button>
+      </div>` : ''}
+    </div>`
+}
+
+function editDraft(id) {
+  const el = document.getElementById(`dt-${id}`)
+  const txt = el.textContent
+  el.outerHTML = `<textarea id="dt-${id}" class="input-field" rows="6" style="margin-bottom:.75rem;">${txt}</textarea><button class="btn-g" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="saveDraft('${id}')">Save edit</button>`
+}
+async function saveDraft(id) {
+  const text = document.getElementById(`dt-${id}`).value
+  await sb.from('reply_drafts').update({ draft_text: text }).eq('id', id)
+  toast('Draft saved ✓')
+  loadDrafts()
+}
+async function approveDraft(draftId, reviewId) {
+  await Promise.all([
+    sb.from('reply_drafts').update({ status: 'approved' }).eq('id', draftId),
+    sb.from('reviews').update({ status: 'replied' }).eq('id', reviewId)
+  ])
+  toast('Reply approved ✓')
+  loadDrafts()
+}
+async function rejectDraft(id) {
+  await sb.from('reply_drafts').update({ status: 'rejected' }).eq('id', id)
+  toast('Draft rejected')
+  loadDrafts()
+}
+
+// ── WhatsApp Log ──────────────────────────────────────────
+async function loadLogs() {
+  const list = document.getElementById('logs-list')
+  list.innerHTML = loading()
+
+  const { data: rows, error } = await sb
+    .from('whatsapp_logs')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('sent_at', { ascending: false })
+
+  if (error) { list.innerHTML = errMsg(error.message); return }
+
+  if (!rows.length) {
+    list.innerHTML = `
+      <div class="empty-state glass">
+        <svg width="44" height="44" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"/></svg>
+        <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No messages yet</p>
+        <p style="font-size:.875rem;color:#3f3f46;max-width:280px;line-height:1.65;">WhatsApp messages will appear here once your business is connected.</p>
+      </div>`
+    return
+  }
+
+  const typeLabel = { review_notification:'Review alert', reply_sent:'Reply sent', approval_request:'Approval request' }
+
+  list.innerHTML = `<div style="display:flex;flex-direction:column;gap:.625rem;" class="fade-in">${rows.map(l => {
+    const date = new Date(l.sent_at).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
+    return `
+      <div class="review-card" style="display:flex;gap:1rem;align-items:flex-start;">
+        <div style="width:36px;height:36px;background:#25d366;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:4px;flex-wrap:wrap;">
+            <span class="badge badge-replied">${typeLabel[l.message_type] || l.message_type}</span>
+            <span style="font-size:.75rem;color:#3f3f46;">${date}</span>
+          </div>
+          <p style="font-size:.875rem;color:#71717a;line-height:1.6;">${l.content}</p>
+        </div>
+      </div>`
+  }).join('')}</div>`
+}
+
+// ── Settings ─────────────────────────────────────────────
+async function saveSettings() {
+  const btn = document.getElementById('save-btn')
+  btn.disabled = true; btn.textContent = 'Saving…'
+
+  const updates = {
+    id: user.id,
+    business_name:   document.getElementById('s-name').value.trim(),
+    google_maps_url: document.getElementById('s-maps').value.trim(),
+    whatsapp_number: document.getElementById('s-whatsapp').value.trim(),
+    tone_preference: document.getElementById('s-tone').value,
+    updated_at: new Date().toISOString()
+  }
+
+  const { error } = await sb.from('profiles').upsert(updates)
+  btn.disabled = false; btn.textContent = 'Save changes'
+
+  if (error) { toast(error.message, true); return }
+  profile = { ...profile, ...updates }
+  document.getElementById('user-business').textContent = profile.business_name || 'My Business'
+  document.getElementById('user-initial').textContent  = (profile.business_name || user.email)[0].toUpperCase()
+  toast('Settings saved ✓')
+}
+
+// ── Auth ─────────────────────────────────────────────────
+async function signOut() {
+  await sb.auth.signOut()
+  window.location.href = 'index.html'
+}
+
+// ── Helpers ──────────────────────────────────────────────
+function loading() {
+  return '<div style="color:#3f3f46;font-size:.875rem;padding:.5rem 0;">Loading…</div>'
+}
+function errMsg(m) {
+  return `<p style="color:#f87171;font-size:.875rem;">${m}</p>`
+}
+function esc(s) {
+  return String(s).replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/'/g,"\\'")
+}
+
+let _toastTimer
+function toast(msg, isErr = false) {
+  const el = document.getElementById('toast')
+  el.className = 'show'
+  el.style.borderColor = isErr ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.1)'
+  el.innerHTML = `<span style="width:7px;height:7px;border-radius:50%;background:${isErr ? '#f87171' : '#4ade80'};flex-shrink:0;"></span>${msg}`
+  clearTimeout(_toastTimer)
+  _toastTimer = setTimeout(() => el.className = '', 3200)
+}
+
+// Close modal on backdrop click
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal()
+})
+
+init()
+</script>
+</body>
+</html>

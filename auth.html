@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FeelReply – Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { font-family: 'Inter', sans-serif; box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+
+    .glass-card {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.08), 0 24px 64px rgba(0,0,0,0.5);
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: .75rem 1rem;
+      color: #fff;
+      font-size: .9375rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-field:focus { border-color: rgba(124,58,237,0.6); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+    .input-field::placeholder { color: #3f3f46; }
+
+    .btn-p {
+      width: 100%;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: .8rem;
+      cursor: pointer;
+      border: none;
+      font-size: .9375rem;
+      transition: opacity 0.2s, box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 0 28px rgba(124,58,237,0.4);
+      letter-spacing: -.01em;
+    }
+    .btn-p:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 0 40px rgba(124,58,237,0.55); }
+    .btn-p:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    .tab {
+      flex: 1;
+      padding: .5rem 1rem;
+      border-radius: 8px;
+      font-size: .875rem;
+      font-weight: 500;
+      color: #52525b;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+      border: none;
+      background: none;
+    }
+    .tab.active { color: #fff; background: rgba(124,58,237,0.22); }
+
+    .alert {
+      display: none;
+      border-radius: 10px;
+      padding: .75rem 1rem;
+      font-size: .875rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #fca5a5; }
+    .alert-success { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); color: #86efac; }
+
+    .grad {
+      background: linear-gradient(135deg, #e0d7ff 0%, #a78bfa 45%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 0.7s linear infinite; display: inline-block; }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    .pulse { animation: pulse 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="grid-bg">
+
+  <!-- Ambient orbs -->
+  <div style="position:fixed;inset:0;pointer-events:none;overflow:hidden;">
+    <div style="position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(124,58,237,.13) 0%,transparent 65%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+    <div style="position:absolute;width:450px;height:450px;background:radial-gradient(circle,rgba(167,139,250,.06) 0%,transparent 70%);border-radius:50%;top:5%;right:0%;"></div>
+    <div style="position:absolute;width:350px;height:350px;background:radial-gradient(circle,rgba(79,70,229,.07) 0%,transparent 70%);border-radius:50%;bottom:5%;left:0%;"></div>
+  </div>
+
+  <div style="width:100%;max-width:440px;padding:1.25rem;position:relative;z-index:1;" class="fade-in">
+
+    <!-- Logo -->
+    <a href="index.html" style="display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;margin-bottom:2rem;">
+      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:44px;width:auto;">
+      <span style="font-size:1.1rem;font-weight:700;color:#fff;letter-spacing:-.02em;">Feel<span style="color:#a78bfa;">Reply</span></span>
+    </a>
+
+    <!-- Card -->
+    <div class="glass-card" style="padding:2rem;">
+
+      <!-- Tabs -->
+      <div style="display:flex;gap:4px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:4px;margin-bottom:1.75rem;">
+        <button class="tab active" id="tab-signin" onclick="switchTab('signin')">Sign in</button>
+        <button class="tab" id="tab-signup" onclick="switchTab('signup')">Create account</button>
+      </div>
+
+      <!-- Alerts -->
+      <div id="alert-error" class="alert alert-error"></div>
+      <div id="alert-success" class="alert alert-success"></div>
+
+      <!-- ── Sign In ── -->
+      <form id="form-signin" onsubmit="handleSignIn(event)">
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:6px;">Email</label>
+          <input type="email" id="si-email" class="input-field" placeholder="you@business.com" required autocomplete="email">
+        </div>
+        <div style="margin-bottom:.5rem;">
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:6px;">Password</label>
+          <input type="password" id="si-password" class="input-field" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <div style="text-align:right;margin-bottom:1.5rem;">
+          <a href="#" style="font-size:.8125rem;color:#52525b;transition:color .2s;" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='#52525b'">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn-p" id="si-btn">Sign in</button>
+      </form>
+
+      <!-- ── Sign Up ── -->
+      <form id="form-signup" style="display:none;" onsubmit="handleSignUp(event)">
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:6px;">Business name</label>
+          <input type="text" id="su-business" class="input-field" placeholder="My Restaurant" required>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:6px;">Email</label>
+          <input type="email" id="su-email" class="input-field" placeholder="you@business.com" required autocomplete="email">
+        </div>
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:6px;">Password</label>
+          <input type="password" id="su-password" class="input-field" placeholder="Min. 8 characters" required minlength="8" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-p" id="su-btn">Create account</button>
+        <p style="font-size:.75rem;color:#3f3f46;text-align:center;margin-top:1rem;line-height:1.6;">By signing up you agree to our Terms of Service. Monthly billing — cancel anytime.</p>
+      </form>
+
+    </div>
+
+    <!-- Back link -->
+    <p style="text-align:center;margin-top:1.5rem;">
+      <a href="index.html" style="font-size:.8125rem;color:#3f3f46;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='#3f3f46'">← Back to home</a>
+    </p>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const { createClient } = supabase
+    const sb = createClient(
+      'https://alqevbdpeuwrosjcvauf.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFscWV2YmRwZXV3cm9zamN2YXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDQxNDksImV4cCI6MjA5MzU4MDE0OX0.pb8d-ZCnDJuJR42-hTfF_O-5xDdIYaAukHj5sXCxXtE'
+    )
+
+    // Already logged in? Skip to dashboard
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (session) window.location.href = 'dashboard.html'
+    })
+
+    function switchTab(tab) {
+      const isSignIn = tab === 'signin'
+      document.getElementById('tab-signin').classList.toggle('active', isSignIn)
+      document.getElementById('tab-signup').classList.toggle('active', !isSignIn)
+      document.getElementById('form-signin').style.display = isSignIn ? '' : 'none'
+      document.getElementById('form-signup').style.display = isSignIn ? 'none' : ''
+      clearAlerts()
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('alert-error')
+      el.textContent = msg; el.style.display = 'block'
+      document.getElementById('alert-success').style.display = 'none'
+    }
+    function showSuccess(msg) {
+      const el = document.getElementById('alert-success')
+      el.textContent = msg; el.style.display = 'block'
+      document.getElementById('alert-error').style.display = 'none'
+    }
+    function clearAlerts() {
+      document.getElementById('alert-error').style.display = 'none'
+      document.getElementById('alert-success').style.display = 'none'
+    }
+
+    async function handleSignIn(e) {
+      e.preventDefault()
+      const btn = document.getElementById('si-btn')
+      btn.disabled = true
+      btn.innerHTML = '<span class="spin" style="width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;vertical-align:middle;margin-right:6px;"></span>Signing in…'
+      clearAlerts()
+
+      const { error } = await sb.auth.signInWithPassword({
+        email: document.getElementById('si-email').value.trim(),
+        password: document.getElementById('si-password').value
+      })
+
+      if (error) {
+        showError(error.message)
+        btn.disabled = false
+        btn.textContent = 'Sign in'
+      } else {
+        window.location.href = 'dashboard.html'
+      }
+    }
+
+    async function handleSignUp(e) {
+      e.preventDefault()
+      const btn = document.getElementById('su-btn')
+      btn.disabled = true
+      btn.innerHTML = '<span class="spin" style="width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;vertical-align:middle;margin-right:6px;"></span>Creating account…'
+      clearAlerts()
+
+      const email = document.getElementById('su-email').value.trim()
+      const password = document.getElementById('su-password').value
+      const businessName = document.getElementById('su-business').value.trim()
+
+      const { data, error } = await sb.auth.signUp({ email, password })
+
+      if (error) {
+        showError(error.message)
+        btn.disabled = false
+        btn.textContent = 'Create account'
+        return
+      }
+
+      if (data.user) {
+        await sb.from('profiles').upsert({ id: data.user.id, business_name: businessName })
+      }
+
+      showSuccess('Account created! Check your email to confirm your address, then sign in.')
+      btn.disabled = false
+      btn.textContent = 'Create account'
+    }
+  </script>
+</body>
+</html>
