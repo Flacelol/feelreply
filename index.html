@@ -133,11 +133,7 @@
   <nav id="nav" class="glass max-w-6xl mx-auto flex items-center justify-between px-6 py-3.5 rounded-2xl" style="transition: background 0.3s, border-color 0.3s;">
     <!-- Logo -->
     <a href="#" class="flex items-center gap-2 cursor-pointer select-none">
-      <div style="width:30px;height:30px;background:#7c3aed;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <svg width="16" height="16" fill="none" stroke="#fff" viewBox="0 0 24 24" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
-        </svg>
-      </div>
+      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:70px;width:auto;object-fit:contain;">
       <span style="font-size:1.05rem;font-weight:700;letter-spacing:-0.01em;">Feel<span style="color:#a78bfa;">Reply</span></span>
     </a>
 
@@ -198,14 +194,6 @@
           </a>
         </div>
 
-        <!-- Stats -->
-        <div class="fu d3 flex items-center gap-3 flex-wrap" style="font-size:.8125rem;color:#52525b;">
-          <span style="color:#a1a1aa;font-weight:500;">2 min setup</span>
-          <span>&middot;</span>
-          <span style="color:#a1a1aa;font-weight:500;">98% reply rate</span>
-          <span>&middot;</span>
-          <span style="color:#a1a1aa;font-weight:500;">500+ businesses</span>
-        </div>
       </div>
 
       <!-- ── Right: phone mockup ── -->
@@ -473,31 +461,33 @@
     <div class="fu text-center mb-14">
       <p style="font-size:.8125rem;font-weight:600;color:#7c3aed;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;">Pricing</p>
       <h2 style="font-size:clamp(1.8rem,4vw,2.75rem);font-weight:800;letter-spacing:-.028em;line-height:1.12;margin-bottom:14px;">Simple, transparent pricing</h2>
-      <p style="font-size:1rem;color:#71717a;max-width:380px;margin:0 auto;">14-day free trial. No credit card required. Cancel anytime.</p>
+      <p style="font-size:1rem;color:#71717a;max-width:380px;margin:0 auto;">Monthly billing. No long-term contracts. Cancel anytime.</p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto items-start">
+    <div class="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-start">
 
-      <!-- Starter -->
+      <!-- Lite -->
       <div class="fu glass fc" style="border-radius:20px;padding:28px;border-color:rgba(255,255,255,0.07);">
-        <p style="font-size:.875rem;font-weight:600;color:#a1a1aa;margin-bottom:20px;">Starter</p>
+        <p style="font-size:.875rem;font-weight:600;color:#a1a1aa;margin-bottom:20px;">Lite</p>
         <p style="margin-bottom:4px;"><span style="font-size:2.5rem;font-weight:800;letter-spacing:-.04em;">&euro;19</span><span style="font-size:.875rem;color:#71717a;">/mo</span></p>
         <p style="font-size:.75rem;color:#52525b;margin-bottom:20px;">1 location</p>
-        <ul style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#a1a1aa;">
-            <svg width="15" height="15" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>50 replies / month
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#a1a1aa;">
-            <svg width="15" height="15" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>WhatsApp notifications
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#a1a1aa;">
-            <svg width="15" height="15" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Edit before posting
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#3f3f46;">
-            <svg width="15" height="15" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>Analytics
-          </li>
+        <ul style="display:flex;flex-direction:column;gap:9px;margin-bottom:24px;">
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Up to 50 reviews/month</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>AI reads &amp; analyses every review</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>AI drafts a contextual response for each review</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>WhatsApp notification — approve with one tap</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Manual approval required before every post</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>English language only</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Basic support via WhatsApp</li>
+          <li style="height:1px;background:rgba(255,255,255,0.06);margin:4px 0;list-style:none;"></li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#3f3f46;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No auto-post</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#3f3f46;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No analytics</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#3f3f46;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No multiple locations</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#3f3f46;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No custom tone / brand voice</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#3f3f46;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No multi-language</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#3f3f46;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No white-label</li>
         </ul>
-        <a href="#" style="display:block;text-align:center;border:1px solid rgba(124,58,237,.38);color:#a78bfa;font-size:.875rem;font-weight:600;padding:11px;border-radius:10px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(124,58,237,.1)'" onmouseout="this.style.background='transparent'">Start Free Trial</a>
+        <a href="#" style="display:block;text-align:center;border:1px solid rgba(124,58,237,.38);color:#a78bfa;font-size:.875rem;font-weight:600;padding:11px;border-radius:10px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(124,58,237,.1)'" onmouseout="this.style.background='transparent'">Get Started</a>
       </div>
 
       <!-- Pro -->
@@ -505,50 +495,46 @@
         <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#7c3aed;color:#fff;font-size:.6875rem;font-weight:700;padding:4px 16px;border-radius:999px;white-space:nowrap;">Most Popular</div>
         <p style="font-size:.875rem;font-weight:600;color:#a78bfa;margin-bottom:20px;">Pro</p>
         <p style="margin-bottom:4px;"><span style="font-size:2.5rem;font-weight:800;letter-spacing:-.04em;">&euro;49</span><span style="font-size:.875rem;color:#71717a;">/mo</span></p>
-        <p style="font-size:.75rem;color:#52525b;margin-bottom:20px;">up to 3 locations</p>
-        <ul style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#d4d4d8;">
-            <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unlimited replies
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#d4d4d8;">
-            <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>WhatsApp notifications
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#d4d4d8;">
-            <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Edit before posting
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#d4d4d8;">
-            <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Analytics dashboard
-          </li>
+        <p style="font-size:.75rem;color:#52525b;margin-bottom:20px;">up to 5 locations</p>
+        <ul style="display:flex;flex-direction:column;gap:9px;margin-bottom:24px;">
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unlimited reviews/month</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Everything in Lite</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Auto-post after 24h if owner doesn&rsquo;t respond</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>AI learns your business tone over time</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Multi-language — matches review language</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Analytics — response rate, reply time, sentiment trends</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Priority support via WhatsApp</li>
+          <li style="height:1px;background:rgba(255,255,255,0.08);margin:4px 0;list-style:none;"></li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#4b4558;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#4b4558" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No white-label</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#4b4558;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#4b4558" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No custom tone per individual location</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#4b4558;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#4b4558" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No agency dashboard</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#4b4558;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#4b4558" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>Max 5 locations</li>
         </ul>
-        <a href="#" class="btn-p" style="display:block;text-align:center;font-size:.875rem;padding:12px;">Start Free Trial</a>
+        <a href="#" class="btn-p" style="display:block;text-align:center;font-size:.875rem;padding:12px;">Get Started</a>
       </div>
 
-      <!-- Business -->
+      <!-- Max -->
       <div class="fu d2 glass fc" style="border-radius:20px;padding:28px;border-color:rgba(255,255,255,0.07);">
-        <p style="font-size:.875rem;font-weight:600;color:#a1a1aa;margin-bottom:20px;">Business</p>
+        <p style="font-size:.875rem;font-weight:600;color:#a1a1aa;margin-bottom:20px;">Max</p>
         <p style="margin-bottom:4px;"><span style="font-size:2.5rem;font-weight:800;letter-spacing:-.04em;">&euro;99</span><span style="font-size:.875rem;color:#71717a;">/mo</span></p>
-        <p style="font-size:.75rem;color:#52525b;margin-bottom:20px;">up to 10 locations</p>
-        <ul style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;">
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#a1a1aa;">
-            <svg width="15" height="15" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unlimited replies
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#a1a1aa;">
-            <svg width="15" height="15" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Advanced analytics
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#a1a1aa;">
-            <svg width="15" height="15" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Priority support
-          </li>
-          <li style="display:flex;align-items:center;gap:9px;font-size:.875rem;color:#a1a1aa;">
-            <svg width="15" height="15" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Custom AI tone
-          </li>
+        <p style="font-size:.75rem;color:#52525b;margin-bottom:20px;">up to 15 locations</p>
+        <ul style="display:flex;flex-direction:column;gap:9px;margin-bottom:24px;">
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unlimited reviews/month</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Everything in Pro</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Custom AI tone per location</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>White-label — resell under your own brand</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unified agency dashboard — all clients in one view</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Client access controls — individual login per owner</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Monthly performance report per location</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Dedicated priority support via WhatsApp</li>
         </ul>
-        <a href="#" style="display:block;text-align:center;border:1px solid rgba(124,58,237,.38);color:#a78bfa;font-size:.875rem;font-weight:600;padding:11px;border-radius:10px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(124,58,237,.1)'" onmouseout="this.style.background='transparent'">Start Free Trial</a>
+        <a href="#" style="display:block;text-align:center;border:1px solid rgba(124,58,237,.38);color:#a78bfa;font-size:.875rem;font-weight:600;padding:11px;border-radius:10px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(124,58,237,.1)'" onmouseout="this.style.background='transparent'">Get Started</a>
       </div>
 
     </div>
 
     <p class="text-center fu" style="font-size:.875rem;color:#52525b;margin-top:24px;">
-      Need more than 10 locations? <a href="#" style="color:#a78bfa;cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Contact us</a> for a custom plan.
+      Need more than 15 locations? <a href="#" style="color:#a78bfa;cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Contact us</a> for a custom plan.
     </p>
 
   </div>
@@ -570,9 +556,8 @@
     <h2 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.035em;line-height:1.1;margin-bottom:16px;">
       Start replying in minutes.<br><span class="grad">Not days.</span>
     </h2>
-    <p style="font-size:1rem;color:#71717a;line-height:1.75;margin-bottom:40px;max-width:380px;margin-left:auto;margin-right:auto;">
-      Join 500+ businesses already using FeelReply. 14-day free trial, no credit card required.
-    </p>
+    <p style="font-size:1rem;color:#71717a;margin-bottom:32px;">Monthly billing. No long-term contracts. Cancel anytime.</p>
+
 
     <div style="display:flex;gap:8px;max-width:420px;margin:0 auto 16px;">
       <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Email address</label>
@@ -585,7 +570,7 @@
       </button>
     </div>
 
-    <p style="font-size:.8125rem;color:#3f3f46;">No credit card &middot; 2 min setup &middot; Cancel anytime</p>
+
   </div>
 </section>
 
@@ -599,9 +584,7 @@
 
       <div class="md:col-span-2">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <div style="width:28px;height:28px;background:#7c3aed;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="15" height="15" fill="none" stroke="#fff" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/></svg>
-          </div>
+          <img src="feelreply_logo_R.png" alt="FeelReply" style="height:50px;width:auto;object-fit:contain;">
           <span style="font-size:1rem;font-weight:700;">Feel<span style="color:#a78bfa;">Reply</span></span>
         </div>
         <p style="font-size:.875rem;color:#52525b;line-height:1.65;max-width:230px;">AI review replies via WhatsApp. One tap to publish on Google Maps.</p>
@@ -629,7 +612,7 @@
     </div>
 
     <div style="border-top:1px solid rgba(255,255,255,.05);padding-top:20px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;">
-      <p style="font-size:.8125rem;color:#3f3f46;">&copy; 2025 FeelReply. All rights reserved.</p>
+      <p style="font-size:.8125rem;color:#3f3f46;">&copy; 2026 FeelReply. All rights reserved.</p>
       <p style="font-size:.8125rem;color:#3f3f46;">Made for business owners everywhere.</p>
     </div>
   </div>
