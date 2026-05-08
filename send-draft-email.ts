@@ -13,7 +13,10 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { reviewerName, rating, reviewText, draftText, ownerEmail, businessName, dashboardUrl } = await req.json()
+    const { reviewerName, rating, reviewText, draftText, ownerEmail, businessName, dashboardUrl, draftId, reviewId } = await req.json()
+    const approveUrl = draftId && reviewId
+      ? `https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/approve-draft?draft_id=${draftId}&review_id=${reviewId}`
+      : null
 
     const starsStr = '★'.repeat(rating) + '☆'.repeat(5 - rating)
     const ratingLabel = rating >= 4 ? '🟢 Positive' : rating === 3 ? '🟡 Neutral' : '🔴 Negative'
@@ -59,9 +62,14 @@ Deno.serve(async (req) => {
 
     <!-- CTA -->
     <table cellpadding="0" cellspacing="0" width="100%">
+    <tr><td align="center" style="padding-bottom:12px;">
+      ${approveUrl ? `<a href="${approveUrl}" style="display:inline-block;background:linear-gradient(135deg,#16a34a,#15803d);color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;padding:14px 36px;border-radius:10px;letter-spacing:-0.01em;box-shadow:0 0 24px rgba(22,163,74,0.35);">
+        ✓ Accept Reply
+      </a>` : ''}
+    </td></tr>
     <tr><td align="center">
-      <a href="${dashboardUrl}" style="display:inline-block;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 36px;border-radius:10px;letter-spacing:-0.01em;">
-        Open Dashboard to Approve →
+      <a href="${dashboardUrl}" style="display:inline-block;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:11px 28px;border-radius:10px;letter-spacing:-0.01em;opacity:0.85;">
+        Open Dashboard →
       </a>
     </td></tr>
     </table>

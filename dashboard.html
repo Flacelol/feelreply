@@ -1012,22 +1012,22 @@ async function generateDraft(reviewId, name, rating, text) {
   }
 
   const draft = buildDraft(name, rating, text)
-  const { error } = await sb.from('reply_drafts').insert({
+  const { data: inserted, error } = await sb.from('reply_drafts').insert({
     review_id: reviewId,
     user_id: user.id,
     draft_text: draft,
     status: 'pending'
-  })
+  }).select('id').single()
   if (error) { toast(error.message, true); return }
 
   // Send email notification (non-blocking)
-  sendDraftEmail(name, rating, text, draft).catch(() => {})
+  sendDraftEmail(name, rating, text, draft, inserted?.id, reviewId).catch(() => {})
 
   toast('Draft generated ✓ — email sent to ' + user.email)
   showSection('drafts')
 }
 
-async function sendDraftEmail(reviewerName, rating, reviewText, draftText) {
+async function sendDraftEmail(reviewerName, rating, reviewText, draftText, draftId, reviewId) {
   const { data: { session } } = await sb.auth.getSession()
   await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/send-draft-email', {
     method: 'POST',
@@ -1040,6 +1040,8 @@ async function sendDraftEmail(reviewerName, rating, reviewText, draftText) {
       rating,
       reviewText,
       draftText,
+      draftId,
+      reviewId,
       ownerEmail: user.email,
       businessName: profile.business_name || 'My Business',
       dashboardUrl: window.location.origin + '/dashboard.html',
