@@ -56,9 +56,39 @@ alter table public.reply_drafts  enable row level security;
 alter table public.whatsapp_logs enable row level security;
 
 create policy "own profile"  on public.profiles      for all using (auth.uid() = id)      with check (auth.uid() = id);
-create policy "own reviews"  on public.reviews       for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
-create policy "own drafts"   on public.reply_drafts  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "own logs"     on public.whatsapp_logs for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- Reviews: read/update/delete own rows freely; INSERT requires active subscription
+create policy "select own reviews" on public.reviews for select using (auth.uid() = user_id);
+create policy "update own reviews" on public.reviews for update using (auth.uid() = user_id);
+create policy "delete own reviews" on public.reviews for delete using (auth.uid() = user_id);
+create policy "insert reviews — subscribers only" on public.reviews
+  for insert with check (
+    auth.uid() = user_id
+    and exists (
+      select 1 from public.profiles
+      where id = auth.uid()
+        and plan is not null
+        and plan != 'free'
+        and (plan_expires_at is null or plan_expires_at > now())
+    )
+  );
+
+-- Reply drafts: same pattern
+create policy "select own drafts" on public.reply_drafts for select using (auth.uid() = user_id);
+create policy "update own drafts" on public.reply_drafts for update using (auth.uid() = user_id);
+create policy "delete own drafts" on public.reply_drafts for delete using (auth.uid() = user_id);
+create policy "insert drafts — subscribers only" on public.reply_drafts
+  for insert with check (
+    auth.uid() = user_id
+    and exists (
+      select 1 from public.profiles
+      where id = auth.uid()
+        and plan is not null
+        and plan != 'free'
+        and (plan_expires_at is null or plan_expires_at > now())
+    )
+  );
 
 -- ── Auto-create profile on signup ───────────────────────────────────────────
 
