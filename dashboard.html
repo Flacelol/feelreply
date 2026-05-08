@@ -831,6 +831,12 @@ async function init() {
     showPaymentSuccess(paidPlan)
   }
 
+  // Block unpaid users from accessing the dashboard
+  if (!isSubscriptionActive()) {
+    window.location.href = 'index.html#pricing'
+    return
+  }
+
   updatePlanBadge(profile.plan)
   applyPlanFeatures(profile.plan)
   checkExpiryWarning()
