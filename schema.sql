@@ -104,3 +104,24 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- ── Protect subscription fields from self-modification ───────────────────────
+-- auth.uid() is NULL when called via service role (Stripe webhook) → allow
+-- auth.uid() is non-null when called by a logged-in user → block plan changes
+
+create or replace function public.protect_plan_fields()
+returns trigger language plpgsql security definer as $$
+begin
+  if auth.uid() is not null then
+    new.plan               := old.plan;
+    new.plan_expires_at    := old.plan_expires_at;
+    new.stripe_customer_id := old.stripe_customer_id;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists protect_plan_fields_trigger on public.profiles;
+create trigger protect_plan_fields_trigger
+  before update on public.profiles
+  for each row execute function public.protect_plan_fields();

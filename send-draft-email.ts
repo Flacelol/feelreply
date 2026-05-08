@@ -7,12 +7,32 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+import { createClient } from 'npm:@supabase/supabase-js@2'
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
 
   try {
+    // Verify caller has an active subscription
+    const jwt = req.headers.get('authorization')?.replace('Bearer ', '')
+    if (!jwt) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders })
+    }
+    const sb = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)
+    const { data: { user } } = await sb.auth.getUser(jwt)
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders })
+    }
+    const { data: profile } = await sb.from('profiles').select('plan, plan_expires_at').eq('id', user.id).single()
+    const plan = profile?.plan
+    const expires = profile?.plan_expires_at
+    const active = plan && plan !== 'free' && (!expires || new Date(expires) > new Date())
+    if (!active) {
+      return new Response(JSON.stringify({ error: 'No active subscription' }), { status: 403, headers: corsHeaders })
+    }
+
     const { reviewerName, rating, reviewText, draftText, ownerEmail, businessName, dashboardUrl, draftId, reviewId } = await req.json()
     const approveUrl = draftId && reviewId
       ? `https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/approve-draft?draft_id=${draftId}&review_id=${reviewId}`
@@ -88,21 +108,25 @@ Deno.serve(async (req) => {
 </body>
 </html>`
 
+    const resendPayload = {
+      from: 'FeelReply <noreply@feelreply.com>',
+      to: ownerEmail,
+      subject: `${starsStr} New review from ${reviewerName} — reply ready`,
+      html,
+    }
+    console.log('Sending to Resend:', resendPayload.from, '→', resendPayload.to)
+
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        from: 'FeelReply <noreply@feelreply.com>',
-        to: ownerEmail,
-        subject: `${starsStr} New review from ${reviewerName} — reply ready`,
-        html,
-      }),
+      body: JSON.stringify(resendPayload),
     })
 
     const data = await res.json()
+    console.log('Resend response:', res.status, JSON.stringify(data))
 
     return new Response(JSON.stringify(data), {
       status: res.ok ? 200 : 500,

@@ -819,16 +819,28 @@ async function init() {
   document.getElementById('s-whatsapp').value  = profile.whatsapp_number || profile.notification_email || user.email || ''
   document.getElementById('s-tone').value      = profile.tone_preference || 'professional'
 
-  // Handle Stripe success return
+  // Handle Stripe success return — poll for webhook, never trust URL params
   const params = new URLSearchParams(window.location.search)
   if (params.get('payment') === 'success') {
-    const paidPlan  = params.get('plan') || 'pro'
-    const expiresAt = new Date(Date.now() + 35 * 86400000).toISOString()
-    await sb.from('profiles').update({ plan: paidPlan, plan_expires_at: expiresAt }).eq('id', user.id)
-    profile.plan            = paidPlan
-    profile.plan_expires_at = expiresAt
     window.history.replaceState({}, '', window.location.pathname)
-    showPaymentSuccess(paidPlan)
+    showPaymentProcessing()
+    let attempts = 0
+    await new Promise(resolve => {
+      const poll = setInterval(async () => {
+        attempts++
+        const { data } = await sb.from('profiles').select('plan, plan_expires_at').eq('id', user.id).single()
+        if (data?.plan && data.plan !== 'free') {
+          clearInterval(poll)
+          profile.plan            = data.plan
+          profile.plan_expires_at = data.plan_expires_at
+          showPaymentSuccess(data.plan)
+          resolve()
+        } else if (attempts >= 12) {
+          clearInterval(poll)
+          resolve()
+        }
+      }, 1000)
+    })
   }
 
   // Block unpaid users from accessing the dashboard
@@ -1425,7 +1437,16 @@ function updatePlanBadge(plan) {
   }
 }
 
+function showPaymentProcessing() {
+  const banner = document.createElement('div')
+  banner.id = 'payment-processing-banner'
+  banner.style.cssText = 'position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.35);border-radius:12px;padding:.875rem 1.5rem;color:#a78bfa;font-size:.9375rem;font-weight:600;z-index:300;backdrop-filter:blur(12px);display:flex;align-items:center;gap:.625rem;box-shadow:0 8px 32px rgba(0,0,0,0.5);'
+  banner.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .7s linear infinite"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m6.364.636-2.121 2.121M21 12h-3m-.636 6.364-2.121-2.121M12 21v-3m-6.364-.636 2.121-2.121M3 12h3m.636-6.364 2.121 2.121"/></svg>Activating your plan…'
+  document.body.appendChild(banner)
+}
+
 function showPaymentSuccess(plan) {
+  document.getElementById('payment-processing-banner')?.remove()
   const info = PLAN_INFO[plan] || { label: plan }
   const banner = document.createElement('div')
   banner.style.cssText = 'position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.35);border-radius:12px;padding:.875rem 1.5rem;color:#4ade80;font-size:.9375rem;font-weight:600;z-index:300;backdrop-filter:blur(12px);display:flex;align-items:center;gap:.625rem;box-shadow:0 8px 32px rgba(0,0,0,0.5);'
