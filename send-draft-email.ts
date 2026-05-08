@@ -2,12 +2,12 @@
 // Deploy: Supabase Dashboard → Edge Functions → New Function → name "send-draft-email" → paste this → Deploy
 // Then: Project Settings → Edge Functions → Add secret: RESEND_API_KEY = your key
 
+import { createClient } from 'npm:@supabase/supabase-js@2'
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
-
-import { createClient } from 'npm:@supabase/supabase-js@2'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
