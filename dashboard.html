@@ -1012,15 +1012,25 @@ async function generateDraft(reviewId, name, rating, text) {
   }
 
   const draft = buildDraft(name, rating, text)
-  const { data: inserted, error } = await sb.from('reply_drafts').insert({
+  const { error } = await sb.from('reply_drafts').insert({
     review_id: reviewId,
     user_id: user.id,
     draft_text: draft,
     status: 'pending'
-  }).select('id').single()
+  })
   if (error) { toast(error.message, true); return }
 
-  // Send email notification (non-blocking)
+  // Fetch the draft ID we just inserted (for one-click email approval)
+  const { data: inserted } = await sb.from('reply_drafts')
+    .select('id')
+    .eq('review_id', reviewId)
+    .eq('user_id', user.id)
+    .eq('status', 'pending')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  // Send email notification (non-blocking) — email sends even if ID fetch failed
   sendDraftEmail(name, rating, text, draft, inserted?.id, reviewId).catch(() => {})
 
   toast('Draft generated ✓ — email sent to ' + user.email)
