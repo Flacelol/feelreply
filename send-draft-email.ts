@@ -87,7 +87,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'FeelReply <onboarding@resend.dev>',
+        from: 'FeelReply <noreply@feelreply.com>',
         to: ownerEmail,
         subject: `${starsStr} New review from ${reviewerName} — reply ready`,
         html,

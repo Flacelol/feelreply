@@ -108,6 +108,10 @@
       background-position: right 12px center;
       padding-right: 2.5rem;
     }
+    select.input-field option {
+      background: #1a1a1a;
+      color: #e4e4e7;
+    }
 
     /* ── Buttons ── */
     .btn-p {
@@ -246,6 +250,188 @@
 
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
     .pulse { animation: pulse 2s ease-in-out infinite; }
+
+    /* ══════════════════════════════════
+       MOBILE
+    ══════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* Body stacks vertically */
+      body { flex-direction: column; overflow: hidden; }
+
+      /* Hide desktop sidebar */
+      #sidebar { display: none; }
+
+      /* Main fills full screen, bottom nav overlays it */
+      #main {
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Topbar slimmer + show logo */
+      #topbar {
+        padding: .625rem 1rem;
+      }
+      #topbar h1 { font-size: .9375rem; }
+      #topbar p  { display: none; }
+      #topbar-logo { display: flex !important; }
+
+      /* Pad content so bottom nav doesn't cover last items */
+      #sec-reviews,
+      #sec-drafts,
+      #sec-analytics,
+      #sec-agency,
+      #sec-settings { padding-bottom: 6.5rem; }
+
+      /* Sections padding */
+      #sec-reviews,
+      #sec-drafts,
+      #sec-analytics,
+      #sec-agency,
+      #sec-settings { padding: 1rem; }
+
+      /* Stats — stack to 1 col */
+      #sec-reviews > div:first-child {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* Cards tighter */
+      .review-card, .stat-card { padding: 1rem; }
+
+      /* Modal full-screen bottom sheet */
+      .modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+      }
+      .modal-overlay > div {
+        border-radius: 20px 20px 0 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        max-height: 92vh;
+        overflow-y: auto;
+        animation: slideUp .25s ease !important;
+      }
+
+      /* Toast above bottom nav */
+      #toast { bottom: 80px; right: 1rem; left: 1rem; max-width: 100%; }
+
+      /* Settings max-width */
+      #sec-settings > div { max-width: 100%; }
+
+      /* Buttons wrap on small screens */
+      .review-card .btn-wrap { flex-wrap: wrap; }
+    }
+
+    /* ── Bottom navigation bar (mobile only) ── */
+    #bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(10,10,10,0.97);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 50;
+      padding: 0 .5rem;
+      align-items: center;
+      justify-content: space-around;
+    }
+    @media (max-width: 768px) { #bottom-nav { display: flex; } }
+
+    .bn-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: .5rem .875rem;
+      border-radius: 12px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #3f3f46;
+      font-size: .625rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      transition: color 0.16s, background 0.16s;
+      min-width: 56px;
+    }
+    .bn-item:hover { color: #71717a; }
+    .bn-item.active { color: #a78bfa; }
+    .bn-item.active svg { color: #a78bfa; }
+    .bn-item svg { transition: color 0.16s; }
+
+    @keyframes slideUp { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+
+    /* ── Upgrade gate ── */
+    .upgrade-gate {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .upgrade-gate-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: 14px;
+    }
+
+    /* ── Analytics bars ── */
+    .bar-track {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── Usage bar (Lite) ── */
+    .usage-bar-track {
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: .5rem;
+    }
+    .usage-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #7c3aed, #a78bfa);
+      transition: width 0.6s ease;
+    }
+
+    /* ── Plan banner ── */
+    .plan-banner {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .875rem 1.25rem;
+      border-radius: 12px;
+      margin-bottom: 1.25rem;
+      font-size: .875rem;
+    }
+    .plan-banner-pro  { background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); }
+    .plan-banner-max  { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.18); }
+    .plan-banner-free { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
+
   </style>
 </head>
 <body>
@@ -280,11 +466,17 @@
       <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
       AI Drafts
     </button>
-    <button class="nav-item" id="nav-logs" onclick="showSection('logs')">
-      <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"/></svg>
-      WhatsApp Log
+    <button class="nav-item" id="nav-analytics" onclick="showSection('analytics')">
+      <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+      Analytics
+      <span id="analytics-lock" style="margin-left:auto;display:none;">
+        <svg width="11" height="11" fill="none" stroke="#3f3f46" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+      </span>
     </button>
-
+    <button class="nav-item" id="nav-agency" onclick="showSection('agency')" style="display:none;">
+      <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+      Agency
+    </button>
     <div class="divider" style="margin:.5rem 0;"></div>
 
     <button class="nav-item" id="nav-settings" onclick="showSection('settings')">
@@ -301,7 +493,10 @@
       </div>
       <div style="min-width:0;flex:1;">
         <p id="user-business" style="font-size:.8125rem;font-weight:600;color:#e4e4e7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading…</p>
-        <p id="user-email" style="font-size:.6875rem;color:#3f3f46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;">-</p>
+        <div style="display:flex;align-items:center;gap:5px;margin-top:2px;">
+          <p id="user-email" style="font-size:.6875rem;color:#3f3f46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">-</p>
+          <span id="plan-badge" style="display:none;font-size:.5625rem;font-weight:700;background:rgba(124,58,237,0.25);color:#a78bfa;border:1px solid rgba(124,58,237,0.35);border-radius:4px;padding:1px 5px;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;"></span>
+        </div>
       </div>
     </div>
     <button class="nav-item" onclick="signOut()">
@@ -318,6 +513,11 @@
 
   <!-- Topbar -->
   <div id="topbar">
+    <!-- Logo (mobile only) -->
+    <a id="topbar-logo" href="index.html" style="display:none;align-items:center;gap:5px;text-decoration:none;flex-shrink:0;">
+      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:32px;width:auto;">
+      <span style="font-size:.875rem;font-weight:700;color:#fff;letter-spacing:-.02em;">Feel<span style="color:#a78bfa;">Reply</span></span>
+    </a>
     <div>
       <h1 id="section-title" style="font-size:1.0625rem;font-weight:700;color:#fff;line-height:1.2;">Reviews</h1>
       <p id="section-sub" style="font-size:.8125rem;color:#3f3f46;margin-top:2px;">Google Maps reviews collected for your business</p>
@@ -332,6 +532,15 @@
 
   <!-- ════════ REVIEWS ════════ -->
   <section id="sec-reviews" style="padding:1.5rem 1.75rem;">
+    <!-- Usage bar (Lite plan) -->
+    <div id="usage-bar-section" style="display:none;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.375rem;">
+        <p style="font-size:.8125rem;font-weight:500;color:#a78bfa;">Monthly review limit</p>
+        <p style="font-size:.8125rem;color:#52525b;" id="usage-text">0 / 50</p>
+      </div>
+      <div class="usage-bar-track"><div class="usage-bar-fill" id="usage-bar-fill" style="width:0%;"></div></div>
+      <p style="font-size:.75rem;color:#3f3f46;margin-top:.375rem;">Upgrade to Pro for unlimited reviews — <a href="auth.html?plan=pro" style="color:#a78bfa;text-decoration:none;">Upgrade now</a></p>
+    </div>
     <!-- Stats -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;margin-bottom:1.25rem;">
       <div class="stat-card">
@@ -353,12 +562,90 @@
 
   <!-- ════════ DRAFTS ════════ -->
   <section id="sec-drafts" style="padding:1.5rem 1.75rem;display:none;">
+    <!-- Auto-post banner (Pro/Max) -->
+    <div id="auto-post-banner" style="display:none;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:.875rem 1.25rem;margin-bottom:1.25rem;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+      <div>
+        <p style="font-size:.875rem;font-weight:600;color:#a78bfa;margin-bottom:3px;">Auto-post replies</p>
+        <p style="font-size:.8125rem;color:#52525b;">Automatically post approved drafts to Google Maps after 24 h</p>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="auto-post-toggle" style="width:16px;height:16px;accent-color:#7c3aed;">
+        <span style="font-size:.8125rem;color:#71717a;">Enable</span>
+      </label>
+    </div>
     <div id="drafts-list"></div>
   </section>
 
-  <!-- ════════ WHATSAPP LOG ════════ -->
-  <section id="sec-logs" style="padding:1.5rem 1.75rem;display:none;">
-    <div id="logs-list"></div>
+  <!-- ════════ ANALYTICS ════════ -->
+  <section id="sec-analytics" style="padding:1.5rem 1.75rem;display:none;">
+    <div class="upgrade-gate" id="analytics-gate-wrapper">
+      <!-- Upgrade gate (Lite / Free) -->
+      <div id="analytics-gate" class="upgrade-gate-overlay" style="display:none;">
+        <div style="width:52px;height:52px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.25);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:.5rem;">
+          <svg width="24" height="24" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+        </div>
+        <p style="font-size:1rem;font-weight:700;color:#fff;">Analytics — Pro &amp; Max</p>
+        <p style="font-size:.8125rem;color:#52525b;max-width:280px;line-height:1.6;text-align:center;">Unlock detailed insights, rating trends, and reply performance metrics.</p>
+        <a href="auth.html?plan=pro" class="btn-p" style="margin-top:.25rem;text-decoration:none;">Upgrade to Pro</a>
+      </div>
+      <!-- Analytics content -->
+      <div id="analytics-content">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;margin-bottom:1.25rem;">
+          <div class="stat-card">
+            <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
+            <p id="an-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+          </div>
+          <div class="stat-card">
+            <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Reply Rate</p>
+            <p id="an-reply-rate" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+          </div>
+          <div class="stat-card">
+            <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Rating</p>
+            <p id="an-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+          </div>
+        </div>
+        <div class="glass" style="padding:1.5rem;margin-bottom:1rem;">
+          <h3 style="font-size:.875rem;font-weight:600;color:#fff;margin-bottom:1.25rem;">Rating Breakdown</h3>
+          <div id="an-rating-bars" style="display:flex;flex-direction:column;gap:.75rem;"></div>
+        </div>
+        <div class="glass" style="padding:1.5rem;">
+          <h3 style="font-size:.875rem;font-weight:600;color:#fff;margin-bottom:1.25rem;">Monthly Activity</h3>
+          <div id="an-monthly" style="display:flex;flex-direction:column;gap:.625rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ AGENCY ════════ -->
+  <section id="sec-agency" style="padding:1.5rem 1.75rem;display:none;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.875rem;margin-bottom:1.25rem;">
+      <div class="stat-card">
+        <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Locations</p>
+        <p id="ag-locations" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">0</p>
+      </div>
+      <div class="stat-card">
+        <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
+        <p id="ag-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+      </div>
+      <div class="stat-card">
+        <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Pending Replies</p>
+        <p id="ag-pending" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+      </div>
+    </div>
+    <div class="glass" style="padding:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">
+        <h3 style="font-size:.875rem;font-weight:600;color:#fff;">Locations</h3>
+        <button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="toast('Location management coming soon')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add location
+        </button>
+      </div>
+      <div class="empty-state" style="padding:3rem 1rem;">
+        <svg width="40" height="40" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+        <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No locations yet</p>
+        <p style="font-size:.875rem;color:#3f3f46;max-width:260px;line-height:1.65;">Add your first location to start managing multiple client accounts from one dashboard.</p>
+      </div>
+    </div>
   </section>
 
   <!-- ════════ SETTINGS ════════ -->
@@ -377,8 +664,8 @@
             <input type="url" id="s-maps" class="input-field" placeholder="https://maps.google.com/...">
           </div>
           <div>
-            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">WhatsApp number</label>
-            <input type="tel" id="s-whatsapp" class="input-field" placeholder="+39 333 000 0000">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Notification email</label>
+            <input type="email" id="s-whatsapp" class="input-field" placeholder="you@business.com">
           </div>
           <div>
             <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">AI reply tone</label>
@@ -389,14 +676,53 @@
               <option value="formal">Formal</option>
             </select>
           </div>
+          <!-- Language (Pro / Max) -->
+          <div id="s-lang-section" style="display:none;">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Reply language</label>
+            <select id="s-lang" class="input-field">
+              <option value="en">English</option>
+              <option value="fr">French</option>
+              <option value="es">Spanish</option>
+              <option value="it">Italian</option>
+              <option value="de">German</option>
+              <option value="pt">Portuguese</option>
+            </select>
+          </div>
+          <!-- Per-location tone (Max) -->
+          <div id="s-custom-tone-section" style="display:none;">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Custom tone per location</label>
+            <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;">
+              <input type="checkbox" id="s-custom-tone" style="width:16px;height:16px;accent-color:#7c3aed;cursor:pointer;">
+              <label for="s-custom-tone" style="font-size:.875rem;color:#a1a1aa;cursor:pointer;">Override AI tone per location</label>
+            </div>
+          </div>
+          <!-- White-label (Max) -->
+          <div id="s-whitelabel-section" style="display:none;">
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">White-label branding</label>
+            <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;">
+              <input type="checkbox" id="s-whitelabel" style="width:16px;height:16px;accent-color:#7c3aed;cursor:pointer;">
+              <label for="s-whitelabel" style="font-size:.875rem;color:#a1a1aa;cursor:pointer;">Remove FeelReply branding from notification emails</label>
+            </div>
+          </div>
         </div>
         <button class="btn-p" id="save-btn" onclick="saveSettings()" style="margin-top:1.25rem;">Save changes</button>
       </div>
 
       <div class="glass" style="padding:1.5rem;">
+        <h2 style="font-size:.9375rem;font-weight:700;color:#fff;margin-bottom:.375rem;">Plan &amp; Billing</h2>
+        <p style="font-size:.8125rem;color:#52525b;margin-bottom:1.25rem;">Your current subscription plan.</p>
+        <div id="plan-info" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.18);border-radius:10px;padding:1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;">
+          <div>
+            <p id="plan-name" style="font-size:.9375rem;font-weight:600;color:#fff;">Free</p>
+            <p id="plan-desc" style="font-size:.8125rem;color:#52525b;margin-top:2px;">No active subscription</p>
+          </div>
+          <div id="plan-upgrade-btns" style="display:flex;gap:.5rem;flex-wrap:wrap;"></div>
+        </div>
+      </div>
+
+      <div class="glass" style="padding:1.5rem;">
         <h2 style="font-size:.9375rem;font-weight:700;color:#fff;margin-bottom:.375rem;">Account</h2>
-        <p style="font-size:.8125rem;color:#52525b;margin-bottom:1.25rem;">Manage your account and billing.</p>
-        <div style="display:flex;gap:.625rem;flex-wrap:wrap;">
+        <div style="display:flex;gap:.625rem;flex-wrap:wrap;margin-top:.75rem;">
           <button class="btn-g" style="font-size:.8125rem;padding:.45rem .875rem;">Change password</button>
           <button class="btn-danger" style="font-size:.8125rem;padding:.45rem .875rem;" onclick="signOut()">Sign out</button>
         </div>
@@ -406,6 +732,28 @@
   </section>
 
 </main>
+
+<!-- ══════════════════════════════════
+     BOTTOM NAV (mobile)
+════════════════════════════════════ -->
+<nav id="bottom-nav">
+  <button class="bn-item active" id="bn-reviews" onclick="showSection('reviews')">
+    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
+    Reviews
+  </button>
+  <button class="bn-item" id="bn-drafts" onclick="showSection('drafts')">
+    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/></svg>
+    Drafts
+  </button>
+  <button class="bn-item" id="bn-analytics" onclick="showSection('analytics')">
+    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+    Analytics
+  </button>
+  <button class="bn-item" id="bn-settings" onclick="showSection('settings')">
+    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.869a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+    Settings
+  </button>
+</nav>
 
 <!-- ══════════════════════════════════
      ADD REVIEW MODAL
@@ -468,35 +816,56 @@ async function init() {
   // Settings pre-fill
   document.getElementById('s-name').value      = profile.business_name   || ''
   document.getElementById('s-maps').value      = profile.google_maps_url || ''
-  document.getElementById('s-whatsapp').value  = profile.whatsapp_number || ''
+  document.getElementById('s-whatsapp').value  = profile.whatsapp_number || profile.notification_email || user.email || ''
   document.getElementById('s-tone').value      = profile.tone_preference || 'professional'
 
+  // Handle Stripe success return
+  const params = new URLSearchParams(window.location.search)
+  if (params.get('payment') === 'success') {
+    const paidPlan  = params.get('plan') || 'pro'
+    const expiresAt = new Date(Date.now() + 35 * 86400000).toISOString()
+    await sb.from('profiles').update({ plan: paidPlan, plan_expires_at: expiresAt }).eq('id', user.id)
+    profile.plan            = paidPlan
+    profile.plan_expires_at = expiresAt
+    window.history.replaceState({}, '', window.location.pathname)
+    showPaymentSuccess(paidPlan)
+  }
+
+  updatePlanBadge(profile.plan)
+  applyPlanFeatures(profile.plan)
+  checkExpiryWarning()
   await loadReviews()
   document.getElementById('loading-screen').style.display = 'none'
   renderStarPicker(5)
 }
 
 // ── Navigation ───────────────────────────────────────────
-const SECTIONS = ['reviews','drafts','logs','settings']
+const SECTIONS = ['reviews','drafts','analytics','agency','settings']
 const META = {
-  reviews:  ['Reviews',      'Google Maps reviews collected for your business'],
-  drafts:   ['AI Drafts',    'AI-generated replies awaiting your approval'],
-  logs:     ['WhatsApp Log', 'Messages sent via WhatsApp'],
-  settings: ['Settings',     'Configure your business profile and preferences'],
+  reviews:   ['Reviews',   'Google Maps reviews collected for your business'],
+  drafts:    ['AI Drafts', 'AI-generated replies awaiting your approval'],
+  analytics: ['Analytics', 'Performance metrics and rating insights'],
+  agency:    ['Agency',    'Manage all your client locations from one place'],
+  settings:  ['Settings',  'Configure your business profile and preferences'],
 }
 
 function showSection(key) {
   SECTIONS.forEach(s => {
-    document.getElementById(`sec-${s}`).style.display  = s === key ? '' : 'none'
+    document.getElementById(`sec-${s}`).style.display = s === key ? '' : 'none'
     document.getElementById(`nav-${s}`).classList.toggle('active', s === key)
+    const bn = document.getElementById(`bn-${s}`)
+    if (bn) bn.classList.toggle('active', s === key)
   })
   document.getElementById('section-title').textContent = META[key][0]
   document.getElementById('section-sub').textContent   = META[key][1]
   document.getElementById('btn-add-review').style.display = key === 'reviews' ? '' : 'none'
 
-  if (key === 'reviews') loadReviews()
-  if (key === 'drafts')  loadDrafts()
-  if (key === 'logs')    loadLogs()
+  // Scroll main to top on section switch (mobile)
+  document.getElementById('main').scrollTop = 0
+
+  if (key === 'reviews')   loadReviews()
+  if (key === 'drafts')    loadDrafts()
+  if (key === 'analytics') loadAnalytics()
 }
 
 // ── Reviews ──────────────────────────────────────────────
@@ -519,6 +888,18 @@ async function loadReviews() {
   document.getElementById('s-total').textContent   = total
   document.getElementById('s-avg').textContent     = total ? avg + ' ★' : '–'
   document.getElementById('s-pending').textContent = pending
+
+  // Usage bar for Lite
+  const usageText = document.getElementById('usage-text')
+  const usageBar  = document.getElementById('usage-bar-fill')
+  const f = FEATURES[profile?.plan] || FEATURES.free
+  if (usageText && f.maxReviews !== Infinity) {
+    usageText.textContent = `${total} / ${f.maxReviews}`
+    if (usageBar) usageBar.style.width = `${Math.min(100, (total / f.maxReviews) * 100)}%`
+    if (usageBar) usageBar.style.background = total >= f.maxReviews
+      ? 'linear-gradient(90deg,#ef4444,#f87171)'
+      : 'linear-gradient(90deg,#7c3aed,#a78bfa)'
+  }
 
   if (!rows.length) {
     list.innerHTML = `
@@ -624,6 +1005,12 @@ async function submitReview() {
 
 // ── AI Drafts ─────────────────────────────────────────────
 async function generateDraft(reviewId, name, rating, text) {
+  if (!isSubscriptionActive()) {
+    toast('Subscription expired — renew to generate AI replies.', true)
+    showExpiredBanner()
+    return
+  }
+
   const draft = buildDraft(name, rating, text)
   const { error } = await sb.from('reply_drafts').insert({
     review_id: reviewId,
@@ -751,48 +1138,6 @@ async function rejectDraft(id) {
   loadDrafts()
 }
 
-// ── WhatsApp Log ──────────────────────────────────────────
-async function loadLogs() {
-  const list = document.getElementById('logs-list')
-  list.innerHTML = loading()
-
-  const { data: rows, error } = await sb
-    .from('whatsapp_logs')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('sent_at', { ascending: false })
-
-  if (error) { list.innerHTML = errMsg(error.message); return }
-
-  if (!rows.length) {
-    list.innerHTML = `
-      <div class="empty-state glass">
-        <svg width="44" height="44" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"/></svg>
-        <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No messages yet</p>
-        <p style="font-size:.875rem;color:#3f3f46;max-width:280px;line-height:1.65;">WhatsApp messages will appear here once your business is connected.</p>
-      </div>`
-    return
-  }
-
-  const typeLabel = { review_notification:'Review alert', reply_sent:'Reply sent', approval_request:'Approval request' }
-
-  list.innerHTML = `<div style="display:flex;flex-direction:column;gap:.625rem;" class="fade-in">${rows.map(l => {
-    const date = new Date(l.sent_at).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
-    return `
-      <div class="review-card" style="display:flex;gap:1rem;align-items:flex-start;">
-        <div style="width:36px;height:36px;background:#25d366;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <svg width="18" height="18" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        </div>
-        <div style="flex:1;min-width:0;">
-          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:4px;flex-wrap:wrap;">
-            <span class="badge badge-replied">${typeLabel[l.message_type] || l.message_type}</span>
-            <span style="font-size:.75rem;color:#3f3f46;">${date}</span>
-          </div>
-          <p style="font-size:.875rem;color:#71717a;line-height:1.6;">${l.content}</p>
-        </div>
-      </div>`
-  }).join('')}</div>`
-}
 
 // ── Settings ─────────────────────────────────────────────
 async function saveSettings() {
@@ -801,11 +1146,11 @@ async function saveSettings() {
 
   const updates = {
     id: user.id,
-    business_name:   document.getElementById('s-name').value.trim(),
-    google_maps_url: document.getElementById('s-maps').value.trim(),
-    whatsapp_number: document.getElementById('s-whatsapp').value.trim(),
-    tone_preference: document.getElementById('s-tone').value,
-    updated_at: new Date().toISOString()
+    business_name:      document.getElementById('s-name').value.trim(),
+    google_maps_url:    document.getElementById('s-maps').value.trim(),
+    notification_email: document.getElementById('s-whatsapp').value.trim(),
+    tone_preference:    document.getElementById('s-tone').value,
+    updated_at:         new Date().toISOString()
   }
 
   const { error } = await sb.from('profiles').upsert(updates)
@@ -816,6 +1161,214 @@ async function saveSettings() {
   document.getElementById('user-business').textContent = profile.business_name || 'My Business'
   document.getElementById('user-initial').textContent  = (profile.business_name || user.email)[0].toUpperCase()
   toast('Settings saved ✓')
+}
+
+// ── Plan features ────────────────────────────────────────
+const FEATURES = {
+  free: { maxReviews: 0,        analytics: false, autoPost: false, multiLang: false, locations: 1,  customTone: false, whiteLabel: false, agency: false },
+  lite: { maxReviews: 50,       analytics: false, autoPost: false, multiLang: false, locations: 1,  customTone: false, whiteLabel: false, agency: false },
+  pro:  { maxReviews: Infinity, analytics: true,  autoPost: true,  multiLang: true,  locations: 5,  customTone: false, whiteLabel: false, agency: false },
+  max:  { maxReviews: Infinity, analytics: true,  autoPost: true,  multiLang: true,  locations: 15, customTone: true,  whiteLabel: true,  agency: true  },
+}
+
+function applyPlanFeatures(plan) {
+  const f = FEATURES[plan] || FEATURES.free
+
+  // Analytics nav — show lock icon for non-Pro/Max
+  const analyticsLock = document.getElementById('analytics-lock')
+  if (analyticsLock) analyticsLock.style.display = f.analytics ? 'none' : 'inline-flex'
+
+  // Agency nav — Max only
+  const agencyNav = document.getElementById('nav-agency')
+  if (agencyNav) agencyNav.style.display = f.agency ? '' : 'none'
+
+  // Analytics upgrade gate
+  const analyticsGate    = document.getElementById('analytics-gate')
+  const analyticsContent = document.getElementById('analytics-content')
+  if (analyticsGate) {
+    analyticsGate.style.display = f.analytics ? 'none' : 'flex'
+    if (analyticsContent) {
+      analyticsContent.style.opacity       = f.analytics ? '1' : '0.12'
+      analyticsContent.style.pointerEvents = f.analytics ? '' : 'none'
+    }
+  }
+
+  // Usage bar — Lite only
+  const usageSection = document.getElementById('usage-bar-section')
+  if (usageSection) usageSection.style.display = plan === 'lite' ? '' : 'none'
+
+  // Auto-post banner — Pro/Max
+  const autoPostBanner = document.getElementById('auto-post-banner')
+  if (autoPostBanner) autoPostBanner.style.display = f.autoPost ? 'flex' : 'none'
+
+  // Language setting — Pro/Max
+  const langSection = document.getElementById('s-lang-section')
+  if (langSection) langSection.style.display = f.multiLang ? '' : 'none'
+
+  // Per-location tone — Max
+  const customToneSection = document.getElementById('s-custom-tone-section')
+  if (customToneSection) customToneSection.style.display = f.customTone ? '' : 'none'
+
+  // White-label — Max
+  const whiteLabelSection = document.getElementById('s-whitelabel-section')
+  if (whiteLabelSection) whiteLabelSection.style.display = f.whiteLabel ? '' : 'none'
+}
+
+// ── Subscription guard ───────────────────────────────────
+function isSubscriptionActive() {
+  const plan = profile?.plan
+  if (!plan || plan === 'free') return false
+  const expires = profile?.plan_expires_at
+  if (!expires) return true   // no expiry stored yet (pre-webhook), allow
+  return new Date(expires) > new Date()
+}
+
+function daysUntilExpiry() {
+  const expires = profile?.plan_expires_at
+  if (!expires) return null
+  return Math.ceil((new Date(expires) - new Date()) / 86400000)
+}
+
+function showExpiredBanner() {
+  const existing = document.getElementById('expired-banner')
+  if (existing) return
+  const banner = document.createElement('div')
+  banner.id = 'expired-banner'
+  banner.style.cssText = 'background:rgba(239,68,68,0.1);border-bottom:1px solid rgba(239,68,68,0.2);padding:.75rem 1.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;'
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;gap:.625rem;">
+      <svg width="16" height="16" fill="none" stroke="#f87171" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>
+      <p style="font-size:.875rem;color:#fca5a5;font-weight:500;">Your subscription has expired — AI draft generation is paused.</p>
+    </div>
+    <a href="auth.html?plan=${profile?.plan || 'pro'}" class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;text-decoration:none;flex-shrink:0;">Renew subscription</a>`
+  document.getElementById('topbar').after(banner)
+}
+
+function checkExpiryWarning() {
+  const plan = profile?.plan
+  if (!plan || plan === 'free') return
+  const days = daysUntilExpiry()
+  if (days === null) return
+  if (days <= 0) {
+    showExpiredBanner()
+  } else if (days <= 5) {
+    toast(`⚠ Your subscription expires in ${days} day${days === 1 ? '' : 's'} — renew to keep access.`)
+  }
+}
+
+// ── Analytics ────────────────────────────────────────────
+async function loadAnalytics() {
+  const f = FEATURES[profile?.plan] || FEATURES.free
+  if (!f.analytics) return
+
+  const { data: rows, error } = await sb.from('reviews').select('*').eq('user_id', user.id)
+  if (error || !rows) return
+
+  const total    = rows.length
+  const replied  = rows.filter(r => r.status === 'replied').length
+  const replyPct = total ? Math.round((replied / total) * 100) : 0
+  const avg      = total ? (rows.reduce((s,r) => s + r.rating, 0) / total).toFixed(1) : null
+
+  document.getElementById('an-total').textContent      = total
+  document.getElementById('an-reply-rate').textContent = replyPct + '%'
+  document.getElementById('an-avg').textContent        = avg ? avg + ' ★' : '–'
+
+  // Rating distribution
+  const counts = [0,0,0,0,0]
+  rows.forEach(r => { if (r.rating >= 1 && r.rating <= 5) counts[r.rating - 1]++ })
+  const maxCount = Math.max(...counts, 1)
+  const barsEl = document.getElementById('an-rating-bars')
+  if (barsEl) {
+    barsEl.innerHTML = [5,4,3,2,1].map(star => {
+      const count = counts[star - 1]
+      const pct   = Math.round((count / maxCount) * 100)
+      const color = star >= 4 ? '#4ade80' : star === 3 ? '#fbbf24' : '#f87171'
+      return `
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <span style="font-size:.8125rem;color:#71717a;width:20px;text-align:right;flex-shrink:0;">${star}★</span>
+          <div class="bar-track" style="flex:1;"><div class="bar-fill" style="width:0%;background:${color};" data-target="${pct}"></div></div>
+          <span style="font-size:.8125rem;color:#52525b;width:20px;text-align:right;flex-shrink:0;">${count}</span>
+        </div>`
+    }).join('')
+    // Animate bars
+    setTimeout(() => {
+      barsEl.querySelectorAll('[data-target]').forEach(b => { b.style.width = b.dataset.target + '%' })
+    }, 60)
+  }
+
+  // Monthly activity (last 6 months)
+  const now      = new Date()
+  const monthlyEl = document.getElementById('an-monthly')
+  if (monthlyEl) {
+    const months = []
+    for (let i = 5; i >= 0; i--) {
+      const d     = new Date(now.getFullYear(), now.getMonth() - i, 1)
+      const label = d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+      const count = rows.filter(r => {
+        const rd = new Date(r.created_at)
+        return rd.getFullYear() === d.getFullYear() && rd.getMonth() === d.getMonth()
+      }).length
+      months.push({ label, count })
+    }
+    const maxM = Math.max(...months.map(m => m.count), 1)
+    monthlyEl.innerHTML = months.map(m => {
+      const pct = Math.round((m.count / maxM) * 100)
+      return `
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <span style="font-size:.8125rem;color:#71717a;width:48px;flex-shrink:0;">${m.label}</span>
+          <div class="bar-track" style="flex:1;"><div class="bar-fill" style="width:0%;background:linear-gradient(90deg,#7c3aed,#a78bfa);" data-target="${pct}"></div></div>
+          <span style="font-size:.8125rem;color:#52525b;width:20px;text-align:right;flex-shrink:0;">${m.count}</span>
+        </div>`
+    }).join('')
+    setTimeout(() => {
+      monthlyEl.querySelectorAll('[data-target]').forEach(b => { b.style.width = b.dataset.target + '%' })
+    }, 60)
+  }
+}
+
+// ── Plan / Billing ───────────────────────────────────────
+const PLAN_INFO = {
+  lite: { label: 'Lite', price: '€19/mo', color: '#71717a' },
+  pro:  { label: 'Pro',  price: '€49/mo', color: '#a78bfa' },
+  max:  { label: 'Max',  price: '€99/mo', color: '#fbbf24' },
+}
+
+function updatePlanBadge(plan) {
+  const badge = document.getElementById('plan-badge')
+  const info = PLAN_INFO[plan]
+  if (info) {
+    badge.textContent = info.label
+    badge.style.display = 'inline'
+  } else {
+    badge.style.display = 'none'
+  }
+
+  // Update settings plan card
+  const nameEl = document.getElementById('plan-name')
+  const descEl = document.getElementById('plan-desc')
+  const btnsEl = document.getElementById('plan-upgrade-btns')
+  if (!nameEl) return
+
+  if (info) {
+    nameEl.textContent = `FeelReply ${info.label} — ${info.price}`
+    descEl.textContent = 'Active subscription · cancel anytime'
+    btnsEl.innerHTML = ''
+  } else {
+    nameEl.textContent = 'Free'
+    descEl.textContent = 'No active subscription'
+    btnsEl.innerHTML = Object.entries(PLAN_INFO).map(([key, p]) =>
+      `<a href="auth.html?plan=${key}" class="btn-p" style="font-size:.75rem;padding:.375rem .75rem;">${p.label} ${p.price}</a>`
+    ).join('')
+  }
+}
+
+function showPaymentSuccess(plan) {
+  const info = PLAN_INFO[plan] || { label: plan }
+  const banner = document.createElement('div')
+  banner.style.cssText = 'position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.35);border-radius:12px;padding:.875rem 1.5rem;color:#4ade80;font-size:.9375rem;font-weight:600;z-index:300;backdrop-filter:blur(12px);display:flex;align-items:center;gap:.625rem;box-shadow:0 8px 32px rgba(0,0,0,0.5);'
+  banner.innerHTML = `<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Payment successful! Welcome to FeelReply ${info.label}.`
+  document.body.appendChild(banner)
+  setTimeout(() => banner.remove(), 6000)
 }
 
 // ── Auth ─────────────────────────────────────────────────

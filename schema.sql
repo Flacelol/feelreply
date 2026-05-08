@@ -8,10 +8,17 @@ create table if not exists public.profiles (
   business_name   text,
   google_maps_url text,
   whatsapp_number text,
-  tone_preference text default 'professional',
-  created_at      timestamptz default now(),
-  updated_at      timestamptz default now()
+  notification_email text,
+  plan               text default 'free',
+  plan_expires_at    timestamptz,
+  stripe_customer_id text,
+  tone_preference    text default 'professional',
+  created_at         timestamptz default now(),
+  updated_at         timestamptz default now()
 );
+
+-- Add plan_expires_at if upgrading an existing database
+alter table public.profiles add column if not exists plan_expires_at timestamptz;
 
 create table if not exists public.reviews (
   id            uuid default gen_random_uuid() primary key,
