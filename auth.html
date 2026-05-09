@@ -211,7 +211,9 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFscWV2YmRwZXV3cm9zamN2YXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDQxNDksImV4cCI6MjA5MzU4MDE0OX0.pb8d-ZCnDJuJR42-hTfF_O-5xDdIYaAukHj5sXCxXtE'
     )
 
-    const plan = new URLSearchParams(window.location.search).get('plan')
+    const params = new URLSearchParams(window.location.search)
+    const plan = params.get('plan')
+    const emailParam = params.get('email')
     const PLAN_LABELS = { lite: 'Lite — €19/mo', pro: 'Pro — €49/mo', max: 'Max — €99/mo' }
 
     // Already logged in? Go to checkout or dashboard
@@ -343,6 +345,12 @@
       showSuccess('Account created! Check your email to confirm your address, then sign in.')
       btn.disabled = false
       btn.textContent = 'Create account'
+    }
+
+    if (emailParam) {
+      document.getElementById('si-email').value = emailParam
+      document.getElementById('su-email').value = emailParam
+      switchTab('signup')
     }
   </script>
 </body>
