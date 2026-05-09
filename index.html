@@ -136,32 +136,10 @@
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
     .pulse { animation: pulse 2s ease-in-out infinite; }
 
-    @keyframes beam1 {
-      0%, 100% { transform: rotate(-28deg) translate(0px,   0px); }
-      50%       { transform: rotate(-28deg) translate(90px, -90px); }
-    }
-    @keyframes beam2 {
-      0%, 100% { transform: rotate(-28deg) translate(0px,  0px); }
-      50%       { transform: rotate(-28deg) translate(-80px, 80px); }
-    }
-    @keyframes beam3 {
-      0%, 100% { transform: rotate(-28deg) translate(0px,   0px); }
-      50%       { transform: rotate(-28deg) translate(100px, -60px); }
-    }
-    .light-beam {
-      position: absolute;
-      height: 220vh;
-      top: -60vh;
-      border-radius: 999px;
-      filter: blur(44px);
-      will-change: transform;
-    }
-
     @media (prefers-reduced-motion: reduce) {
       .fu { opacity:1; transform:none; transition:none; }
       .btn-p:hover, .btn-g:hover { transform:none; }
       .pulse { animation: none; }
-      .light-beam { animation: none !important; }
     }
   </style>
 </head>
@@ -218,14 +196,8 @@
 ════════════════════════════════════════════ -->
 <section class="grid-bg relative" style="padding: 9rem 1rem 6rem; min-height:100vh; display:flex; align-items:center; overflow:hidden;">
 
-  <!-- Animated light beams -->
-  <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
-    <div class="light-beam" style="width:110px;left:6%;  background:#ff1a44;opacity:0.28;animation:beam1 17s ease-in-out infinite;"></div>
-    <div class="light-beam" style="width:90px; left:22%; background:#ff6600;opacity:0.22;animation:beam2 23s ease-in-out infinite 2s;"></div>
-    <div class="light-beam" style="width:130px;left:40%; background:#22dd55;opacity:0.22;animation:beam3 19s ease-in-out infinite 1s;"></div>
-    <div class="light-beam" style="width:100px;left:58%; background:#1a66ff;opacity:0.28;animation:beam1 14s ease-in-out infinite 3s;"></div>
-    <div class="light-beam" style="width:85px; left:74%; background:#aa22ff;opacity:0.24;animation:beam2 26s ease-in-out infinite 0.5s;"></div>
-  </div>
+  <!-- WebGL shader background -->
+  <canvas id="heroGlCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none;"></canvas>
 
   <div class="max-w-6xl mx-auto w-full relative" style="z-index:1;">
     <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -710,6 +682,68 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 60);
   }, { passive: true });
+
+  // WebGL hero shader
+  (function(){
+    const canvas = document.getElementById('heroGlCanvas');
+    const container = canvas.parentElement;
+    const gl = canvas.getContext('webgl');
+    if(!gl) { canvas.style.display='none'; return; }
+
+    const vsSource = `attribute vec2 a_position;void main(){gl_Position=vec4(a_position,0.0,1.0);}`;
+    const fsSource = `
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+      uniform float xScale;
+      uniform float yScale;
+      uniform float distortion;
+      void main(){
+        vec2 p=(gl_FragCoord.xy*2.0-resolution)/min(resolution.x,resolution.y);
+        float d=length(p)*distortion;
+        float rx=p.x*(1.0+d);
+        float gx=p.x;
+        float bx=p.x*(1.0-d);
+        float r=0.05/abs(p.y+sin((rx+time)*xScale)*yScale);
+        float g=0.05/abs(p.y+sin((gx+time)*xScale)*yScale);
+        float b=0.05/abs(p.y+sin((bx+time)*xScale)*yScale);
+        gl_FragColor=vec4(r,g,b,1.0);
+      }
+    `;
+    function compileShader(src,type){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;}
+    const prog=gl.createProgram();
+    gl.attachShader(prog,compileShader(vsSource,gl.VERTEX_SHADER));
+    gl.attachShader(prog,compileShader(fsSource,gl.FRAGMENT_SHADER));
+    gl.linkProgram(prog);gl.useProgram(prog);
+    const buf=gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+    const loc=gl.getAttribLocation(prog,'a_position');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+    const uRes=gl.getUniformLocation(prog,'resolution');
+    const uTime=gl.getUniformLocation(prog,'time');
+    const uXScale=gl.getUniformLocation(prog,'xScale');
+    const uYScale=gl.getUniformLocation(prog,'yScale');
+    const uDist=gl.getUniformLocation(prog,'distortion');
+    gl.uniform1f(uXScale,1.0);
+    gl.uniform1f(uYScale,0.5);
+    gl.uniform1f(uDist,0.05);
+    let t=0;
+    function draw(){
+      const w=container.offsetWidth,h=container.offsetHeight||window.innerHeight;
+      if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}
+      gl.uniform2f(uRes,canvas.width,canvas.height);
+      gl.uniform1f(uTime,t);
+      t+=0.01;
+      gl.drawArrays(gl.TRIANGLES,0,6);
+      requestAnimationFrame(draw);
+    }
+    canvas.width=container.offsetWidth;
+    canvas.height=container.offsetHeight||window.innerHeight;
+    gl.viewport(0,0,canvas.width,canvas.height);
+    draw();
+  })();
 
   // Mobile menu toggle
   function toggleMobileMenu() {
