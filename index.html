@@ -136,10 +136,27 @@
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
     .pulse { animation: pulse 2s ease-in-out infinite; }
 
+    @keyframes orbFloat1 {
+      0%, 100% { transform: translate(0px, 0px); }
+      33%       { transform: translate(60px, -50px); }
+      66%       { transform: translate(-30px, 40px); }
+    }
+    @keyframes orbFloat2 {
+      0%, 100% { transform: translate(0px, 0px); }
+      40%       { transform: translate(-70px, 55px); }
+      70%       { transform: translate(45px, -35px); }
+    }
+    @keyframes orbFloat3 {
+      0%, 100% { transform: translate(0px, 0px); }
+      50%       { transform: translate(75px, -65px); }
+    }
+    .hero-orb { will-change: transform; }
+
     @media (prefers-reduced-motion: reduce) {
       .fu { opacity:1; transform:none; transition:none; }
       .btn-p:hover, .btn-g:hover { transform:none; }
       .pulse { animation: none; }
+      .hero-orb { animation: none !important; }
     }
   </style>
 </head>
@@ -196,10 +213,11 @@
 ════════════════════════════════════════════ -->
 <section class="grid-bg relative" style="padding: 9rem 1rem 6rem; min-height:100vh; display:flex; align-items:center; overflow:hidden;">
 
-  <!-- Ambient orbs -->
+  <!-- Animated orbs -->
   <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
-    <div style="position:absolute;width:900px;height:900px;background:radial-gradient(circle,rgba(124,58,237,.13) 0%,transparent 65%);border-radius:50%;top:40%;left:28%;transform:translate(-50%,-50%);"></div>
-    <div style="position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(167,139,250,.06) 0%,transparent 70%);border-radius:50%;top:25%;right:8%;"></div>
+    <div class="hero-orb" style="position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.85) 0%,transparent 70%);filter:blur(88px);opacity:0.38;top:5%;left:8%;animation:orbFloat1 22s ease-in-out infinite;"></div>
+    <div class="hero-orb" style="position:absolute;width:580px;height:580px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.85) 0%,transparent 70%);filter:blur(100px);opacity:0.28;top:-20%;right:-4%;animation:orbFloat2 29s ease-in-out infinite;"></div>
+    <div class="hero-orb" style="position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(236,72,153,.85) 0%,transparent 70%);filter:blur(90px);opacity:0.22;bottom:-10%;left:-4%;animation:orbFloat3 19s ease-in-out infinite;"></div>
   </div>
 
   <div class="max-w-6xl mx-auto w-full relative" style="z-index:1;">
