@@ -162,12 +162,28 @@
       <a href="#pricing" class="nav-link">Pricing</a>
     </div>
 
-    <!-- CTA -->
+    <!-- CTA + hamburger -->
     <div class="flex items-center gap-3" style="flex-shrink:0;">
       <a href="auth.html" style="font-size:.8125rem;color:#71717a;font-weight:500;" class="hidden md:block hover:text-white transition-colors duration-200 cursor-pointer">Log in</a>
-      <a href="auth.html" class="btn-p" style="font-size:.8125rem;padding:.5rem 1.1rem;border-radius:9px;background:linear-gradient(135deg,#7c3aed,#6d28d9);box-shadow:0 0 20px rgba(124,58,237,0.35);">Get Started →</a>
+      <a href="auth.html" class="btn-p hidden md:inline-block" style="font-size:.8125rem;padding:.5rem 1.1rem;border-radius:9px;background:linear-gradient(135deg,#7c3aed,#6d28d9);box-shadow:0 0 20px rgba(124,58,237,0.35);">Get Started →</a>
+      <!-- Hamburger (mobile only) -->
+      <button id="hamburger" class="md:hidden flex flex-col justify-center items-center gap-1.5 w-9 h-9 rounded-lg" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" onclick="toggleMobileMenu()" aria-label="Menu">
+        <span class="ham-bar" style="display:block;width:16px;height:1.5px;background:#a1a1aa;transition:all .25s;"></span>
+        <span class="ham-bar" style="display:block;width:16px;height:1.5px;background:#a1a1aa;transition:all .25s;"></span>
+        <span class="ham-bar" style="display:block;width:16px;height:1.5px;background:#a1a1aa;transition:all .25s;"></span>
+      </button>
     </div>
   </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" style="display:none;max-width:calc(100% - 2.5rem);margin:8px auto 0;background:rgba(10,10,10,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:1rem;box-shadow:0 16px 48px rgba(0,0,0,0.5);">
+    <a href="#how"      onclick="toggleMobileMenu()" class="nav-link" style="display:block;padding:.75rem 1rem;border-radius:10px;">How It Works</a>
+    <a href="#features" onclick="toggleMobileMenu()" class="nav-link" style="display:block;padding:.75rem 1rem;border-radius:10px;">Features</a>
+    <a href="#pricing"  onclick="toggleMobileMenu()" class="nav-link" style="display:block;padding:.75rem 1rem;border-radius:10px;">Pricing</a>
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin:.5rem 0;"></div>
+    <a href="auth.html" class="nav-link" style="display:block;padding:.75rem 1rem;border-radius:10px;">Log in</a>
+    <a href="auth.html" class="btn-p" style="display:block;text-align:center;margin-top:.5rem;padding:.75rem;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#6d28d9);font-size:.9375rem;">Get Started →</a>
+  </div>
 </header>
 
 
@@ -647,6 +663,23 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 60);
   }, { passive: true });
+
+  // Mobile menu toggle
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const bars = document.querySelectorAll('.ham-bar');
+    const open = menu.style.display === 'none' || menu.style.display === '';
+    menu.style.display = open ? 'block' : 'none';
+    if (open) {
+      bars[0].style.cssText += 'transform:translateY(6px) rotate(45deg);background:#fff;';
+      bars[1].style.cssText += 'opacity:0;';
+      bars[2].style.cssText += 'transform:translateY(-6px) rotate(-45deg);background:#fff;';
+    } else {
+      bars[0].style.cssText = 'display:block;width:16px;height:1.5px;background:#a1a1aa;transition:all .25s;';
+      bars[1].style.cssText = 'display:block;width:16px;height:1.5px;background:#a1a1aa;transition:all .25s;';
+      bars[2].style.cssText = 'display:block;width:16px;height:1.5px;background:#a1a1aa;transition:all .25s;';
+    }
+  }
 </script>
 
 </body>
