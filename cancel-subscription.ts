@@ -58,6 +58,13 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: cancelData.error?.message || 'Failed to cancel' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
 
+    // Save cancel_at to profile so dashboard can show "access until" date
+    if (cancelData.cancel_at) {
+      await sb.from('profiles')
+        .update({ plan_expires_at: new Date(cancelData.cancel_at * 1000).toISOString() })
+        .eq('id', user.id)
+    }
+
     return new Response(JSON.stringify({ success: true, cancel_at: cancelData.cancel_at }), {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

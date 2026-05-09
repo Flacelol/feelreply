@@ -1430,8 +1430,16 @@ function updatePlanBadge(plan) {
 
   if (info) {
     nameEl.textContent = `FeelReply ${info.label} — ${info.price}`
-    descEl.textContent = 'Active subscription'
-    btnsEl.innerHTML = `<button onclick="cancelSubscription()" style="font-size:.75rem;padding:.375rem .875rem;background:transparent;border:1px solid rgba(239,68,68,0.35);color:#f87171;border-radius:8px;cursor:pointer;font-weight:500;transition:background .2s,border-color .2s;" onmouseover="this.style.background='rgba(239,68,68,0.1)';this.style.borderColor='rgba(239,68,68,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(239,68,68,0.35)'">Cancel subscription</button>`
+    const expires = profile?.plan_expires_at ? new Date(profile.plan_expires_at) : null
+    const daysLeft = expires ? Math.ceil((expires - new Date()) / 86400000) : null
+    const isCancelling = expires && daysLeft !== null && daysLeft <= 35
+    if (isCancelling && expires) {
+      descEl.innerHTML = `<span style="color:#fbbf24;">Cancellation scheduled</span> · Access until ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}`
+      btnsEl.innerHTML = ''
+    } else {
+      descEl.textContent = 'Active subscription'
+      btnsEl.innerHTML = `<button onclick="cancelSubscription()" style="font-size:.75rem;padding:.375rem .875rem;background:transparent;border:1px solid rgba(239,68,68,0.35);color:#f87171;border-radius:8px;cursor:pointer;font-weight:500;transition:background .2s,border-color .2s;" onmouseover="this.style.background='rgba(239,68,68,0.1)';this.style.borderColor='rgba(239,68,68,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(239,68,68,0.35)'">Cancel subscription</button>`
+    }
   } else {
     nameEl.textContent = 'Free'
     descEl.textContent = 'No active subscription'
