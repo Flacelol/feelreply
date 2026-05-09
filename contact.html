@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" id="favicon" href="feelreply_logo_R.png">
+  <script>(function(){const img=new Image();img.crossOrigin='anonymous';img.onload=function(){const t=document.createElement('canvas');t.width=img.width;t.height=img.height;const tx=t.getContext('2d');tx.drawImage(img,0,0);const d=tx.getImageData(0,0,img.width,img.height).data;let x0=img.width,y0=img.height,x1=0,y1=0;for(let y=0;y<img.height;y++)for(let x=0;x<img.width;x++){if(d[(y*img.width+x)*4+3]>10){if(x<x0)x0=x;if(y<y0)y0=y;if(x>x1)x1=x;if(y>y1)y1=y;}}const cw=x1-x0+1,ch=y1-y0+1,c=document.createElement('canvas');c.width=64;c.height=64;const cx=c.getContext('2d'),s=Math.min(60/cw,60/ch),dw=cw*s,dh=ch*s;cx.drawImage(t,x0,y0,cw,ch,(64-dw)/2,(64-dh)/2,dw,dh);document.getElementById('favicon').href=c.toDataURL();};img.src='feelreply_logo_R.png';})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – FeelReply</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{font-family:'Inter',sans-serif;box-sizing:border-box;margin:0;padding:0}
+    body{background:#0a0a0a;color:#fff;min-height:100vh;-webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;padding:2rem 1.5rem;}
+    a{color:#a78bfa;text-decoration:none;}
+    .card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:2.5rem 2rem;max-width:480px;width:100%;}
+    .logo{display:flex;align-items:center;gap:6px;margin-bottom:2rem;}
+    h1{font-size:1.625rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.5rem;}
+    p{color:#71717a;font-size:.9375rem;line-height:1.65;margin-bottom:1.75rem;}
+    label{display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:6px;}
+    input,textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:.7rem 1rem;color:#fff;font-size:.9375rem;outline:none;transition:border-color .2s;font-family:'Inter',sans-serif;resize:vertical;}
+    input:focus,textarea:focus{border-color:rgba(124,58,237,.6);box-shadow:0 0 0 3px rgba(124,58,237,.1);}
+    input::placeholder,textarea::placeholder{color:#3f3f46;}
+    .field{margin-bottom:1rem;}
+    .btn{width:100%;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;font-weight:600;border-radius:10px;padding:.8rem;cursor:pointer;border:none;font-size:.9375rem;margin-top:.5rem;box-shadow:0 0 24px rgba(124,58,237,.35);transition:opacity .2s,transform .15s;}
+    .btn:hover{opacity:.88;transform:translateY(-1px);}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+    .back{font-size:.8125rem;color:#3f3f46;text-align:center;display:block;margin-top:1.25rem;transition:color .2s;}
+    .back:hover{color:#a78bfa;}
+    .success{display:none;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.25);border-radius:10px;padding:.875rem 1rem;color:#86efac;font-size:.875rem;margin-bottom:1rem;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a href="index.html" class="logo">
+      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:36px;width:auto;">
+      <span style="font-size:1rem;font-weight:700;letter-spacing:-.02em;">Feel<span style="color:#a78bfa;">Reply</span></span>
+    </a>
+
+    <h1>Get in touch</h1>
+    <p>Have a question or need help? Send us a message and we'll get back to you within 24 hours.</p>
+
+    <div id="success" class="success">Message sent! We'll get back to you within 24 hours.</div>
+
+    <form id="form" onsubmit="handleSubmit(event)">
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" id="name" placeholder="John Smith" required>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="you@business.com" required>
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <textarea id="message" rows="4" placeholder="Tell us how we can help…" required></textarea>
+      </div>
+      <button type="submit" class="btn" id="submit-btn">Send message</button>
+    </form>
+
+    <a href="index.html" class="back">← Back to home</a>
+  </div>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault()
+      const btn = document.getElementById('submit-btn')
+      btn.disabled = true
+      btn.textContent = 'Sending…'
+
+      const name    = document.getElementById('name').value
+      const email   = document.getElementById('email').value
+      const message = document.getElementById('message').value
+
+      // Open email client with pre-filled message
+      const mailto = `mailto:hello@feelreply.com?subject=Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent('From: ' + name + '\nEmail: ' + email + '\n\n' + message)}`
+      window.location.href = mailto
+
+      setTimeout(() => {
+        document.getElementById('form').style.display = 'none'
+        document.getElementById('success').style.display = 'block'
+      }, 500)
+    }
+  </script>
+</body>
+</html>

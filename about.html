@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" id="favicon" href="feelreply_logo_R.png">
+  <script>(function(){const img=new Image();img.crossOrigin='anonymous';img.onload=function(){const t=document.createElement('canvas');t.width=img.width;t.height=img.height;const tx=t.getContext('2d');tx.drawImage(img,0,0);const d=tx.getImageData(0,0,img.width,img.height).data;let x0=img.width,y0=img.height,x1=0,y1=0;for(let y=0;y<img.height;y++)for(let x=0;x<img.width;x++){if(d[(y*img.width+x)*4+3]>10){if(x<x0)x0=x;if(y<y0)y0=y;if(x>x1)x1=x;if(y>y1)y1=y;}}const cw=x1-x0+1,ch=y1-y0+1,c=document.createElement('canvas');c.width=64;c.height=64;const cx=c.getContext('2d'),s=Math.min(60/cw,60/ch),dw=cw*s,dh=ch*s;cx.drawImage(t,x0,y0,cw,ch,(64-dw)/2,(64-dh)/2,dw,dh);document.getElementById('favicon').href=c.toDataURL();};img.src='feelreply_logo_R.png';})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About – FeelReply</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{font-family:'Inter',sans-serif;box-sizing:border-box;margin:0;padding:0}
+    body{background:#0a0a0a;color:#fff;min-height:100vh;-webkit-font-smoothing:antialiased;}
+    a{color:#a78bfa;text-decoration:none;}a:hover{text-decoration:underline;}
+    .container{max-width:680px;margin:0 auto;padding:5rem 1.5rem 4rem;}
+    .logo{display:flex;align-items:center;gap:6px;margin-bottom:3rem;}
+    h1{font-size:2rem;font-weight:800;letter-spacing:-.03em;margin-bottom:1rem;}
+    h2{font-size:1.125rem;font-weight:700;margin:2rem 0 .5rem;}
+    p{color:#a1a1aa;line-height:1.75;margin-bottom:1rem;}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);border-radius:999px;padding:4px 12px;font-size:.8125rem;font-weight:500;color:#a78bfa;margin-bottom:1.5rem;}
+    .back{font-size:.875rem;color:#52525b;margin-top:3rem;display:inline-block;}
+    .back:hover{color:#a78bfa;text-decoration:none;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="logo">
+      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:36px;width:auto;">
+      <span style="font-size:1rem;font-weight:700;letter-spacing:-.02em;">Feel<span style="color:#a78bfa;">Reply</span></span>
+    </a>
+
+    <div class="badge">About FeelReply</div>
+    <h1>Built for business owners, not developers.</h1>
+    <p>FeelReply is an AI-powered tool that monitors your Google Maps reviews, drafts personalized replies, and sends them to your email for one-click approval — so you never miss a review again.</p>
+
+    <h2>Our mission</h2>
+    <p>Every review is a conversation. We believe business owners deserve a simple, professional way to respond to every customer — without spending hours writing replies. FeelReply makes that effortless.</p>
+
+    <h2>How it works</h2>
+    <p>When a new review appears on your Google Maps listing, FeelReply detects it, generates a tailored AI reply that matches your tone, and emails it to you. One tap to approve, and it's posted.</p>
+
+    <h2>Contact</h2>
+    <p>Questions or feedback? Reach us at <a href="mailto:hello@feelreply.com">hello@feelreply.com</a></p>
+
+    <a href="index.html" class="back">← Back to home</a>
+  </div>
+</body>
+</html>
