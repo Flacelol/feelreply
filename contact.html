@@ -60,24 +60,30 @@
   </div>
 
   <script>
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
       e.preventDefault()
       const btn = document.getElementById('submit-btn')
       btn.disabled = true
       btn.textContent = 'Sending…'
 
-      const name    = document.getElementById('name').value
-      const email   = document.getElementById('email').value
-      const message = document.getElementById('message').value
+      const name    = document.getElementById('name').value.trim()
+      const email   = document.getElementById('email').value.trim()
+      const message = document.getElementById('message').value.trim()
 
-      // Open email client with pre-filled message
-      const mailto = `mailto:hello@feelreply.com?subject=Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent('From: ' + name + '\nEmail: ' + email + '\n\n' + message)}`
-      window.location.href = mailto
-
-      setTimeout(() => {
+      try {
+        const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/contact-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message }),
+        })
+        if (!res.ok) throw new Error('Failed to send')
         document.getElementById('form').style.display = 'none'
         document.getElementById('success').style.display = 'block'
-      }, 500)
+      } catch (err) {
+        btn.disabled = false
+        btn.textContent = 'Send message'
+        alert('Something went wrong. Please email us directly at feelreply@gmail.com')
+      }
     }
   </script>
 </body>
