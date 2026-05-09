@@ -136,27 +136,32 @@
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
     .pulse { animation: pulse 2s ease-in-out infinite; }
 
-    @keyframes orbFloat1 {
-      0%, 100% { transform: translate(0px, 0px); }
-      33%       { transform: translate(60px, -50px); }
-      66%       { transform: translate(-30px, 40px); }
+    @keyframes beam1 {
+      0%, 100% { transform: rotate(-28deg) translate(0px,   0px); }
+      50%       { transform: rotate(-28deg) translate(90px, -90px); }
     }
-    @keyframes orbFloat2 {
-      0%, 100% { transform: translate(0px, 0px); }
-      40%       { transform: translate(-70px, 55px); }
-      70%       { transform: translate(45px, -35px); }
+    @keyframes beam2 {
+      0%, 100% { transform: rotate(-28deg) translate(0px,  0px); }
+      50%       { transform: rotate(-28deg) translate(-80px, 80px); }
     }
-    @keyframes orbFloat3 {
-      0%, 100% { transform: translate(0px, 0px); }
-      50%       { transform: translate(75px, -65px); }
+    @keyframes beam3 {
+      0%, 100% { transform: rotate(-28deg) translate(0px,   0px); }
+      50%       { transform: rotate(-28deg) translate(100px, -60px); }
     }
-    .hero-orb { will-change: transform; }
+    .light-beam {
+      position: absolute;
+      height: 220vh;
+      top: -60vh;
+      border-radius: 999px;
+      filter: blur(44px);
+      will-change: transform;
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .fu { opacity:1; transform:none; transition:none; }
       .btn-p:hover, .btn-g:hover { transform:none; }
       .pulse { animation: none; }
-      .hero-orb { animation: none !important; }
+      .light-beam { animation: none !important; }
     }
   </style>
 </head>
@@ -213,11 +218,13 @@
 ════════════════════════════════════════════ -->
 <section class="grid-bg relative" style="padding: 9rem 1rem 6rem; min-height:100vh; display:flex; align-items:center; overflow:hidden;">
 
-  <!-- Animated orbs -->
+  <!-- Animated light beams -->
   <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
-    <div class="hero-orb" style="position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.85) 0%,transparent 70%);filter:blur(88px);opacity:0.38;top:5%;left:8%;animation:orbFloat1 22s ease-in-out infinite;"></div>
-    <div class="hero-orb" style="position:absolute;width:580px;height:580px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.85) 0%,transparent 70%);filter:blur(100px);opacity:0.28;top:-20%;right:-4%;animation:orbFloat2 29s ease-in-out infinite;"></div>
-    <div class="hero-orb" style="position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(236,72,153,.85) 0%,transparent 70%);filter:blur(90px);opacity:0.22;bottom:-10%;left:-4%;animation:orbFloat3 19s ease-in-out infinite;"></div>
+    <div class="light-beam" style="width:110px;left:6%;  background:#ff1a44;opacity:0.28;animation:beam1 17s ease-in-out infinite;"></div>
+    <div class="light-beam" style="width:90px; left:22%; background:#ff6600;opacity:0.22;animation:beam2 23s ease-in-out infinite 2s;"></div>
+    <div class="light-beam" style="width:130px;left:40%; background:#22dd55;opacity:0.22;animation:beam3 19s ease-in-out infinite 1s;"></div>
+    <div class="light-beam" style="width:100px;left:58%; background:#1a66ff;opacity:0.28;animation:beam1 14s ease-in-out infinite 3s;"></div>
+    <div class="light-beam" style="width:85px; left:74%; background:#aa22ff;opacity:0.24;animation:beam2 26s ease-in-out infinite 0.5s;"></div>
   </div>
 
   <div class="max-w-6xl mx-auto w-full relative" style="z-index:1;">
