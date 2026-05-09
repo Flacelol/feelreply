@@ -247,79 +247,73 @@
             <!-- Notch -->
             <div style="position:absolute;top:18px;left:50%;transform:translateX(-50%);width:76px;height:7px;background:#0a0a0a;border-radius:4px;z-index:10;"></div>
             <!-- Screen -->
-            <div style="border-radius:34px;overflow:hidden;background:#0d0d0d;display:flex;flex-direction:column;">
+            <div style="border-radius:34px;overflow:hidden;background:#0d0d0d;min-height:520px;display:flex;flex-direction:column;">
 
-              <!-- Email app bar -->
-              <div style="background:#111827;padding:32px 14px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <svg width="14" height="14" fill="none" stroke="#9ca3af" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-                  <span style="color:#e4e4e7;font-size:.8125rem;font-weight:600;">Inbox</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:4px;">
-                  <span style="width:6px;height:6px;background:#4ade80;border-radius:50%;"></span>
-                  <span style="color:#4ade80;font-size:.5625rem;font-weight:600;">1 new</span>
+              <!-- WA Header -->
+              <div style="background:#111827;padding:32px 14px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+                <img src="feelreply_logo_R.png" alt="FeelReply" style="width:50px;height:50px;object-fit:contain;flex-shrink:0;">
+                <div>
+                  <p style="color:#fff;font-size:.8125rem;font-weight:600;line-height:1.2;">FeelReply</p>
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <span style="width:6px;height:6px;background:#4ade80;border-radius:50%;"></span>
+                    <span style="color:#6b7280;font-size:.6875rem;">online</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Email open view -->
-              <div style="background:#0a0a0a;flex:1;display:flex;flex-direction:column;overflow:hidden;">
+              <!-- Chat -->
+              <div style="background:#0a0a0a;flex:1;padding:14px;display:flex;flex-direction:column;gap:10px;">
 
-                <!-- Sender / subject -->
-                <div style="padding:11px 14px 10px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:flex-start;gap:8px;">
-                  <div style="width:28px;height:28px;border-radius:50%;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
-                    <img src="feelreply_logo_R.png" style="width:18px;height:18px;object-fit:contain;">
+                <!-- Incoming: review + draft -->
+                <div class="wa-in" style="padding:12px;max-width:230px;">
+                  <div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">
+                    <svg width="11" height="11" fill="#ef4444" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    <span style="font-size:.6875rem;font-weight:600;color:#e4e4e7;">New review &bull; La Bella Pizza</span>
                   </div>
-                  <div style="flex:1;min-width:0;">
-                    <div style="display:flex;justify-content:space-between;align-items:baseline;">
-                      <span style="font-size:.625rem;font-weight:600;color:#a78bfa;">FeelReply</span>
-                      <span style="font-size:.5rem;color:#3f3f46;">just now</span>
-                    </div>
-                    <p style="font-size:.6875rem;font-weight:700;color:#fff;margin-top:2px;line-height:1.25;">New 2&#9733; review &mdash; La Bella Pizza</p>
-                    <p style="font-size:.5rem;color:#52525b;margin-top:1px;">noreply@feelreply.com</p>
+                  <!-- Stars 2/5 -->
+                  <div style="display:flex;gap:2px;margin-bottom:7px;">
+                    <svg width="11" height="11" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="11" height="11" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                   </div>
-                </div>
-
-                <!-- Email body -->
-                <div style="padding:11px 14px;display:flex;flex-direction:column;gap:8px;">
-
-                  <!-- Review card -->
-                  <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px;">
-                    <div style="display:flex;gap:2px;margin-bottom:5px;">
-                      <svg width="10" height="10" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg width="10" height="10" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg width="10" height="10" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg width="10" height="10" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                      <svg width="10" height="10" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    </div>
-                    <p style="font-size:.625rem;color:#71717a;font-style:italic;">&ldquo;Pizza was cold. Service took forever.&rdquo;</p>
-                  </div>
+                  <p style="font-size:.6875rem;color:#71717a;font-style:italic;margin-bottom:10px;">&ldquo;Pizza was cold. Service took forever.&rdquo;</p>
 
                   <!-- AI draft -->
-                  <div style="background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.26);border-radius:8px;padding:9px;">
-                    <p style="font-size:.5rem;font-weight:700;color:#a78bfa;letter-spacing:.08em;margin-bottom:3px;">&#10022; AI REPLY DRAFT</p>
-                    <p style="font-size:.625rem;color:#d4d4d8;line-height:1.5;">&ldquo;Thank you for your feedback. We&rsquo;re truly sorry &mdash; this isn&rsquo;t our standard. We&rsquo;d love to make it right.&rdquo;</p>
+                  <div style="background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.28);border-radius:8px;padding:9px;margin-bottom:9px;">
+                    <p style="font-size:.625rem;font-weight:600;color:#a78bfa;margin-bottom:4px;">AI Reply Draft</p>
+                    <p style="font-size:.6875rem;color:#d4d4d8;line-height:1.5;">&ldquo;Thank you for your feedback. We&rsquo;re truly sorry &mdash; this isn&rsquo;t our standard. We&rsquo;d love to make it right.&rdquo;</p>
                   </div>
 
-                  <!-- Accept button -->
-                  <div style="display:flex;align-items:center;justify-content:center;gap:5px;background:#16a34a;border-radius:7px;padding:9px 10px;">
-                    <svg width="11" height="11" fill="none" stroke="#fff" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                    <span style="font-size:.6875rem;font-weight:700;color:#fff;">Accept &amp; Post to Google Maps</span>
+                  <!-- Buttons -->
+                  <div style="display:flex;gap:6px;">
+                    <button style="flex:1;background:#7c3aed;color:#fff;font-size:.6875rem;font-weight:600;padding:6px 8px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+                      <svg width="10" height="10" fill="none" stroke="#fff" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                      Accept
+                    </button>
+                    <button style="flex:1;background:rgba(255,255,255,.06);color:#a1a1aa;font-size:.6875rem;font-weight:600;padding:6px 8px;border-radius:7px;border:1px solid rgba(255,255,255,.1);cursor:pointer;">Edit</button>
                   </div>
-
-                  <p style="font-size:.5rem;color:#3f3f46;text-align:center;">or tap to edit before posting</p>
-
-                  <!-- Confirmation -->
-                  <div style="display:flex;align-items:center;gap:7px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.18);border-radius:7px;padding:7px 9px;margin-top:2px;">
-                    <div style="width:16px;height:16px;background:rgba(34,197,94,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                      <svg width="9" height="9" fill="none" stroke="#22c55e" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                    </div>
-                    <div>
-                      <p style="font-size:.5625rem;font-weight:600;color:#86efac;line-height:1.2;">Reply posted to Google Maps</p>
-                      <p style="font-size:.5rem;color:#3f3f46;">La Bella Pizza &bull; 2 min ago</p>
-                    </div>
-                  </div>
-
+                  <p style="font-size:.5625rem;color:#52525b;text-align:right;margin-top:5px;">just now</p>
                 </div>
+
+                <!-- Outgoing: accepted -->
+                <div class="wa-out" style="align-self:flex-end;padding:8px 12px;max-width:170px;">
+                  <p style="font-size:.6875rem;color:#ddd6fe;">Accepted! Posting&hellip;</p>
+                  <p style="font-size:.5625rem;color:#a78bfa;text-align:right;margin-top:3px;">just now &#10003;&#10003;</p>
+                </div>
+
+                <!-- Incoming: success -->
+                <div class="wa-in" style="padding:10px 12px;max-width:210px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="width:22px;height:22px;background:rgba(34,197,94,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                      <svg width="12" height="12" fill="none" stroke="#22c55e" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                    </div>
+                    <p style="font-size:.6875rem;color:#e4e4e7;font-weight:500;">Posted to Google Maps!</p>
+                  </div>
+                  <p style="font-size:.5625rem;color:#52525b;text-align:right;margin-top:4px;">just now</p>
+                </div>
+
               </div>
             </div>
           </div>
