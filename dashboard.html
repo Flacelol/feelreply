@@ -825,7 +825,9 @@ async function init() {
 
   // Handle Stripe success return — poll for webhook, never trust URL params
   const params = new URLSearchParams(window.location.search)
+  let cameFromPayment = false
   if (params.get('payment') === 'success') {
+    cameFromPayment = true
     window.history.replaceState({}, '', window.location.pathname)
     showPaymentProcessing()
     let attempts = 0
@@ -839,16 +841,20 @@ async function init() {
           profile.plan_expires_at = data.plan_expires_at
           showPaymentSuccess(data.plan)
           resolve()
-        } else if (attempts >= 12) {
+        } else if (attempts >= 30) {
           clearInterval(poll)
           resolve()
         }
-      }, 1000)
+      }, 2000)
     })
   }
 
   // Block unpaid users from accessing the dashboard
   if (!isSubscriptionActive()) {
+    if (cameFromPayment) {
+      showPaymentPendingScreen()
+      return
+    }
     window.location.href = 'index.html#pricing'
     return
   }
@@ -1465,6 +1471,19 @@ function showPaymentSuccess(plan) {
   banner.innerHTML = `<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Payment successful! Welcome to FeelReply ${info.label}.`
   document.body.appendChild(banner)
   setTimeout(() => banner.remove(), 6000)
+}
+
+function showPaymentPendingScreen() {
+  const el = document.getElementById('loading-screen')
+  el.innerHTML = `
+    <img src="feelreply_logo_R.png" alt="FeelReply" style="height:48px;width:auto;margin-bottom:20px;">
+    <div style="width:48px;height:48px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:22px;">✅</div>
+    <p style="font-size:1.125rem;font-weight:700;color:#fff;margin-bottom:8px;">Payment received!</p>
+    <p style="font-size:.9rem;color:#71717a;max-width:300px;text-align:center;line-height:1.65;margin-bottom:28px;">We're activating your subscription. This usually takes a few seconds — just refresh the page.</p>
+    <button onclick="window.location.reload()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.75rem 1.75rem;font-size:.9375rem;font-weight:600;cursor:pointer;box-shadow:0 0 24px rgba(124,58,237,0.4);">Refresh page</button>
+    <p style="font-size:.75rem;color:#3f3f46;margin-top:1.25rem;">Still not working? Email us at <a href="mailto:hello@feelreply.com" style="color:#52525b;">hello@feelreply.com</a></p>
+  `
+  el.style.cssText = 'position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:0;'
 }
 
 // ── Cancel subscription ──────────────────────────────────
