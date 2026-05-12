@@ -92,7 +92,7 @@ Deno.serve(async (req) => {
         const { error } = await supabase.from('profiles').update({
           plan,
           stripe_customer_id: customerId,
-          plan_expires_at:    addDays(35),
+          plan_expires_at:    addDays(30),
           updated_at:         new Date().toISOString(),
         }).eq('id', userId)
         if (error) console.error('checkout.session.completed update error:', error)
@@ -113,7 +113,7 @@ Deno.serve(async (req) => {
 
       if (customerId) {
         const { error } = await supabase.from('profiles').update({
-          plan_expires_at: addDays(35),
+          plan_expires_at: addDays(30),
           updated_at:      new Date().toISOString(),
         }).eq('stripe_customer_id', customerId)
         if (error) console.error('invoice.payment_succeeded update error:', error)
