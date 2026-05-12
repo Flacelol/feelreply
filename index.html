@@ -183,6 +183,13 @@
       border-color: rgba(124,58,237,0.38) !important;
       box-shadow: 0 0 32px rgba(124,58,237,0.09);
     }
+    /* .fc overrides .fu transition — restore all transitions when both classes present */
+    .fu.fc {
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.25s ease,
+                  box-shadow 0.25s ease;
+    }
 
     /* ── Subtle grid bg ── */
     .grid-bg {
