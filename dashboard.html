@@ -856,7 +856,7 @@ async function init() {
       showPaymentPendingScreen()
       return
     }
-    window.location.href = 'index.html#pricing'
+    showUpgradeScreen()
     return
   }
 
@@ -1483,6 +1483,19 @@ function showPaymentPendingScreen() {
     <p style="font-size:.9rem;color:#71717a;max-width:300px;text-align:center;line-height:1.65;margin-bottom:28px;">We're activating your subscription. This usually takes a few seconds — just refresh the page.</p>
     <button onclick="window.location.reload()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.75rem 1.75rem;font-size:.9375rem;font-weight:600;cursor:pointer;box-shadow:0 0 24px rgba(124,58,237,0.4);">Refresh page</button>
     <p style="font-size:.75rem;color:#3f3f46;margin-top:1.25rem;">Still not working? Email us at <a href="mailto:hello@feelreply.com" style="color:#52525b;">hello@feelreply.com</a></p>
+  `
+  el.style.cssText = 'position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:0;'
+}
+
+function showUpgradeScreen() {
+  const el = document.getElementById('loading-screen')
+  el.innerHTML = `
+    <img src="feelreply_logo_R.png" alt="FeelReply" style="height:48px;width:auto;margin-bottom:20px;">
+    <div style="width:48px;height:48px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:22px;">🔒</div>
+    <p style="font-size:1.125rem;font-weight:700;color:#fff;margin-bottom:8px;">No active subscription</p>
+    <p style="font-size:.9rem;color:#71717a;max-width:300px;text-align:center;line-height:1.65;margin-bottom:28px;">Choose a plan to start managing your Google Maps reviews with AI.</p>
+    <a href="index.html#pricing" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.75rem 1.75rem;font-size:.9375rem;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 0 24px rgba(124,58,237,0.4);">View plans →</a>
+    <button onclick="sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:transparent;border:none;color:#52525b;font-size:.8125rem;cursor:pointer;margin-top:16px;">Sign out</button>
   `
   el.style.cssText = 'position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:0;'
 }
