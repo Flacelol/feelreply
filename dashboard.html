@@ -1438,7 +1438,7 @@ function updatePlanBadge(plan) {
     nameEl.textContent = `FeelReply ${info.label} — ${info.price}`
     const expires = profile?.plan_expires_at ? new Date(profile.plan_expires_at) : null
     const daysLeft = expires ? Math.ceil((expires - new Date()) / 86400000) : null
-    const isCancelling = expires && daysLeft !== null && daysLeft <= 35
+    const isCancelling = expires && daysLeft !== null && daysLeft <= 32
     if (isCancelling && expires) {
       descEl.innerHTML = `<span style="color:#fbbf24;">Cancellation scheduled</span> · Access until ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}`
       btnsEl.innerHTML = ''
