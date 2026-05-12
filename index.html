@@ -1074,10 +1074,10 @@
   })();
 
   // Mobile menu toggle
-  function toggleMobileMenu() {
+  function toggleMobileMenu(forceClose) {
     const menu = document.getElementById('mobile-menu');
     const bars = document.querySelectorAll('.ham-bar');
-    const open = menu.style.display === 'none' || menu.style.display === '';
+    const open = forceClose === true ? false : (menu.style.display === 'none' || menu.style.display === '');
     menu.style.display = open ? 'block' : 'none';
     if (open) {
       bars[0].style.cssText += 'transform:translateY(6px) rotate(45deg);background:#fff;';
@@ -1089,6 +1089,15 @@
       bars[2].style.cssText = 'display:block;width:16px;height:1.5px;background:#a1a1aa;transition:all .25s;';
     }
   }
+
+  // Close mobile menu on outside click
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobile-menu');
+    const hamburger = document.getElementById('hamburger');
+    if (menu.style.display === 'block' && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+      toggleMobileMenu(true);
+    }
+  });
 </script>
 
 </body>
