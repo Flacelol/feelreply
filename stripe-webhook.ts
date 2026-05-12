@@ -92,8 +92,8 @@ Deno.serve(async (req) => {
         const { error } = await supabase.from('profiles').update({
           plan,
           stripe_customer_id: customerId,
+          plan_expires_at:    addDays(35),
           updated_at:         new Date().toISOString(),
-          // plan_expires_at intentionally not set here — set on first renewal
         }).eq('id', userId)
         if (error) console.error('checkout.session.completed update error:', error)
       }
