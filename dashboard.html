@@ -1443,7 +1443,7 @@ function updatePlanBadge(plan) {
       descEl.innerHTML = `<span style="color:#fbbf24;">Cancellation scheduled</span> · Access until ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}`
       btnsEl.innerHTML = ''
     } else {
-      descEl.textContent = 'Active subscription'
+      descEl.textContent = expires ? `Next payment: ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}` : 'Active subscription'
       btnsEl.innerHTML = `<button onclick="cancelSubscription()" style="font-size:.75rem;padding:.375rem .875rem;background:transparent;border:1px solid rgba(239,68,68,0.35);color:#f87171;border-radius:8px;cursor:pointer;font-weight:500;transition:background .2s,border-color .2s;" onmouseover="this.style.background='rgba(239,68,68,0.1)';this.style.borderColor='rgba(239,68,68,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(239,68,68,0.35)'">Cancel subscription</button>`
     }
   } else {
