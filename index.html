@@ -35,14 +35,14 @@
     /* ── Scroll fade-up ── */
     .fu {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
-                  transform 0.65s cubic-bezier(0.16,1,0.3,1);
+      transform: translateY(44px) scale(0.97);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .fu.in  { opacity: 1; transform: translateY(0); }
-    .fu.d1  { transition-delay: 80ms; }
-    .fu.d2  { transition-delay: 160ms; }
-    .fu.d3  { transition-delay: 240ms; }
+    .fu.in  { opacity: 1; transform: translateY(0) scale(1); }
+    .fu.d1  { transition-delay: 120ms; }
+    .fu.d2  { transition-delay: 240ms; }
+    .fu.d3  { transition-delay: 360ms; }
 
     /* ── Buttons ── */
     .btn-p {
