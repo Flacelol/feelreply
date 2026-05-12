@@ -153,7 +153,7 @@
           <input type="password" id="si-password" class="input-field" placeholder="••••••••" required autocomplete="current-password">
         </div>
         <div style="text-align:right;margin-bottom:1.5rem;">
-          <a href="#" style="font-size:.8125rem;color:#52525b;transition:color .2s;" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='#52525b'">Forgot password?</a>
+          <a href="#" onclick="showForgotPassword();return false;" style="font-size:.8125rem;color:#52525b;transition:color .2s;" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='#52525b'">Forgot password?</a>
         </div>
         <button type="submit" class="btn-p" id="si-btn">Sign in</button>
       </form>
@@ -176,8 +176,24 @@
         <p style="font-size:.75rem;color:#3f3f46;text-align:center;margin-top:1rem;line-height:1.6;">By signing up you agree to our Terms of Service. Monthly billing — cancel anytime.</p>
       </form>
 
+      <!-- ── Forgot Password ── -->
+      <div id="form-forgot" style="display:none;">
+        <div style="margin-bottom:1.25rem;">
+          <p style="font-size:.9375rem;font-weight:600;color:#fff;margin-bottom:.35rem;">Reset your password</p>
+          <p style="font-size:.8125rem;color:#71717a;line-height:1.5;">Enter your email and we'll send you a reset link.</p>
+        </div>
+        <div style="margin-bottom:1.25rem;">
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:6px;">Email</label>
+          <input type="email" id="fp-email" class="input-field" placeholder="you@business.com" autocomplete="email">
+        </div>
+        <button onclick="handleForgotPassword()" class="btn-p" id="fp-btn">Send reset link</button>
+        <p style="text-align:center;margin-top:1rem;">
+          <a href="#" onclick="hideForgotPassword();return false;" style="font-size:.8125rem;color:#52525b;transition:color .2s;" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='#52525b'">← Back to sign in</a>
+        </p>
+      </div>
+
       <!-- Divider -->
-      <div style="display:flex;align-items:center;gap:12px;margin:1.5rem 0;">
+      <div id="divider-or" style="display:flex;align-items:center;gap:12px;margin:1.5rem 0;">
         <div style="flex:1;height:1px;background:rgba(255,255,255,0.07);"></div>
         <span style="font-size:.75rem;color:#3f3f46;white-space:nowrap;">or continue with</span>
         <div style="flex:1;height:1px;background:rgba(255,255,255,0.07);"></div>
@@ -345,6 +361,47 @@
       showSuccess('Account created! Check your email to confirm your address, then sign in.')
       btn.disabled = false
       btn.textContent = 'Create account'
+    }
+
+    function showForgotPassword() {
+      document.getElementById('form-signin').style.display = 'none'
+      document.getElementById('form-signup').style.display = 'none'
+      document.getElementById('form-forgot').style.display = ''
+      document.getElementById('divider-or').style.display = 'none'
+      document.getElementById('google-btn').style.display = 'none'
+      document.getElementById('tab-signin').closest('div').style.display = 'none'
+      clearAlerts()
+      const email = document.getElementById('si-email').value.trim()
+      if (email) document.getElementById('fp-email').value = email
+    }
+
+    function hideForgotPassword() {
+      document.getElementById('form-forgot').style.display = 'none'
+      document.getElementById('divider-or').style.display = 'flex'
+      document.getElementById('google-btn').style.display = 'flex'
+      document.getElementById('tab-signin').closest('div').style.display = 'flex'
+      switchTab('signin')
+    }
+
+    async function handleForgotPassword() {
+      const btn = document.getElementById('fp-btn')
+      const email = document.getElementById('fp-email').value.trim()
+      if (!email) { showError('Please enter your email address.'); return }
+      btn.disabled = true
+      btn.innerHTML = '<span class="spin" style="width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;vertical-align:middle;margin-right:6px;"></span>Sending…'
+      clearAlerts()
+
+      const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + window.location.pathname.replace('auth.html', '') + 'auth.html?reset=1'
+      })
+
+      btn.disabled = false
+      btn.textContent = 'Send reset link'
+      if (error) {
+        showError(error.message)
+      } else {
+        showSuccess('Reset link sent! Check your inbox (and spam folder).')
+      }
     }
 
     if (emailParam) {
