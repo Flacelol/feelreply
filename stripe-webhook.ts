@@ -2,10 +2,12 @@
 // Deploy: Supabase → Edge Functions → New Function → name "stripe-webhook" → paste → Deploy
 //
 // Secrets needed:
-//   STRIPE_SECRET_KEY      = sk_test_...
-//   STRIPE_WEBHOOK_SECRET  = whsec_...  (from Stripe Dashboard → Webhooks → Signing secret)
-//   SUPABASE_URL           = auto-provided by Supabase
+//   STRIPE_SECRET_KEY         = sk_test_...
+//   STRIPE_WEBHOOK_SECRET     = whsec_...  (from Stripe Dashboard → Webhooks → Signing secret)
+//   SUPABASE_URL              = auto-provided by Supabase
 //   SUPABASE_SERVICE_ROLE_KEY = auto-provided by Supabase
+//   TELEGRAM_BOT_TOKEN        = 123456:ABC-...  (from @BotFather)
+//   TELEGRAM_CHAT_ID          = your personal chat ID (get it from @userinfobot)
 //
 // Stripe events to enable on the webhook endpoint:
 //   checkout.session.completed
@@ -22,8 +24,31 @@ const PLAN_IDS: Record<string, string> = {
   'FeelReply Max':  'max',
 }
 
+const PLAN_LABELS: Record<string, string> = {
+  lite: 'Lite  €19/mo',
+  pro:  'Pro  €49/mo',
+  max:  'Max  €99/mo',
+}
+
 function addDays(n: number): string {
   return new Date(Date.now() + n * 86_400_000).toISOString()
+}
+
+function fmt(amountCents: number, currency: string): string {
+  return (amountCents / 100).toLocaleString('de-DE', {
+    style: 'currency', currency: currency.toUpperCase(),
+  })
+}
+
+async function tg(text: string): Promise<void> {
+  const token  = Deno.env.get('TELEGRAM_BOT_TOKEN')
+  const chatId = Deno.env.get('TELEGRAM_CHAT_ID')
+  if (!token || !chatId) return
+  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
+  }).catch(() => {})
 }
 
 Deno.serve(async (req) => {
@@ -72,6 +97,13 @@ Deno.serve(async (req) => {
         }).eq('id', userId)
         if (error) console.error('checkout.session.completed update error:', error)
       }
+
+      await tg(
+        `💳 <b>New subscriber!</b>\n` +
+        `👤 ${session.customer_email ?? 'unknown'}\n` +
+        `📦 ${PLAN_LABELS[plan ?? ''] ?? plan}\n` +
+        `💰 ${fmt(session.amount_total ?? 0, session.currency ?? 'eur')}`
+      )
     }
 
     else if (event.type === 'invoice.payment_succeeded') {
@@ -86,15 +118,20 @@ Deno.serve(async (req) => {
         }).eq('stripe_customer_id', customerId)
         if (error) console.error('invoice.payment_succeeded update error:', error)
       }
+
+      // Skip the first invoice (covered by checkout.session.completed)
+      if (invoice.billing_reason !== 'subscription_create') {
+        await tg(
+          `🔄 <b>Renewal payment</b>\n` +
+          `👤 ${invoice.customer_email ?? customerId}\n` +
+          `💰 ${fmt(invoice.amount_paid, invoice.currency)}`
+        )
+      }
     }
 
-    else if (
-      event.type === 'invoice.payment_failed' ||
-      event.type === 'customer.subscription.deleted'
-    ) {
-      // Payment failed or subscription cancelled — revoke access
-      const obj        = event.data.object as Stripe.Invoice | Stripe.Subscription
-      const customerId = (obj as any).customer as string
+    else if (event.type === 'invoice.payment_failed') {
+      const invoice    = event.data.object as Stripe.Invoice
+      const customerId = invoice.customer as string
 
       if (customerId) {
         const { error } = await supabase.from('profiles').update({
@@ -102,8 +139,33 @@ Deno.serve(async (req) => {
           plan_expires_at: null,
           updated_at:      new Date().toISOString(),
         }).eq('stripe_customer_id', customerId)
-        if (error) console.error('payment_failed/subscription_deleted update error:', error)
+        if (error) console.error('invoice.payment_failed update error:', error)
       }
+
+      await tg(
+        `⚠️ <b>Payment FAILED</b>\n` +
+        `👤 ${invoice.customer_email ?? customerId}\n` +
+        `💰 ${fmt(invoice.amount_due, invoice.currency)}`
+      )
+    }
+
+    else if (event.type === 'customer.subscription.deleted') {
+      const sub        = event.data.object as Stripe.Subscription
+      const customerId = sub.customer as string
+
+      if (customerId) {
+        const { error } = await supabase.from('profiles').update({
+          plan:            'free',
+          plan_expires_at: null,
+          updated_at:      new Date().toISOString(),
+        }).eq('stripe_customer_id', customerId)
+        if (error) console.error('subscription_deleted update error:', error)
+      }
+
+      await tg(
+        `❌ <b>Subscription cancelled</b>\n` +
+        `👤 Customer: <code>${customerId}</code>`
+      )
     }
 
   } catch (err) {
