@@ -367,6 +367,7 @@
       <div id="nav-switcher-pill"></div>
       <a href="#how" class="nav-sw-link" data-section="how">How It Works</a>
       <a href="#features" class="nav-sw-link" data-section="features">Features</a>
+      <a href="#testimonials" class="nav-sw-link" data-section="testimonials">Reviews</a>
       <a href="#pricing" class="nav-sw-link" data-section="pricing">Pricing</a>
     </div>
 
@@ -390,9 +391,10 @@
   <div id="mobile-menu" style="display:none;max-width:calc(100% - 2.5rem);margin:8px auto 0;background:rgba(10,10,10,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:1rem;box-shadow:0 16px 48px rgba(0,0,0,0.5);">
     <!-- Nav links bubble -->
     <div style="border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);overflow:hidden;">
-      <a href="#how"      onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">How It Works</a>
-      <a href="#features" onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">Features</a>
-      <a href="#pricing"  onclick="toggleMobileMenu()" class="mob-nav-link">Pricing</a>
+      <a href="#how"           onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">How It Works</a>
+      <a href="#features"      onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">Features</a>
+      <a href="#testimonials"  onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">Reviews</a>
+      <a href="#pricing"       onclick="toggleMobileMenu()" class="mob-nav-link">Pricing</a>
     </div>
     <!-- Log in bubble -->
     <div style="border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);overflow:hidden;margin-top:.5rem;">
@@ -1201,7 +1203,7 @@
       }, 80);
     });
 
-    const sectionIds = ['how','features','pricing'];
+    const sectionIds = ['how','features','testimonials','pricing'];
     function updateActive() {
       let cur = null;
       for(const id of sectionIds) {
