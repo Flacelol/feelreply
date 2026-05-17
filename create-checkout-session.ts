@@ -46,6 +46,7 @@ Deno.serve(async (req) => {
       success_url: `${origin}/dashboard.html?payment=success&plan=${plan}`,
       cancel_url: `${origin}/index.html#pricing`,
       metadata: { user_id: userId, plan, billing: billing || 'monthly' },
+      automatic_tax: { enabled: true },
       allow_promotion_codes: true,
     })
 
