@@ -86,13 +86,14 @@ Deno.serve(async (req) => {
       const session = event.data.object as Stripe.Checkout.Session
       const userId     = session.metadata?.user_id
       const plan       = session.metadata?.plan
+      const billing    = session.metadata?.billing
       const customerId = session.customer as string
 
       if (userId && plan) {
         const { error } = await supabase.from('profiles').update({
           plan,
           stripe_customer_id: customerId,
-          plan_expires_at:    addDays(30),
+          plan_expires_at:    billing === 'yearly' ? addDays(365) : addDays(30),
           updated_at:         new Date().toISOString(),
         }).eq('id', userId)
         if (error) console.error('checkout.session.completed update error:', error)
@@ -107,13 +108,13 @@ Deno.serve(async (req) => {
     }
 
     else if (event.type === 'invoice.payment_succeeded') {
-      // Recurring monthly payment — extend expiry by 35 days from now
       const invoice    = event.data.object as Stripe.Invoice
       const customerId = invoice.customer as string
+      const isYearly   = invoice.lines?.data?.[0]?.plan?.interval === 'year'
 
       if (customerId) {
         const { error } = await supabase.from('profiles').update({
-          plan_expires_at: addDays(30),
+          plan_expires_at: isYearly ? addDays(365) : addDays(30),
           updated_at:      new Date().toISOString(),
         }).eq('stripe_customer_id', customerId)
         if (error) console.error('invoice.payment_succeeded update error:', error)

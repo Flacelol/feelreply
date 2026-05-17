@@ -229,6 +229,7 @@
 
     const params = new URLSearchParams(window.location.search)
     const plan = params.get('plan')
+    const billing = params.get('billing') || 'monthly'
     const emailParam = params.get('email')
     const PLAN_LABELS = { lite: 'Lite — €19/mo', pro: 'Pro — €49/mo', max: 'Max — €99/mo' }
 
@@ -253,7 +254,7 @@
         const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-          body: JSON.stringify({ plan, email: session.user.email, userId: session.user.id, origin: window.location.origin + window.location.pathname.replace('auth.html', '').replace(/\/$/, '') })
+          body: JSON.stringify({ plan, billing, email: session.user.email, userId: session.user.id, origin: window.location.origin + window.location.pathname.replace('auth.html', '').replace(/\/$/, '') })
         })
         const { url, error } = await res.json()
         if (error) throw new Error(error)
@@ -296,7 +297,7 @@
       clearAlerts()
 
       const redirectTo = plan
-        ? `${window.location.origin}${window.location.pathname.replace('auth.html', '')}auth.html?plan=${plan}`
+        ? `${window.location.origin}${window.location.pathname.replace('auth.html', '')}auth.html?plan=${plan}&billing=${billing}`
         : `${window.location.origin}${window.location.pathname.replace('auth.html', '')}dashboard.html`
 
       const { error } = await sb.auth.signInWithOAuth({

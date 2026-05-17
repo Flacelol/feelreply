@@ -9,10 +9,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const PLANS: Record<string, { name: string; amount: number }> = {
-  lite: { name: 'FeelReply Lite', amount: 1900 },
-  pro:  { name: 'FeelReply Pro',  amount: 4900 },
-  max:  { name: 'FeelReply Max',  amount: 9900 },
+const PLANS: Record<string, { name: string; monthly: number; yearly: number }> = {
+  lite: { name: 'FeelReply Lite', monthly: 1900, yearly: 18000 },
+  pro:  { name: 'FeelReply Pro',  monthly: 4900, yearly: 46800 },
+  max:  { name: 'FeelReply Max',  monthly: 9900, yearly: 94800 },
 }
 
 Deno.serve(async (req) => {
@@ -20,10 +20,15 @@ Deno.serve(async (req) => {
 
   try {
     const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!, { apiVersion: '2024-06-20' })
-    const { plan, email, userId, origin } = await req.json()
+    const { plan, billing, email, userId, origin } = await req.json()
 
     const planInfo = PLANS[plan]
     if (!planInfo) throw new Error(`Invalid plan: ${plan}`)
+
+    const isYearly = billing === 'yearly'
+    const amount = isYearly ? planInfo.yearly : planInfo.monthly
+    const interval = isYearly ? 'year' : 'month'
+    const description = isYearly ? 'Annual subscription · cancel anytime' : 'Monthly subscription · cancel anytime'
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
@@ -31,16 +36,16 @@ Deno.serve(async (req) => {
       line_items: [{
         price_data: {
           currency: 'eur',
-          product_data: { name: planInfo.name, description: 'Monthly subscription · cancel anytime' },
-          unit_amount: planInfo.amount,
-          recurring: { interval: 'month' },
+          product_data: { name: planInfo.name, description },
+          unit_amount: amount,
+          recurring: { interval },
         },
         quantity: 1,
       }],
       customer_email: email,
       success_url: `${origin}/dashboard.html?payment=success&plan=${plan}`,
       cancel_url: `${origin}/index.html#pricing`,
-      metadata: { user_id: userId, plan },
+      metadata: { user_id: userId, plan, billing: billing || 'monthly' },
       allow_promotion_codes: true,
     })
 
