@@ -568,59 +568,6 @@
 <!-- ══════════════════════════════════════════
      HOW IT WORKS
 ════════════════════════════════════════════ -->
-<style>
-  [data-glow] {
-    --border-size: calc(var(--border, 2) * 1px);
-    --spotlight-size: calc(var(--size, 280) * 1px);
-    --hue: calc(var(--base, 280) + (var(--xp, 0) * var(--spread, 300)));
-    background-image: radial-gradient(
-      var(--spotlight-size) var(--spotlight-size) at
-      calc(var(--rx, -999) * 1px) calc(var(--ry, -999) * 1px),
-      hsl(var(--hue) 100% 70% / 0.18), transparent
-    );
-    background-color: rgba(255,255,255,0.03);
-    border: var(--border-size) solid transparent;
-    position: relative;
-    border-radius: 18px;
-  }
-  [data-glow]::before,
-  [data-glow]::after {
-    pointer-events: none;
-    content: "";
-    position: absolute;
-    inset: calc(var(--border-size) * -1);
-    border: var(--border-size) solid transparent;
-    border-radius: 18px;
-    background-attachment: fixed;
-    background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-    -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-    mask-clip: padding-box, border-box;
-    -webkit-mask-clip: padding-box, border-box;
-    mask-composite: intersect;
-    -webkit-mask-composite: destination-in;
-  }
-  [data-glow]::before {
-    background-image: radial-gradient(
-      calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
-      calc(var(--x, -999) * 1px) calc(var(--y, -999) * 1px),
-      hsl(var(--hue) 100% 55% / 0.9), transparent 100%
-    );
-    filter: brightness(2);
-    background-attachment: fixed;
-  }
-  [data-glow]::after {
-    background-image: radial-gradient(
-      calc(var(--spotlight-size) * 0.4) calc(var(--spotlight-size) * 0.4) at
-      calc(var(--x, -999) * 1px) calc(var(--y, -999) * 1px),
-      hsl(0 100% 100% / 0.8), transparent 100%
-    );
-    background-attachment: fixed;
-  }
-</style>
-
 <section id="how" style="padding:6rem 1rem;">
   <div class="max-w-6xl mx-auto">
 
@@ -635,7 +582,8 @@
     <div class="grid md:grid-cols-3 gap-5">
 
       <!-- Step 1 -->
-      <div data-glow class="fu fc" style="padding:28px;">
+      <div class="fu glass fc" style="padding:28px;position:relative;overflow:hidden;border-color:rgba(255,255,255,0.07);">
+        <div style="position:absolute;top:0;right:0;width:140px;height:140px;background:radial-gradient(circle at 100% 0%,rgba(124,58,237,.1) 0%,transparent 65%);pointer-events:none;"></div>
         <div style="width:42px;height:42px;background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.28);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
           <span style="font-size:1rem;font-weight:700;color:#a78bfa;">01</span>
         </div>
@@ -644,7 +592,8 @@
       </div>
 
       <!-- Step 2 -->
-      <div data-glow class="fu d1 fc" style="padding:28px;">
+      <div class="fu d1 glass fc" style="padding:28px;position:relative;overflow:hidden;border-color:rgba(255,255,255,0.07);">
+        <div style="position:absolute;top:0;right:0;width:140px;height:140px;background:radial-gradient(circle at 100% 0%,rgba(124,58,237,.1) 0%,transparent 65%);pointer-events:none;"></div>
         <div style="width:42px;height:42px;background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.28);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
           <span style="font-size:1rem;font-weight:700;color:#a78bfa;">02</span>
         </div>
@@ -653,7 +602,8 @@
       </div>
 
       <!-- Step 3 -->
-      <div data-glow class="fu d2 fc" style="padding:28px;">
+      <div class="fu d2 glass fc" style="padding:28px;position:relative;overflow:hidden;border-color:rgba(255,255,255,0.07);">
+        <div style="position:absolute;top:0;right:0;width:140px;height:140px;background:radial-gradient(circle at 100% 0%,rgba(124,58,237,.12) 0%,transparent 65%);pointer-events:none;"></div>
         <div style="width:42px;height:42px;background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.28);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
           <span style="font-size:1rem;font-weight:700;color:#a78bfa;">03</span>
         </div>
@@ -664,22 +614,6 @@
     </div>
   </div>
 </section>
-
-<script>
-(function(){
-  document.addEventListener('pointermove', function(e) {
-    document.querySelectorAll('[data-glow]').forEach(function(el) {
-      var r = el.getBoundingClientRect();
-      el.style.setProperty('--rx', (e.clientX - r.left).toFixed(2));
-      el.style.setProperty('--ry', (e.clientY - r.top).toFixed(2));
-      el.style.setProperty('--x',  e.clientX.toFixed(2));
-      el.style.setProperty('--xp', (e.clientX / window.innerWidth).toFixed(2));
-      el.style.setProperty('--y',  e.clientY.toFixed(2));
-      el.style.setProperty('--yp', (e.clientY / window.innerHeight).toFixed(2));
-    });
-  });
-})();
-</script>
 
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
