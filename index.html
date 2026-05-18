@@ -629,73 +629,225 @@
       <h2 style="font-size:clamp(1.8rem,4vw,2.75rem);font-weight:800;letter-spacing:-.028em;line-height:1.12;margin-bottom:14px;">
         Everything you need.<br>Nothing you don&rsquo;t.
       </h2>
+      <p style="font-size:.9375rem;color:#52525b;margin-top:8px;">Click any node to explore</p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- Orbital container -->
+    <div id="orbital-stage" style="position:relative;width:100%;height:560px;display:flex;align-items:center;justify-content:center;overflow:visible;">
 
-      <div class="fu glass fc cursor-default" style="padding:24px;border-color:rgba(255,255,255,0.07);">
-        <div style="width:42px;height:42px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg width="21" height="21" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
-          </svg>
-        </div>
-        <h3 style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px;">Smart AI Replies</h3>
-        <p style="font-size:.875rem;color:#71717a;line-height:1.65;">Context-aware responses that sound like you, not a robot. Personalized for every review.</p>
+      <!-- orbit ring -->
+      <div style="position:absolute;width:440px;height:440px;border-radius:50%;border:1px solid rgba(255,255,255,0.07);pointer-events:none;"></div>
+      <!-- outer hint ring -->
+      <div style="position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(124,58,237,0.06);pointer-events:none;"></div>
+
+      <!-- center orb -->
+      <div style="position:absolute;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#4f46e5,#0ea5e9);display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 0 40px rgba(124,58,237,0.5);">
+        <div class="orb-ping" style="position:absolute;width:80px;height:80px;border-radius:50%;border:1px solid rgba(124,58,237,0.3);animation:orb-ping 2s ease-out infinite;"></div>
+        <div class="orb-ping" style="position:absolute;width:96px;height:96px;border-radius:50%;border:1px solid rgba(124,58,237,0.15);animation:orb-ping 2s ease-out infinite .6s;"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);"></div>
       </div>
 
-      <div class="fu d1 glass fc cursor-default" style="padding:24px;border-color:rgba(255,255,255,0.07);">
-        <div style="width:42px;height:42px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg width="21" height="21" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
-          </svg>
-        </div>
-        <h3 style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px;">Email Notifications</h3>
-        <p style="font-size:.875rem;color:#71717a;line-height:1.65;">Every new review lands in your inbox with the AI draft ready. No new software, no learning curve.</p>
-      </div>
-
-      <div class="fu d2 glass fc cursor-default" style="padding:24px;border-color:rgba(255,255,255,0.07);">
-        <div style="width:42px;height:42px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg width="21" height="21" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
-          </svg>
-        </div>
-        <h3 style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px;">One-Tap Posting</h3>
-        <p style="font-size:.875rem;color:#71717a;line-height:1.65;">Approve and your reply is live on Google Maps within seconds. Zero extra steps.</p>
-      </div>
-
-      <div class="fu glass fc cursor-default" style="padding:24px;border-color:rgba(255,255,255,0.07);">
-        <div style="width:42px;height:42px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg width="21" height="21" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-          </svg>
-        </div>
-        <h3 style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px;">24 &frasl; 7 Monitoring</h3>
-        <p style="font-size:.875rem;color:#71717a;line-height:1.65;">FeelReply never sleeps. Every review is caught instantly — day, night, or weekend.</p>
-      </div>
-
-      <div class="fu d1 glass fc cursor-default" style="padding:24px;border-color:rgba(255,255,255,0.07);">
-        <div style="width:42px;height:42px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg width="21" height="21" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016 2.993 2.993 0 0 0 2.25-1.016 3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"/>
-          </svg>
-        </div>
-        <h3 style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px;">Multi-Location</h3>
-        <p style="font-size:.875rem;color:#71717a;line-height:1.65;">One email address for all your locations. Perfect for restaurants, hotels, and franchises.</p>
-      </div>
-
-      <div class="fu d2 glass fc cursor-default" style="padding:24px;border-color:rgba(255,255,255,0.07);">
-        <div style="width:42px;height:42px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg width="21" height="21" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
-          </svg>
-        </div>
-        <h3 style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px;">Zero Credentials Stored</h3>
-        <p style="font-size:.875rem;color:#71717a;line-height:1.65;">Official Google OAuth only. Your password is never seen or stored on our servers.</p>
-      </div>
-
+      <!-- nodes injected by JS -->
+      <div id="orbital-nodes" style="position:absolute;inset:0;"></div>
     </div>
+
   </div>
 </section>
+
+<style>
+  @keyframes orb-ping {
+    0%   { transform:scale(1); opacity:.7; }
+    100% { transform:scale(1.6); opacity:0; }
+  }
+  @keyframes node-pulse {
+    0%,100% { box-shadow:0 0 0 0 rgba(167,139,250,0.5); }
+    50%      { box-shadow:0 0 0 8px rgba(167,139,250,0); }
+  }
+  .orb-node {
+    position:absolute;
+    transform:translate(-50%,-50%);
+    cursor:pointer;
+    transition:z-index 0s;
+  }
+  .orb-node-btn {
+    width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid rgba(255,255,255,0.25);
+    background:#111;
+    transition:all .3s;
+    position:relative;
+  }
+  .orb-node-btn.active {
+    background:#fff;
+    border-color:#fff;
+    transform:scale(1.45);
+    box-shadow:0 0 20px rgba(255,255,255,0.25);
+  }
+  .orb-node-btn.active svg { stroke:#111; }
+  .orb-node-btn.pulsing { animation:node-pulse 1.2s infinite; border-color:rgba(167,139,250,.7); }
+  .orb-label {
+    position:absolute;top:52px;left:50%;transform:translateX(-50%);
+    white-space:nowrap;font-size:.6875rem;font-weight:600;
+    color:rgba(255,255,255,0.6);letter-spacing:.04em;text-align:center;
+    transition:color .3s,transform .3s;
+    pointer-events:none;
+  }
+  .orb-node-btn.active ~ .orb-label { color:#fff; transform:translateX(-50%) scale(1.1); }
+  .orb-popup {
+    position:absolute;width:240px;
+    background:rgba(10,10,10,0.92);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:16px;padding:18px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 8px 40px rgba(0,0,0,0.6);
+    pointer-events:none;
+    opacity:0;transform:scale(.92) translateY(6px);
+    transition:opacity .25s,transform .25s;
+    z-index:300;
+  }
+  .orb-popup.visible { opacity:1;transform:scale(1) translateY(0);pointer-events:auto; }
+  .orb-popup::before {
+    content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+    width:1px;height:8px;background:rgba(255,255,255,0.3);
+  }
+</style>
+
+<script>
+(function(){
+  const FEATURES = [
+    {
+      title:'Smart AI Replies',
+      desc:'Context-aware responses that sound like you, not a robot. Personalized for every review.',
+      svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>',
+    },
+    {
+      title:'Email Notifications',
+      desc:'Every new review lands in your inbox with the AI draft ready. No new software, no learning curve.',
+      svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>',
+    },
+    {
+      title:'One-Tap Posting',
+      desc:'Approve and your reply is live on Google Maps within seconds. Zero extra steps.',
+      svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>',
+    },
+    {
+      title:'24/7 Monitoring',
+      desc:'FeelReply never sleeps. Every review is caught instantly — day, night, or weekend.',
+      svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>',
+    },
+    {
+      title:'Multi-Location',
+      desc:'One dashboard for all your locations. Perfect for restaurants, hotels, and franchises.',
+      svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016 2.993 2.993 0 0 0 2.25-1.016 3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"/>',
+    },
+    {
+      title:'Zero Credentials Stored',
+      desc:'Official Google OAuth only. Your password is never seen or stored on our servers.',
+      svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>',
+    },
+  ];
+
+  const stage    = document.getElementById('orbital-stage');
+  const nodesEl  = document.getElementById('orbital-nodes');
+  const N        = FEATURES.length;
+  const RADIUS   = 220;
+  let angle      = 0;
+  let autoRotate = true;
+  let activeIdx  = null;
+  let rafId;
+
+  // Build node elements
+  const nodes = FEATURES.map((f, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'orb-node';
+    wrap.innerHTML = `
+      <div class="orb-node-btn">
+        <svg width="18" height="18" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.8">${f.svg}</svg>
+      </div>
+      <div class="orb-label">${f.title}</div>
+      <div class="orb-popup">
+        <div style="width:32px;height:32px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+          <svg width="16" height="16" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.8">${f.svg}</svg>
+        </div>
+        <div style="font-size:.9375rem;font-weight:700;color:#fff;margin-bottom:6px;">${f.title}</div>
+        <div style="font-size:.8125rem;color:#71717a;line-height:1.65;">${f.desc}</div>
+      </div>
+    `;
+    nodesEl.appendChild(wrap);
+    const btn   = wrap.querySelector('.orb-node-btn');
+    const popup = wrap.querySelector('.orb-popup');
+    wrap.addEventListener('click', (e) => { e.stopPropagation(); toggle(i); });
+    return { wrap, btn, popup };
+  });
+
+  function toggle(i) {
+    if (activeIdx === i) {
+      deactivate();
+    } else {
+      deactivate();
+      activeIdx  = i;
+      autoRotate = false;
+      nodes[i].btn.classList.add('active');
+      nodes[i].popup.classList.add('visible');
+      // pulse adjacent nodes
+      [(i+1)%N, (i+N-1)%N].forEach(j => nodes[j].btn.classList.add('pulsing'));
+    }
+  }
+
+  function deactivate() {
+    if (activeIdx !== null) {
+      nodes[activeIdx].btn.classList.remove('active');
+      nodes[activeIdx].popup.classList.remove('visible');
+    }
+    nodes.forEach(n => n.btn.classList.remove('pulsing'));
+    activeIdx  = null;
+    autoRotate = true;
+  }
+
+  stage.addEventListener('click', deactivate);
+
+  function positionPopup(wrap, popup, cx, cy, stageW, stageH) {
+    const pw = 240, ph = 160;
+    // default: below node
+    let top = 58, left = -pw/2;
+    // flip above if near bottom
+    if (cy + 58 + ph > stageH - 20) { top = -(ph + 20); popup.style.setProperty('--arrow','bottom'); }
+    // clamp horizontal
+    if (cx + left < 10) left = 10 - cx;
+    if (cx + left + pw > stageW - 10) left = stageW - 10 - pw - cx;
+    popup.style.top  = top + 'px';
+    popup.style.left = left + 'px';
+  }
+
+  function tick() {
+    if (autoRotate) angle = (angle + 0.25) % 360;
+
+    const stageW = stage.offsetWidth;
+    const stageH = stage.offsetHeight;
+    const cx0 = stageW / 2;
+    const cy0 = stageH / 2;
+
+    nodes.forEach(({ wrap, popup }, i) => {
+      const rad = ((i / N) * 360 + angle) * Math.PI / 180;
+      const x   = cx0 + RADIUS * Math.cos(rad);
+      const y   = cy0 + RADIUS * Math.sin(rad);
+      const op  = Math.max(0.35, Math.min(1, 0.35 + 0.65 * ((1 + Math.sin(rad)) / 2)));
+      const z   = Math.round(100 + 50 * Math.cos(rad));
+
+      wrap.style.left    = x + 'px';
+      wrap.style.top     = y + 'px';
+      wrap.style.opacity = wrap.querySelector('.orb-node-btn').classList.contains('active') ? '1' : op;
+      wrap.style.zIndex  = wrap.querySelector('.orb-node-btn').classList.contains('active') ? 200 : z;
+
+      positionPopup(wrap, popup, x, y, stageW, stageH);
+    });
+
+    rafId = requestAnimationFrame(tick);
+  }
+
+  tick();
+})();
+</script>
 
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
