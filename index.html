@@ -752,8 +752,9 @@
   const N        = FEATURES.length;
   const RADIUS   = 220;
   let angle      = 0;
-  let autoRotate = true;
-  let activeIdx  = null;
+  let autoRotate  = true;
+  let activeIdx   = null;
+  let mouseInside = false;
   let rafId;
 
   // Build node elements
@@ -801,12 +802,12 @@
     }
     nodes.forEach(n => n.btn.classList.remove('pulsing'));
     activeIdx  = null;
-    autoRotate = true;
+    autoRotate = !mouseInside;
   }
 
   stage.addEventListener('click', deactivate);
-  stage.addEventListener('mouseenter', () => { if (activeIdx === null) autoRotate = false; });
-  stage.addEventListener('mouseleave', () => { if (activeIdx === null) autoRotate = true; });
+  stage.addEventListener('mouseenter', () => { mouseInside = true;  autoRotate = false; });
+  stage.addEventListener('mouseleave', () => { mouseInside = false; if (activeIdx === null) autoRotate = true; });
 
   function positionPopup(wrap, popup, cx, cy, stageW, stageH) {
     const pw = 240, ph = 160;
