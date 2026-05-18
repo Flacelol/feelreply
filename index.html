@@ -805,6 +805,8 @@
   }
 
   stage.addEventListener('click', deactivate);
+  stage.addEventListener('mouseenter', () => { if (activeIdx === null) autoRotate = false; });
+  stage.addEventListener('mouseleave', () => { if (activeIdx === null) autoRotate = true; });
 
   function positionPopup(wrap, popup, cx, cy, stageW, stageH) {
     const pw = 240, ph = 160;
