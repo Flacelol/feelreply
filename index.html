@@ -411,155 +411,149 @@
 <!-- ══════════════════════════════════════════
      HERO
 ════════════════════════════════════════════ -->
-<section class="grid-bg relative" style="padding: 9rem 1rem 6rem; min-height:100vh; display:flex; align-items:center; overflow:hidden;">
+<section class="grid-bg relative" style="padding: 7rem 1rem 0; min-height:100vh; display:flex; flex-direction:column; align-items:center; overflow:hidden;">
 
   <!-- WebGL shader background -->
   <canvas id="heroGlCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none;"></canvas>
 
-  <div class="max-w-6xl mx-auto w-full relative" style="z-index:1;">
-    <div class="grid gap-12 items-center" style="grid-template-columns:1fr 1fr;">
+  <!-- ── Text block — centered ── -->
+  <div class="max-w-2xl mx-auto w-full relative" style="z-index:1;text-align:center;">
+    <!-- Badge -->
+    <div class="fu inline-flex items-center gap-2 mb-8" style="background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.28);border-radius:999px;padding:.375rem 1rem;">
+      <span class="pulse" style="width:7px;height:7px;background:#4ade80;border-radius:50%;flex-shrink:0;"></span>
+      <span style="font-size:.8125rem;font-weight:500;color:#c4b5fd;">AI-Powered &middot; Email Notifications</span>
+    </div>
 
-      <!-- ── Left copy ── -->
-      <div>
-        <!-- Badge -->
-        <div class="fu inline-flex items-center gap-2 mb-8" style="background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.28);border-radius:999px;padding:.375rem 1rem;">
-          <span class="pulse" style="width:7px;height:7px;background:#4ade80;border-radius:50%;flex-shrink:0;"></span>
-          <span style="font-size:.8125rem;font-weight:500;color:#c4b5fd;">AI-Powered &middot; Email Notifications</span>
-        </div>
+    <!-- Headline -->
+    <h1 class="fu d1" style="font-size:clamp(3rem,6.5vw,4.75rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;margin-bottom:1.25rem;">
+      Turn every review<br>into a <span class="grad">relationship.</span>
+    </h1>
 
-        <!-- Headline -->
-        <h1 class="fu d1" style="font-size:clamp(3rem,6.5vw,4.75rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;margin-bottom:1.5rem;">
-          Turn every review<br>into a <span class="grad">relationship.</span>
-        </h1>
+    <!-- Sub -->
+    <p class="fu d2" style="font-size:1.125rem;color:#a1a1aa;line-height:1.7;max-width:520px;margin:0 auto 2rem;">
+      FeelReply monitors your Google Maps reviews, drafts AI replies, and sends them to your email. Click Approve &mdash; posted automatically.
+    </p>
 
-        <!-- Sub -->
-        <p class="fu d2" style="font-size:1.0625rem;color:#a1a1aa;line-height:1.75;max-width:460px;margin-bottom:2rem;">
-          FeelReply monitors your Google Maps reviews, drafts AI replies, and sends them to your email. Click Approve &mdash; posted automatically.
-        </p>
-
-        <!-- CTAs -->
-        <div class="fu d2 flex flex-col sm:flex-row gap-3 mb-10">
-          <a href="auth.html" class="btn-p text-center" style="font-size:.9375rem;padding:.9rem 2rem;">Get Started</a>
-          <a href="#how" class="btn-g flex items-center justify-center gap-2" style="font-size:.9375rem;padding:.9rem 2rem;">
-            See how it works
-            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-          </a>
-        </div>
-
-      </div>
-
-      <!-- ── Right: phone mockup ── -->
-      <div class="fu d2 flex justify-center lg:justify-end relative" style="padding:2rem 1.5rem;opacity:.82;filter:brightness(.9);">
-
-        <!-- Glow halo behind phone -->
-        <div style="position:absolute;width:380px;height:380px;background:radial-gradient(circle,rgba(124,58,237,.14) 0%,transparent 65%);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;"></div>
-
-        <!-- Phone -->
-        <div class="phone-wrap relative" style="width:248px;flex-shrink:0;">
-          <!-- Frame -->
-          <div style="background:#111;border-radius:42px;padding:9px;border:1.5px solid rgba(255,255,255,0.12);">
-            <!-- Notch -->
-            <div style="position:absolute;top:18px;left:50%;transform:translateX(-50%);width:76px;height:7px;background:#0a0a0a;border-radius:4px;z-index:10;"></div>
-            <!-- Screen -->
-            <div style="border-radius:34px;overflow:hidden;background:#0d0d0d;min-height:520px;display:flex;flex-direction:column;">
-
-              <!-- WA Header -->
-              <div style="background:#111827;padding:32px 14px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
-                <img src="feelreply_logo_R.png" alt="FeelReply" style="width:50px;height:50px;object-fit:contain;flex-shrink:0;">
-                <div>
-                  <p style="color:#fff;font-size:.8125rem;font-weight:600;line-height:1.2;">FeelReply</p>
-                  <div style="display:flex;align-items:center;gap:4px;">
-                    <span style="width:6px;height:6px;background:#4ade80;border-radius:50%;"></span>
-                    <span style="color:#6b7280;font-size:.6875rem;">online</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Chat -->
-              <div style="background:#0a0a0a;flex:1;padding:14px;display:flex;flex-direction:column;gap:10px;">
-
-                <!-- Incoming: review + draft -->
-                <div class="wa-in" style="padding:12px;max-width:230px;">
-                  <div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">
-                    <svg width="11" height="11" fill="#ef4444" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                    <span style="font-size:.6875rem;font-weight:600;color:#e4e4e7;">New review &bull; La Bella Pizza</span>
-                  </div>
-                  <!-- Stars 2/5 -->
-                  <div style="display:flex;gap:2px;margin-bottom:7px;">
-                    <svg width="11" height="11" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg width="11" height="11" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                    <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                  </div>
-                  <p style="font-size:.6875rem;color:#71717a;font-style:italic;margin-bottom:10px;">&ldquo;Pizza was cold. Service took forever.&rdquo;</p>
-
-                  <!-- AI draft -->
-                  <div style="background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.28);border-radius:8px;padding:9px;margin-bottom:9px;">
-                    <p style="font-size:.625rem;font-weight:600;color:#a78bfa;margin-bottom:4px;">AI Reply Draft</p>
-                    <p style="font-size:.6875rem;color:#d4d4d8;line-height:1.5;">&ldquo;Thank you for your feedback. We&rsquo;re truly sorry &mdash; this isn&rsquo;t our standard. We&rsquo;d love to make it right.&rdquo;</p>
-                  </div>
-
-                  <!-- Buttons -->
-                  <div style="display:flex;gap:6px;">
-                    <button style="flex:1;background:#7c3aed;color:#fff;font-size:.6875rem;font-weight:600;padding:6px 8px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
-                      <svg width="10" height="10" fill="none" stroke="#fff" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                      Accept
-                    </button>
-                    <button style="flex:1;background:rgba(255,255,255,.06);color:#a1a1aa;font-size:.6875rem;font-weight:600;padding:6px 8px;border-radius:7px;border:1px solid rgba(255,255,255,.1);cursor:pointer;">Edit</button>
-                  </div>
-                  <p style="font-size:.5625rem;color:#52525b;text-align:right;margin-top:5px;">just now</p>
-                </div>
-
-                <!-- Outgoing: accepted -->
-                <div class="wa-out" style="align-self:flex-end;padding:8px 12px;max-width:170px;">
-                  <p style="font-size:.6875rem;color:#ddd6fe;">Accepted! Posting&hellip;</p>
-                  <p style="font-size:.5625rem;color:#a78bfa;text-align:right;margin-top:3px;">just now &#10003;&#10003;</p>
-                </div>
-
-                <!-- Incoming: success -->
-                <div class="wa-in" style="padding:10px 12px;max-width:210px;">
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:22px;height:22px;background:rgba(34,197,94,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                      <svg width="12" height="12" fill="none" stroke="#22c55e" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                    </div>
-                    <p style="font-size:.6875rem;color:#e4e4e7;font-weight:500;">Posted to Google Maps!</p>
-                  </div>
-                  <p style="font-size:.5625rem;color:#52525b;text-align:right;margin-top:4px;">just now</p>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Floating badge: rating -->
-          <div class="glass" style="position:absolute;top:-14px;right:-28px;border-radius:14px;padding:9px 13px;display:flex;align-items:center;gap:9px;">
-            <div style="width:32px;height:32px;background:rgba(250,204,21,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="17" height="17" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            </div>
-            <div>
-              <p style="font-size:.8125rem;font-weight:600;color:#fff;line-height:1.2;">4.8 avg</p>
-              <p style="font-size:.6875rem;color:#71717a;">+0.3 this month</p>
-            </div>
-          </div>
-
-          <!-- Floating badge: speed -->
-          <div class="glass" style="position:absolute;bottom:-14px;left:-32px;border-radius:14px;padding:9px 13px;display:flex;align-items:center;gap:9px;">
-            <div style="width:32px;height:32px;background:rgba(124,58,237,.15);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="17" height="17" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
-              </svg>
-            </div>
-            <div>
-              <p style="font-size:.8125rem;font-weight:600;color:#fff;line-height:1.2;">&lt;&nbsp;2 min</p>
-              <p style="font-size:.6875rem;color:#71717a;">reply time</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <!-- CTAs -->
+    <div class="fu d2 flex justify-center gap-3">
+      <a href="auth.html" class="btn-p text-center" style="font-size:.9375rem;padding:.9rem 2rem;">Get Started</a>
+      <a href="#how" class="btn-g flex items-center justify-center gap-2" style="font-size:.9375rem;padding:.9rem 2rem;">
+        See how it works
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+      </a>
     </div>
   </div>
+
+  <!-- ── Phone — centered below text, bottom crops at section edge ── -->
+  <div class="fu d2 relative" style="z-index:1;display:flex;justify-content:center;width:100%;margin-top:3.5rem;flex-shrink:0;">
+
+    <!-- Glow halo -->
+    <div style="position:absolute;width:560px;height:280px;background:radial-gradient(ellipse,rgba(124,58,237,.22) 0%,transparent 70%);top:0;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
+
+    <!-- Phone -->
+    <div class="phone-wrap relative" style="width:268px;flex-shrink:0;">
+      <!-- Frame -->
+      <div style="background:#111;border-radius:42px;padding:9px;border:1.5px solid rgba(255,255,255,0.12);">
+        <!-- Notch -->
+        <div style="position:absolute;top:18px;left:50%;transform:translateX(-50%);width:76px;height:7px;background:#0a0a0a;border-radius:4px;z-index:10;"></div>
+        <!-- Screen -->
+        <div style="border-radius:34px;overflow:hidden;background:#0d0d0d;min-height:520px;display:flex;flex-direction:column;">
+
+          <!-- WA Header -->
+          <div style="background:#111827;padding:32px 14px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+            <img src="feelreply_logo_R.png" alt="FeelReply" style="width:50px;height:50px;object-fit:contain;flex-shrink:0;">
+            <div>
+              <p style="color:#fff;font-size:.8125rem;font-weight:600;line-height:1.2;">FeelReply</p>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="width:6px;height:6px;background:#4ade80;border-radius:50%;"></span>
+                <span style="color:#6b7280;font-size:.6875rem;">online</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat -->
+          <div style="background:#0a0a0a;flex:1;padding:14px;display:flex;flex-direction:column;gap:10px;">
+
+            <!-- Incoming: review + draft -->
+            <div class="wa-in" style="padding:12px;max-width:230px;">
+              <div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">
+                <svg width="11" height="11" fill="#ef4444" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <span style="font-size:.6875rem;font-weight:600;color:#e4e4e7;">New review &bull; La Bella Pizza</span>
+              </div>
+              <!-- Stars 2/5 -->
+              <div style="display:flex;gap:2px;margin-bottom:7px;">
+                <svg width="11" height="11" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg width="11" height="11" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg width="11" height="11" fill="#3f3f46" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              </div>
+              <p style="font-size:.6875rem;color:#71717a;font-style:italic;margin-bottom:10px;">&ldquo;Pizza was cold. Service took forever.&rdquo;</p>
+
+              <!-- AI draft -->
+              <div style="background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.28);border-radius:8px;padding:9px;margin-bottom:9px;">
+                <p style="font-size:.625rem;font-weight:600;color:#a78bfa;margin-bottom:4px;">AI Reply Draft</p>
+                <p style="font-size:.6875rem;color:#d4d4d8;line-height:1.5;">&ldquo;Thank you for your feedback. We&rsquo;re truly sorry &mdash; this isn&rsquo;t our standard. We&rsquo;d love to make it right.&rdquo;</p>
+              </div>
+
+              <!-- Buttons -->
+              <div style="display:flex;gap:6px;">
+                <button style="flex:1;background:#7c3aed;color:#fff;font-size:.6875rem;font-weight:600;padding:6px 8px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+                  <svg width="10" height="10" fill="none" stroke="#fff" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                  Accept
+                </button>
+                <button style="flex:1;background:rgba(255,255,255,.06);color:#a1a1aa;font-size:.6875rem;font-weight:600;padding:6px 8px;border-radius:7px;border:1px solid rgba(255,255,255,.1);cursor:pointer;">Edit</button>
+              </div>
+              <p style="font-size:.5625rem;color:#52525b;text-align:right;margin-top:5px;">just now</p>
+            </div>
+
+            <!-- Outgoing: accepted -->
+            <div class="wa-out" style="align-self:flex-end;padding:8px 12px;max-width:170px;">
+              <p style="font-size:.6875rem;color:#ddd6fe;">Accepted! Posting&hellip;</p>
+              <p style="font-size:.5625rem;color:#a78bfa;text-align:right;margin-top:3px;">just now &#10003;&#10003;</p>
+            </div>
+
+            <!-- Incoming: success -->
+            <div class="wa-in" style="padding:10px 12px;max-width:210px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:22px;height:22px;background:rgba(34,197,94,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="12" height="12" fill="none" stroke="#22c55e" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                </div>
+                <p style="font-size:.6875rem;color:#e4e4e7;font-weight:500;">Posted to Google Maps!</p>
+              </div>
+              <p style="font-size:.5625rem;color:#52525b;text-align:right;margin-top:4px;">just now</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating badge: rating -->
+      <div class="glass" style="position:absolute;top:-14px;right:-36px;border-radius:14px;padding:9px 13px;display:flex;align-items:center;gap:9px;">
+        <div style="width:32px;height:32px;background:rgba(250,204,21,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="17" height="17" fill="#facc15" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div>
+          <p style="font-size:.8125rem;font-weight:600;color:#fff;line-height:1.2;">4.8 avg</p>
+          <p style="font-size:.6875rem;color:#71717a;">+0.3 this month</p>
+        </div>
+      </div>
+
+      <!-- Floating badge: speed -->
+      <div class="glass" style="position:absolute;top:55%;left:-44px;transform:translateY(-50%);border-radius:14px;padding:9px 13px;display:flex;align-items:center;gap:9px;">
+        <div style="width:32px;height:32px;background:rgba(124,58,237,.15);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="17" height="17" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
+          </svg>
+        </div>
+        <div>
+          <p style="font-size:.8125rem;font-weight:600;color:#fff;line-height:1.2;">&lt;&nbsp;2 min</p>
+          <p style="font-size:.6875rem;color:#71717a;">reply time</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
