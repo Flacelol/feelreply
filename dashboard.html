@@ -823,6 +823,7 @@ async function init() {
   document.getElementById('s-maps').value      = profile.google_maps_url || ''
   document.getElementById('s-whatsapp').value  = profile.whatsapp_number || profile.notification_email || user.email || ''
   document.getElementById('s-tone').value      = profile.tone_preference || 'professional'
+  document.getElementById('s-lang').value      = profile.reply_language  || 'en'
 
   // Handle Stripe success return — poll for webhook, never trust URL params
   const params = new URLSearchParams(window.location.search)
@@ -1160,7 +1161,8 @@ async function callGenerateReply(name, rating, text) {
         rating,
         reviewText:   text,
         businessName: profile.business_name || '',
-        tone:         profile.tone_preference || 'professional',
+        tone:         document.getElementById('s-tone')?.value || profile.tone_preference || 'professional',
+        language:     document.getElementById('s-lang')?.value || profile.reply_language  || 'en',
       }),
     })
     const json = await res.json()
@@ -1264,6 +1266,7 @@ async function saveSettings() {
     google_maps_url:    document.getElementById('s-maps').value.trim(),
     notification_email: document.getElementById('s-whatsapp').value.trim(),
     tone_preference:    document.getElementById('s-tone').value,
+    reply_language:     document.getElementById('s-lang').value,
     updated_at:         new Date().toISOString()
   }
 
@@ -1279,8 +1282,8 @@ async function saveSettings() {
 
 // ── Plan features ────────────────────────────────────────
 const FEATURES = {
-  free: { maxReviews: 0,        analytics: false, autoPost: false, multiLang: false, locations: 1,  customTone: false, whiteLabel: false, agency: false },
-  lite: { maxReviews: 50,       analytics: false, autoPost: false, multiLang: false, locations: 1,  customTone: false, whiteLabel: false, agency: false },
+  free: { maxReviews: 0,        analytics: false, autoPost: false, multiLang: true,  locations: 1,  customTone: false, whiteLabel: false, agency: false },
+  lite: { maxReviews: 50,       analytics: false, autoPost: false, multiLang: true,  locations: 1,  customTone: false, whiteLabel: false, agency: false },
   pro:  { maxReviews: Infinity, analytics: true,  autoPost: true,  multiLang: true,  locations: 5,  customTone: false, whiteLabel: false, agency: false },
   max:  { maxReviews: Infinity, analytics: true,  autoPost: true,  multiLang: true,  locations: 15, customTone: true,  whiteLabel: true,  agency: true  },
 }

@@ -13,12 +13,15 @@ create table if not exists public.profiles (
   plan_expires_at    timestamptz,
   stripe_customer_id text,
   tone_preference    text default 'professional',
+  reply_language     text default 'en',
   created_at         timestamptz default now(),
   updated_at         timestamptz default now()
 );
 
 -- Add plan_expires_at if upgrading an existing database
 alter table public.profiles add column if not exists plan_expires_at timestamptz;
+-- Add reply_language if upgrading an existing database
+alter table public.profiles add column if not exists reply_language text default 'en';
 
 create table if not exists public.reviews (
   id            uuid default gen_random_uuid() primary key,
