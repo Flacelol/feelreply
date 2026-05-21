@@ -563,6 +563,10 @@
      HOW IT WORKS
 ════════════════════════════════════════════ -->
 <style>
+  @keyframes catIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
   .cat-item {
     position: relative;
     overflow: hidden;
@@ -571,11 +575,14 @@
     background: rgba(255,255,255,0.02);
     height: 88px;
     cursor: default;
-    transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1),
-                transform 0.9s cubic-bezier(0.22,1,0.36,1),
-                height .3s cubic-bezier(.4,0,.2,1),
-                border-color .3s, background .3s, box-shadow .3s;
+    opacity: 0;
+    transition: height .3s cubic-bezier(.4,0,.2,1), border-color .3s, background .3s, box-shadow .3s;
   }
+  .cat-item.in {
+    animation: catIn 0.75s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .cat-item.d1.in { animation-delay: 110ms; }
+  .cat-item.d2.in { animation-delay: 220ms; }
   .cat-item:hover {
     height: 120px;
     border-color: rgba(124,58,237,.55);
@@ -625,7 +632,7 @@
     <div style="display:flex;flex-direction:column;gap:12px;">
 
       <!-- Step 1 -->
-      <div class="fu cat-item">
+      <div class="cat-item">
         <div class="cat-bracket-tl"></div>
         <div class="cat-bracket-br"></div>
         <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 28px;">
@@ -643,7 +650,7 @@
       </div>
 
       <!-- Step 2 -->
-      <div class="fu d1 cat-item">
+      <div class="cat-item d1">
         <div class="cat-bracket-tl"></div>
         <div class="cat-bracket-br"></div>
         <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 28px;">
@@ -661,7 +668,7 @@
       </div>
 
       <!-- Step 3 -->
-      <div class="fu d2 cat-item">
+      <div class="cat-item d2">
         <div class="cat-bracket-tl"></div>
         <div class="cat-bracket-br"></div>
         <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 28px;">
@@ -1354,7 +1361,7 @@
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
-  document.querySelectorAll('.fu').forEach(el => io.observe(el));
+  document.querySelectorAll('.fu, .cat-item').forEach(el => io.observe(el));
 
   // Nav glass on scroll
   const nav = document.getElementById('nav');
