@@ -911,12 +911,12 @@
       const x   = cx0 + RADIUS * Math.cos(rad);
       const y   = cy0 + RADIUS * Math.sin(rad);
       const op  = Math.max(0.35, Math.min(1, 0.35 + 0.65 * ((1 + Math.sin(rad)) / 2)));
-      const z   = Math.round(100 + 50 * Math.cos(rad));
+      const z   = Math.round(10 + 5 * Math.cos(rad));
 
       wrap.style.left    = x + 'px';
       wrap.style.top     = y + 'px';
       wrap.style.opacity = wrap.querySelector('.orb-node-btn').classList.contains('active') ? '1' : op;
-      wrap.style.zIndex  = wrap.querySelector('.orb-node-btn').classList.contains('active') ? 200 : z;
+      wrap.style.zIndex  = wrap.querySelector('.orb-node-btn').classList.contains('active') ? 20 : z;
 
       positionPopup(wrap, popup, x, y, stageW, stageH);
     });
