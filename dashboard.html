@@ -672,6 +672,26 @@
             <input type="email" id="s-whatsapp" class="input-field" placeholder="you@business.com" readonly style="cursor:default;opacity:0.6;">
           </div>
           <div>
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Business type</label>
+            <select id="s-btype" class="input-field">
+              <option value="">Select business type…</option>
+              <option value="restaurant_fine">Restaurant – Fine Dining</option>
+              <option value="restaurant_casual">Restaurant – Casual Dining</option>
+              <option value="restaurant_fast">Restaurant – Fast Food</option>
+              <option value="cafe">Café / Coffee Shop</option>
+              <option value="bar">Bar / Pub</option>
+              <option value="retail">Retail Store</option>
+              <option value="salon">Salon / Spa</option>
+              <option value="gym">Gym / Fitness Center</option>
+              <option value="medical">Medical / Healthcare</option>
+              <option value="automotive">Automotive Services</option>
+              <option value="home_services">Home Services</option>
+              <option value="professional">Professional Services</option>
+              <option value="hotel">Hotel / Lodging</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
             <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">AI reply tone</label>
             <select id="s-tone" class="input-field">
               <option value="professional">Professional</option>
@@ -822,6 +842,7 @@ async function init() {
   document.getElementById('s-name').value      = profile.business_name   || ''
   document.getElementById('s-maps').value      = profile.google_maps_url || ''
   document.getElementById('s-whatsapp').value  = profile.whatsapp_number || profile.notification_email || user.email || ''
+  document.getElementById('s-btype').value     = profile.business_type   || ''
   document.getElementById('s-tone').value      = profile.tone_preference || 'professional'
   document.getElementById('s-lang').value      = profile.reply_language  || 'auto'
 
@@ -1161,8 +1182,9 @@ async function callGenerateReply(name, rating, text) {
         rating,
         reviewText:   text,
         businessName: profile.business_name || '',
-        tone:         document.getElementById('s-tone')?.value || profile.tone_preference || 'professional',
-        language:     document.getElementById('s-lang')?.value || profile.reply_language  || 'auto',
+        businessType: document.getElementById('s-btype')?.value || profile.business_type  || '',
+        tone:         document.getElementById('s-tone')?.value  || profile.tone_preference || 'professional',
+        language:     document.getElementById('s-lang')?.value  || profile.reply_language  || 'auto',
       }),
     })
     const json = await res.json()
@@ -1265,6 +1287,7 @@ async function saveSettings() {
     business_name:      document.getElementById('s-name').value.trim(),
     google_maps_url:    document.getElementById('s-maps').value.trim(),
     notification_email: document.getElementById('s-whatsapp').value.trim(),
+    business_type:      document.getElementById('s-btype').value,
     tone_preference:    document.getElementById('s-tone').value,
     reply_language:     document.getElementById('s-lang').value,
     updated_at:         new Date().toISOString()

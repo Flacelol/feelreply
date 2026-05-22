@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     const active = prof?.plan && prof.plan !== 'free' && (!prof.plan_expires_at || new Date(prof.plan_expires_at) > new Date())
     if (!active) return new Response(JSON.stringify({ error: 'No active subscription' }), { status: 403, headers: corsHeaders })
 
-    const { reviewerName, rating, reviewText, businessName, tone = 'professional', language = 'auto' } = await req.json()
+    const { reviewerName, rating, reviewText, businessName, businessType = '', tone = 'professional', language = 'auto' } = await req.json()
 
     const toneGuide: Record<string, string> = {
       professional: 'professional and polished, business-appropriate',
@@ -63,8 +63,28 @@ Deno.serve(async (req) => {
               : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
     }
 
-    const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
+    const businessTypeLabels: Record<string, string> = {
+      restaurant_fine:  'fine dining restaurant',
+      restaurant_casual:'casual dining restaurant',
+      restaurant_fast:  'fast food restaurant',
+      cafe:             'café or coffee shop',
+      bar:              'bar or pub',
+      retail:           'retail store',
+      salon:            'salon or spa',
+      gym:              'gym or fitness center',
+      medical:          'medical or healthcare clinic',
+      automotive:       'automotive services business',
+      home_services:    'home services business',
+      professional:     'professional services firm',
+      hotel:            'hotel or lodging',
+      other:            'local business',
+    }
+    const btypeDesc = businessType && businessTypeLabels[businessType]
+      ? `This is a ${businessTypeLabels[businessType]} — use industry-appropriate vocabulary in your reply.`
+      : ''
 
+    const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
+${btypeDesc ? `\n${btypeDesc}` : ''}
 ${reviewLang}
 
 Rules:
