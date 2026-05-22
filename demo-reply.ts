@@ -25,9 +25,18 @@ Deno.serve(async (req) => {
     const toneDesc  = toneGuide[tone] || toneGuide.professional
     const sentiment = rating >= 4 ? 'positive' : rating === 3 ? 'mixed/neutral' : 'negative'
 
-    const reviewLang = reviewText && reviewText !== '(no written review)'
-      ? `IMPORTANT: Carefully detect the exact language of the review text. You MUST reply in that exact same language. Ukrainian and Russian are different languages — if the review is in Ukrainian, reply in Ukrainian. The ONLY exception: if the review is in Russian (not Ukrainian), reply in English instead.`
-      : `Reply in English.`
+    const effectiveText = (reviewText && reviewText !== '(no written review)') ? reviewText : ''
+    const hasCyrillic = /[Ѐ-ӿ]/.test(effectiveText)
+    const hasUkrainianOnly = /[іїєґІЇЄҐ]/.test(effectiveText)
+    const isRussian = hasCyrillic && !hasUkrainianOnly
+
+    const reviewLang = !effectiveText
+      ? `Reply in English.`
+      : isRussian
+        ? `IMPORTANT: The review is in Russian. You MUST reply in English.`
+        : hasCyrillic
+          ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
+          : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
 
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
 
