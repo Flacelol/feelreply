@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     const active = prof?.plan && prof.plan !== 'free' && (!prof.plan_expires_at || new Date(prof.plan_expires_at) > new Date())
     if (!active) return new Response(JSON.stringify({ error: 'No active subscription' }), { status: 403, headers: corsHeaders })
 
-    const { reviewerName, rating, reviewText, businessName, tone = 'professional' } = await req.json()
+    const { reviewerName, rating, reviewText, businessName, tone = 'professional', language = 'auto' } = await req.json()
 
     const toneGuide: Record<string, string> = {
       professional: 'professional and polished, business-appropriate',
@@ -40,19 +40,28 @@ Deno.serve(async (req) => {
     const toneDesc  = toneGuide[tone] || toneGuide.professional
     const sentiment = rating >= 4 ? 'positive' : rating === 3 ? 'mixed/neutral' : 'negative'
 
-    const hasCyrillic       = /[Ѐ-ӿ]/.test(reviewText || '')
-    const hasUkrainianChars = /[іїєґІЇЄҐ]/.test(reviewText || '')  // letters unique to Ukrainian
-    const hasRussianChars   = /[ыэъёЫЭЪЁ]/.test(reviewText || '')  // letters unique to Russian
+    const langNames: Record<string, string> = {
+      en: 'English', fr: 'French', es: 'Spanish', it: 'Italian',
+      de: 'German',  pt: 'Portuguese', uk: 'Ukrainian',
+    }
 
-    const reviewLang = !reviewText
-      ? `Reply in English.`
-      : hasRussianChars && !hasUkrainianChars
-        ? `IMPORTANT: The review is in Russian. You MUST reply in English.`
-        : hasUkrainianChars && !hasRussianChars
-          ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
-          : hasCyrillic
+    let reviewLang: string
+    if (language !== 'auto' && langNames[language]) {
+      reviewLang = `IMPORTANT: You MUST reply in ${langNames[language]}, regardless of what language the review is written in.`
+    } else {
+      const hasCyrillic       = /[Ѐ-ӿ]/.test(reviewText || '')
+      const hasUkrainianChars = /[іїєґІЇЄҐ]/.test(reviewText || '')
+      const hasRussianChars   = /[ыэъёЫЭЪЁ]/.test(reviewText || '')
+      reviewLang = !reviewText
+        ? `Reply in English.`
+        : hasRussianChars && !hasUkrainianChars
+          ? `IMPORTANT: The review is in Russian. You MUST reply in English.`
+          : hasUkrainianChars && !hasRussianChars
             ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
-            : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
+            : hasCyrillic
+              ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
+              : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
+    }
 
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
 

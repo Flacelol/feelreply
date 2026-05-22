@@ -40,6 +40,8 @@ Deno.serve(async (req) => {
             ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
             : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
 
+    // Demo always uses auto-detection (no manual language override)
+
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
 
 ${reviewLang}
