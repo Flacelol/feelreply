@@ -367,6 +367,7 @@
       <div id="nav-switcher-pill"></div>
       <a href="#how" class="nav-sw-link" data-section="how">How It Works</a>
       <a href="#features" class="nav-sw-link" data-section="features">Features</a>
+      <a href="#demo" class="nav-sw-link" data-section="demo">Demo</a>
       <a href="#testimonials" class="nav-sw-link" data-section="testimonials">Reviews</a>
       <a href="#pricing" class="nav-sw-link" data-section="pricing">Pricing</a>
     </div>
@@ -393,6 +394,7 @@
     <div style="border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);overflow:hidden;">
       <a href="#how"           onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">How It Works</a>
       <a href="#features"      onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">Features</a>
+      <a href="#demo"          onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">Demo</a>
       <a href="#testimonials"  onclick="toggleMobileMenu()" class="mob-nav-link" style="border-bottom:1px solid rgba(255,255,255,0.06);">Reviews</a>
       <a href="#pricing"       onclick="toggleMobileMenu()" class="mob-nav-link">Pricing</a>
     </div>
@@ -924,6 +926,215 @@
 
   tick();
 })();
+</script>
+
+<div class="sep" style="max-width:72rem;margin:0 auto;"></div>
+
+<!-- ══════════════════════════════════════════
+     LIVE DEMO
+════════════════════════════════════════════ -->
+<section id="demo" style="padding:6rem 1rem;">
+  <div style="max-width:680px;margin:0 auto;">
+
+    <!-- Section header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <span style="display:inline-block;border:1px solid rgba(167,139,250,0.3);padding:4px 16px;border-radius:8px;font-size:.8125rem;color:#a1a1aa;letter-spacing:.04em;margin-bottom:1.25rem;">Try It Live</span>
+      <h2 style="font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.1;margin-bottom:.875rem;">
+        See FeelReply in action
+      </h2>
+      <p style="font-size:1rem;color:#71717a;line-height:1.7;max-width:480px;margin:0 auto;">
+        Type any review below and watch AI craft a perfect reply in seconds.
+      </p>
+    </div>
+
+    <!-- Demo card -->
+    <div style="background:#111;border:1px solid #1f1f1f;border-radius:20px;overflow:hidden;box-shadow:0 0 60px rgba(124,58,237,0.08);">
+
+      <!-- Card header -->
+      <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #1f1f1f;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+        <div style="display:flex;align-items:center;gap:.875rem;">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">🍕</div>
+          <div>
+            <div style="font-size:.9375rem;font-weight:700;color:#fff;">Tony's Pizzeria</div>
+            <div style="font-size:.75rem;color:#52525b;">Tone: <span style="color:#a78bfa;" id="demo-tone-label">Professional</span></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#52525b;flex-shrink:0;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#7c3aed"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          AI-Powered
+        </div>
+      </div>
+
+      <!-- Card body -->
+      <div style="padding:1.75rem 1.5rem;display:flex;flex-direction:column;gap:1.5rem;">
+
+        <!-- Tone selector -->
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:.625rem;">Reply tone</label>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem;" id="demo-tone-pills">
+            <button class="demo-pill active" data-tone="professional" onclick="setDemoTone(this)">Professional</button>
+            <button class="demo-pill" data-tone="friendly" onclick="setDemoTone(this)">Friendly & Warm</button>
+            <button class="demo-pill" data-tone="casual" onclick="setDemoTone(this)">Casual</button>
+            <button class="demo-pill" data-tone="empathetic" onclick="setDemoTone(this)">Empathetic</button>
+            <button class="demo-pill" data-tone="formal" onclick="setDemoTone(this)">Formal</button>
+          </div>
+        </div>
+
+        <!-- Star rating -->
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:.625rem;">Star rating</label>
+          <div style="display:flex;align-items:center;gap:.5rem;">
+            <div id="demo-stars" style="display:flex;gap:.25rem;">
+              <span class="demo-star active" data-v="1" onclick="setDemoRating(1)">★</span>
+              <span class="demo-star active" data-v="2" onclick="setDemoRating(2)">★</span>
+              <span class="demo-star active" data-v="3" onclick="setDemoRating(3)">★</span>
+              <span class="demo-star active" data-v="4" onclick="setDemoRating(4)">★</span>
+              <span class="demo-star" data-v="5" onclick="setDemoRating(5)">★</span>
+            </div>
+            <span id="demo-rating-label" style="font-size:.8125rem;color:#a78bfa;font-weight:500;">Positive</span>
+          </div>
+        </div>
+
+        <!-- Review text -->
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:.625rem;">Type a review to test</label>
+          <textarea id="demo-review-text" placeholder="e.g. Great pizza but parking was a nightmare…" style="width:100%;background:#0d0d0d;border:1px solid #262626;border-radius:12px;padding:1rem;font-size:.9375rem;color:#d4d4d8;line-height:1.65;resize:none;height:90px;outline:none;transition:border-color .2s;font-family:inherit;box-sizing:border-box;" onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='#262626'"></textarea>
+        </div>
+
+        <!-- Generate button -->
+        <button id="demo-btn" onclick="runDemo()" style="width:100%;padding:1rem;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;border-radius:12px;font-size:1rem;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .2s,transform .15s;" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span id="demo-btn-label">Generate AI Reply</span>
+        </button>
+
+        <!-- Result -->
+        <div id="demo-result" style="display:none;">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+            <div style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7c3aed,#4f46e5);display:flex;align-items:center;justify-content:center;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <span style="font-size:.8125rem;font-weight:600;color:#a78bfa;text-transform:uppercase;letter-spacing:.06em;">AI Reply Draft</span>
+          </div>
+          <div style="background:#16082e;border:1px solid #2d1855;border-radius:12px;padding:1.25rem;">
+            <p id="demo-result-text" style="margin:0;font-size:.9375rem;color:#d4d4d8;line-height:1.75;white-space:pre-wrap;"></p>
+          </div>
+          <div style="margin-top:1rem;display:flex;gap:.625rem;justify-content:flex-end;">
+            <button onclick="copyDemoReply()" style="padding:.5rem 1rem;background:transparent;border:1px solid #262626;border-radius:8px;font-size:.8125rem;color:#a1a1aa;cursor:pointer;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#7c3aed';this.style.color='#a78bfa'" onmouseout="this.style.borderColor='#262626';this.style.color='#a1a1aa'" id="demo-copy-btn">Copy reply</button>
+            <a href="/dashboard.html" style="padding:.5rem 1rem;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;border-radius:8px;font-size:.8125rem;font-weight:600;color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:.375rem;">
+              Get started →
+            </a>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div id="demo-error" style="display:none;background:#1a0a0a;border:1px solid #3f1111;border-radius:12px;padding:1rem;">
+          <p id="demo-error-text" style="margin:0;font-size:.875rem;color:#f87171;"></p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .demo-pill {
+    padding: .375rem .875rem;
+    border-radius: 20px;
+    font-size: .8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid #262626;
+    background: transparent;
+    color: #71717a;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .demo-pill:hover { border-color: #7c3aed; color: #a78bfa; }
+  .demo-pill.active { border-color: #7c3aed; background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .demo-star {
+    font-size: 1.625rem;
+    cursor: pointer;
+    color: #3f3f46;
+    transition: color .15s;
+    user-select: none;
+  }
+  .demo-star.active { color: #f59e0b; }
+</style>
+
+<script>
+  let demoRating = 4;
+  let demoTone   = 'professional';
+
+  const toneLabels = {
+    professional: 'Professional',
+    friendly:     'Friendly & Warm',
+    casual:       'Casual',
+    empathetic:   'Empathetic',
+    formal:       'Formal',
+  };
+
+  function setDemoRating(v) {
+    demoRating = v;
+    document.querySelectorAll('.demo-star').forEach(s => {
+      s.classList.toggle('active', +s.dataset.v <= v);
+    });
+    const label = v >= 4 ? 'Positive' : v === 3 ? 'Neutral' : 'Negative';
+    document.getElementById('demo-rating-label').textContent = label;
+  }
+
+  function setDemoTone(el) {
+    demoTone = el.dataset.tone;
+    document.querySelectorAll('.demo-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('demo-tone-label').textContent = toneLabels[demoTone] || demoTone;
+  }
+
+  async function runDemo() {
+    const reviewText = document.getElementById('demo-review-text').value.trim();
+    const btn        = document.getElementById('demo-btn');
+    const btnLabel   = document.getElementById('demo-btn-label');
+    const result     = document.getElementById('demo-result');
+    const errorBox   = document.getElementById('demo-error');
+
+    result.style.display   = 'none';
+    errorBox.style.display = 'none';
+    btn.disabled  = true;
+    btnLabel.textContent = 'Generating…';
+
+    try {
+      const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/demo-reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reviewerName: 'Guest',
+          rating:       demoRating,
+          reviewText:   reviewText || '(no written review)',
+          businessName: "Tony's Pizzeria",
+          tone:         demoTone,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || json.error) throw new Error(json.error || `Error ${res.status}`);
+      document.getElementById('demo-result-text').textContent = json.draft;
+      result.style.display = 'flex';
+      result.style.flexDirection = 'column';
+    } catch (err) {
+      document.getElementById('demo-error-text').textContent = err.message;
+      errorBox.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btnLabel.textContent = 'Generate AI Reply';
+    }
+  }
+
+  function copyDemoReply() {
+    const text = document.getElementById('demo-result-text').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('demo-copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy reply'; }, 2000);
+    });
+  }
 </script>
 
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
@@ -1531,7 +1742,7 @@
       }, 80);
     });
 
-    const sectionIds = ['how','features','testimonials','pricing'];
+    const sectionIds = ['how','features','demo','testimonials','pricing'];
     function updateActive() {
       let cur = null;
       for(const id of sectionIds) {
