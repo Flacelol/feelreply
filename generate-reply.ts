@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
         : hasUkrainianChars && !hasRussianChars
           ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
           : hasCyrillic
-            ? `IMPORTANT: The review is in Cyrillic script. Determine carefully whether it is Russian or Ukrainian. If Russian, reply in English. If Ukrainian, reply in Ukrainian.`
+            ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
             : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
 
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
