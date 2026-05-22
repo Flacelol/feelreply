@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     const sentiment = rating >= 4 ? 'positive' : rating === 3 ? 'mixed/neutral' : 'negative'
 
     const reviewLang = reviewText && reviewText !== '(no written review)'
-      ? `IMPORTANT: The review is written in a specific language. You MUST reply in that exact same language. The only exception is Russian — if the review is in Russian, reply in English.`
+      ? `IMPORTANT: Carefully detect the exact language of the review text. You MUST reply in that exact same language. Ukrainian and Russian are different languages — if the review is in Ukrainian, reply in Ukrainian. The ONLY exception: if the review is in Russian (not Ukrainian), reply in English instead.`
       : `Reply in English.`
 
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
