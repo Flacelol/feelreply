@@ -40,19 +40,19 @@ Deno.serve(async (req) => {
     const toneDesc  = toneGuide[tone] || toneGuide.professional
     const sentiment = rating >= 4 ? 'positive' : rating === 3 ? 'mixed/neutral' : 'negative'
 
-    // Detect Cyrillic script server-side so GPT never has to guess
-    const hasCyrillic = /[Ѐ-ӿ]/.test(reviewText || '')
-    // Ukrainian-only letters that never appear in Russian
-    const hasUkrainianOnly = /[іїєґІЇЄҐ]/.test(reviewText || '')
-    const isRussian = hasCyrillic && !hasUkrainianOnly
+    const hasCyrillic       = /[Ѐ-ӿ]/.test(reviewText || '')
+    const hasUkrainianChars = /[іїєґІЇЄҐ]/.test(reviewText || '')  // letters unique to Ukrainian
+    const hasRussianChars   = /[ыэъёЫЭЪЁ]/.test(reviewText || '')  // letters unique to Russian
 
     const reviewLang = !reviewText
       ? `Reply in English.`
-      : isRussian
+      : hasRussianChars && !hasUkrainianChars
         ? `IMPORTANT: The review is in Russian. You MUST reply in English.`
-        : hasCyrillic
+        : hasUkrainianChars && !hasRussianChars
           ? `IMPORTANT: The review is in Ukrainian. You MUST reply in Ukrainian.`
-          : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
+          : hasCyrillic
+            ? `IMPORTANT: The review is in Cyrillic script. Determine carefully whether it is Russian or Ukrainian. If Russian, reply in English. If Ukrainian, reply in Ukrainian.`
+            : `IMPORTANT: Detect the language of the review and reply in that exact same language.`
 
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
 
