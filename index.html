@@ -1104,7 +1104,10 @@
     try {
       const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/demo-reply', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFscWV2YmRwZXV3cm9zamN2YXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDQxNDksImV4cCI6MjA5MzU4MDE0OX0.pb8d-ZCnDJuJR42-hTfF_O-5xDdIYaAukHj5sXCxXtE',
+        },
         body: JSON.stringify({
           reviewerName: 'Guest',
           rating:       demoRating,
