@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     const active = prof?.plan && prof.plan !== 'free' && (!prof.plan_expires_at || new Date(prof.plan_expires_at) > new Date())
     if (!active) return new Response(JSON.stringify({ error: 'No active subscription' }), { status: 403, headers: corsHeaders })
 
-    const { reviewerName, rating, reviewText, businessName, tone = 'professional', language = 'en' } = await req.json()
+    const { reviewerName, rating, reviewText, businessName, tone = 'professional' } = await req.json()
 
     const toneGuide: Record<string, string> = {
       professional: 'professional and polished, business-appropriate',
@@ -40,15 +40,9 @@ Deno.serve(async (req) => {
     const toneDesc  = toneGuide[tone] || toneGuide.professional
     const sentiment = rating >= 4 ? 'positive' : rating === 3 ? 'mixed/neutral' : 'negative'
 
-    const langNames: Record<string, string> = {
-      en: 'English', fr: 'French', es: 'Spanish', it: 'Italian',
-      de: 'German',  pt: 'Portuguese', uk: 'Ukrainian',
-    }
-    const langName = langNames[language] || 'English'
-
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
 Rules:
-- Write the entire reply in ${langName}. Regardless of the language the review is written in, always respond in ${langName}.
+- Detect the language of the review text and reply in that same language. Exception: if the review is in Russian, always reply in English. If there is no review text, reply in English.
 - 2–4 sentences maximum. Concise.
 - Never start with "Thank you for your review", "We appreciate your feedback", or any cliché opener.
 - Vary your openings. Be natural and human, not corporate.

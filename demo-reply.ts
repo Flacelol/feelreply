@@ -27,6 +27,7 @@ Deno.serve(async (req) => {
 
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
 Rules:
+- Detect the language of the review text and reply in that same language. Exception: if the review is in Russian, always reply in English. If there is no review text, reply in English.
 - 2–4 sentences maximum. Concise.
 - Never start with "Thank you for your review", "We appreciate your feedback", or any cliché opener.
 - Vary your openings. Be natural and human, not corporate.
