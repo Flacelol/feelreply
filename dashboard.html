@@ -860,6 +860,17 @@ async function init() {
   const customToneEl = document.getElementById('s-custom-tone')
   if (customToneEl) customToneEl.value         = profile.custom_tone_prompt || ''
 
+  // Auto-post toggle — pre-fill + auto-save on change
+  const autoPostToggle = document.getElementById('auto-post-toggle')
+  if (autoPostToggle) {
+    autoPostToggle.checked = !!profile.auto_post_enabled
+    autoPostToggle.addEventListener('change', async () => {
+      profile.auto_post_enabled = autoPostToggle.checked
+      await sb.from('profiles').update({ auto_post_enabled: autoPostToggle.checked }).eq('id', user.id)
+      loadDrafts() // re-render to show/hide countdowns
+    })
+  }
+
   // Handle Stripe success return — poll for webhook, never trust URL params
   const params = new URLSearchParams(window.location.search)
   let cameFromPayment = false
@@ -1260,7 +1271,7 @@ function draftCard(d) {
       ${d.status === 'pending' ? `
       ${(() => {
         const f = FEATURES[profile?.plan] || FEATURES.free
-        if (f.autoPost && d.created_at) {
+        if (f.autoPost && profile?.auto_post_enabled && d.created_at) {
           const autoAt = new Date(new Date(d.created_at).getTime() + 24*60*60*1000)
           const remaining = autoAt - Date.now()
           if (remaining > 0) {

@@ -50,10 +50,10 @@ Deno.serve(async (req) => {
   let skipped  = 0
 
   for (const draft of drafts) {
-    // Check user has an active Pro or Max plan (auto-post is Pro/Max only)
+    // Check user has an active Pro or Max plan AND has enabled auto-post
     const { data: profile } = await sb
       .from('profiles')
-      .select('plan, plan_expires_at')
+      .select('plan, plan_expires_at, auto_post_enabled')
       .eq('id', draft.user_id)
       .single()
 
@@ -63,7 +63,7 @@ Deno.serve(async (req) => {
       ['pro', 'max'].includes(plan) &&
       (!expires || new Date(expires) > new Date())
 
-    if (!isPro) { skipped++; continue }
+    if (!isPro || !profile?.auto_post_enabled) { skipped++; continue }
 
     const [r1, r2] = await Promise.all([
       sb.from('reply_drafts').update({ status: 'approved' }).eq('id', draft.id),

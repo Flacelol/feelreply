@@ -27,6 +27,8 @@ alter table public.profiles add column if not exists reply_language text default
 alter table public.profiles add column if not exists business_type text;
 -- Add custom_tone_prompt if upgrading an existing database (Max plan)
 alter table public.profiles add column if not exists custom_tone_prompt text;
+-- Add auto_post_enabled if upgrading an existing database (Pro/Max)
+alter table public.profiles add column if not exists auto_post_enabled boolean default false;
 
 create table if not exists public.reviews (
   id            uuid default gen_random_uuid() primary key,
