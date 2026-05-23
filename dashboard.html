@@ -600,10 +600,6 @@
             <p id="an-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
           </div>
           <div class="stat-card">
-            <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Reply Rate</p>
-            <p id="an-reply-rate" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
-          </div>
-          <div class="stat-card">
             <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Rating</p>
             <p id="an-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
           </div>
@@ -1441,14 +1437,11 @@ async function loadAnalytics() {
   const rows   = reviewsRes.data || []
   const drafts = draftsRes.data  || []
 
-  const total    = rows.length
-  const replied  = rows.filter(r => r.status === 'replied').length
-  const replyPct = total ? Math.round((replied / total) * 100) : 0
-  const avg      = total ? (rows.reduce((s,r) => s + r.rating, 0) / total).toFixed(1) : null
+  const total = rows.length
+  const avg   = total ? (rows.reduce((s,r) => s + r.rating, 0) / total).toFixed(1) : null
 
-  document.getElementById('an-total').textContent      = total
-  document.getElementById('an-reply-rate').textContent = replyPct + '%'
-  document.getElementById('an-avg').textContent        = avg ? avg + ' ★' : '–'
+  document.getElementById('an-total').textContent = total
+  document.getElementById('an-avg').textContent   = avg ? avg + ' ★' : '–'
 
   // Avg reply time (review.created_at → approved draft.created_at)
   const reviewMap = {}
