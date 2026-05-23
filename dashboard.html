@@ -1243,6 +1243,22 @@ function draftCard(d) {
         <p id="dt-${d.id}" style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;white-space:pre-line;">${d.draft_text}</p>
       </div>
       ${d.status === 'pending' ? `
+      ${(() => {
+        const f = FEATURES[profile?.plan] || FEATURES.free
+        if (f.autoPost && d.created_at) {
+          const autoAt = new Date(new Date(d.created_at).getTime() + 24*60*60*1000)
+          const remaining = autoAt - Date.now()
+          if (remaining > 0) {
+            const h = Math.floor(remaining / 3600000)
+            const m = Math.floor((remaining % 3600000) / 60000)
+            return `<div style="display:flex;align-items:center;gap:.375rem;margin-bottom:.625rem;font-size:.75rem;color:#52525b;">
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>
+              Auto-posts in <strong style="color:#a78bfa;">${h}h ${m}m</strong> if not approved
+            </div>`
+          }
+        }
+        return ''
+      })()}
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         <button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="approveDraft('${d.id}','${d.review_id}')">✓ Approve</button>
         <button class="btn-g" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="editDraft('${d.id}')">Edit</button>
