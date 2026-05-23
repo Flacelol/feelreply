@@ -724,13 +724,14 @@
               <option value="uk">Ukrainian</option>
             </select>
           </div>
-          <!-- Per-location tone (Max) -->
+          <!-- Custom AI tone prompt (Max) -->
           <div id="s-custom-tone-section" style="display:none;">
-            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Custom tone per location</label>
-            <div style="display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;">
-              <input type="checkbox" id="s-custom-tone" style="width:16px;height:16px;accent-color:#7c3aed;cursor:pointer;">
-              <label for="s-custom-tone" style="font-size:.875rem;color:#a1a1aa;cursor:pointer;">Override AI tone per location</label>
-            </div>
+            <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">
+              Custom AI tone
+              <span style="margin-left:.375rem;font-size:.6875rem;font-weight:600;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.3);border-radius:4px;padding:1px 6px;color:#a78bfa;vertical-align:middle;">Max</span>
+            </label>
+            <textarea id="s-custom-tone" class="input-field" rows="3" placeholder="Describe your brand voice in your own words. E.g. 'We're a family-run trattoria — reply like a warm, welcoming host who takes pride in every dish. Never be corporate.'" style="resize:vertical;font-size:.8125rem;line-height:1.6;"></textarea>
+            <p style="font-size:.75rem;color:#3f3f46;margin-top:.375rem;">When set, this replaces the AI reply tone selector above for all your replies.</p>
           </div>
           <!-- White-label (Max) -->
           <div id="s-whitelabel-section" style="display:none;">
@@ -854,8 +855,10 @@ async function init() {
   document.getElementById('s-maps').value      = profile.google_maps_url || ''
   document.getElementById('s-whatsapp').value  = profile.whatsapp_number || profile.notification_email || user.email || ''
   document.getElementById('s-btype').value     = profile.business_type   || ''
-  document.getElementById('s-tone').value      = profile.tone_preference || 'professional'
-  document.getElementById('s-lang').value      = profile.reply_language  || 'auto'
+  document.getElementById('s-tone').value      = profile.tone_preference   || 'professional'
+  document.getElementById('s-lang').value      = profile.reply_language    || 'auto'
+  const customToneEl = document.getElementById('s-custom-tone')
+  if (customToneEl) customToneEl.value         = profile.custom_tone_prompt || ''
 
   // Handle Stripe success return — poll for webhook, never trust URL params
   const params = new URLSearchParams(window.location.search)
@@ -1193,9 +1196,10 @@ async function callGenerateReply(name, rating, text) {
         rating,
         reviewText:   text,
         businessName: profile.business_name || '',
-        businessType: document.getElementById('s-btype')?.value || profile.business_type  || '',
-        tone:         document.getElementById('s-tone')?.value  || profile.tone_preference || 'professional',
-        language:     document.getElementById('s-lang')?.value  || profile.reply_language  || 'auto',
+        businessType:      document.getElementById('s-btype')?.value        || profile.business_type    || '',
+        tone:              document.getElementById('s-tone')?.value         || profile.tone_preference  || 'professional',
+        language:          document.getElementById('s-lang')?.value         || profile.reply_language   || 'auto',
+        customTonePrompt:  document.getElementById('s-custom-tone')?.value?.trim() || profile.custom_tone_prompt || '',
       }),
     })
     const json = await res.json()
@@ -1314,10 +1318,11 @@ async function saveSettings() {
     business_name:      document.getElementById('s-name').value.trim(),
     google_maps_url:    document.getElementById('s-maps').value.trim(),
     notification_email: document.getElementById('s-whatsapp').value.trim(),
-    business_type:      document.getElementById('s-btype').value,
-    tone_preference:    document.getElementById('s-tone').value,
-    reply_language:     document.getElementById('s-lang').value,
-    updated_at:         new Date().toISOString()
+    business_type:       document.getElementById('s-btype').value,
+    tone_preference:     document.getElementById('s-tone').value,
+    reply_language:      document.getElementById('s-lang').value,
+    custom_tone_prompt:  (document.getElementById('s-custom-tone')?.value || '').trim() || null,
+    updated_at:          new Date().toISOString()
   }
 
   const { error } = await sb.from('profiles').upsert(updates)

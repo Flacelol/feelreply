@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     const active = prof?.plan && prof.plan !== 'free' && (!prof.plan_expires_at || new Date(prof.plan_expires_at) > new Date())
     if (!active) return new Response(JSON.stringify({ error: 'No active subscription' }), { status: 403, headers: corsHeaders })
 
-    const { reviewerName, rating, reviewText, businessName, businessType = '', tone = 'professional', language = 'auto' } = await req.json()
+    const { reviewerName, rating, reviewText, businessName, businessType = '', tone = 'professional', language = 'auto', customTonePrompt = '' } = await req.json()
 
     const toneGuide: Record<string, string> = {
       professional: 'professional and polished, business-appropriate',
@@ -37,7 +37,10 @@ Deno.serve(async (req) => {
       casual:       'casual and relaxed, but still professional',
       empathetic:   'empathetic and understanding — especially warm on negative reviews',
     }
-    const toneDesc  = toneGuide[tone] || toneGuide.professional
+    // Max plan: custom tone overrides preset
+    const toneDesc = customTonePrompt?.trim()
+      ? customTonePrompt.trim()
+      : toneGuide[tone] || toneGuide.professional
     const sentiment = rating >= 4 ? 'positive' : rating === 3 ? 'mixed/neutral' : 'negative'
 
     const langNames: Record<string, string> = {
