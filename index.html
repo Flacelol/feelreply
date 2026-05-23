@@ -720,9 +720,9 @@
     <div id="orbital-stage" style="position:relative;width:100%;height:560px;display:flex;align-items:center;justify-content:center;overflow:visible;">
 
       <!-- orbit ring -->
-      <div style="position:absolute;width:440px;height:440px;border-radius:50%;border:1px solid rgba(255,255,255,0.07);pointer-events:none;"></div>
+      <div id="orbit-ring" style="position:absolute;width:440px;height:440px;border-radius:50%;border:1px solid rgba(255,255,255,0.07);pointer-events:none;"></div>
       <!-- outer hint ring -->
-      <div style="position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(124,58,237,0.06);pointer-events:none;"></div>
+      <div id="orbit-ring-outer" style="position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(124,58,237,0.06);pointer-events:none;"></div>
 
       <!-- center orb -->
       <div style="position:absolute;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#4f46e5,#0ea5e9);display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 0 40px rgba(124,58,237,0.5);">
@@ -906,6 +906,9 @@
     popup.style.left = left + 'px';
   }
 
+  const ringEl      = document.getElementById('orbit-ring');
+  const ringOuterEl = document.getElementById('orbit-ring-outer');
+
   function tick() {
     if (autoRotate) angle = (angle + 0.25) % 360;
 
@@ -913,10 +916,15 @@
     const stageH = stage.offsetHeight;
     const cx0 = stageW / 2;
     const cy0 = stageH / 2;
+    const r   = RADIUS();
+
+    // Keep rings in sync with node radius
+    const d = r * 2 + 'px';
+    ringEl.style.width = ringEl.style.height = d;
+    ringOuterEl.style.width = ringOuterEl.style.height = (r * 2 + 60) + 'px';
 
     nodes.forEach(({ wrap, popup }, i) => {
       const rad = ((i / N) * 360 + angle) * Math.PI / 180;
-      const r   = RADIUS();
       const x   = cx0 + r * Math.cos(rad);
       const y   = cy0 + r * Math.sin(rad);
       const op  = Math.max(0.35, Math.min(1, 0.35 + 0.65 * ((1 + Math.sin(rad)) / 2)));
