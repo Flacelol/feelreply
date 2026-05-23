@@ -578,10 +578,16 @@
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 14px;
     background: rgba(255,255,255,0.02);
-    height: 88px;
+    height: auto;
+    min-height: 88px;
     cursor: default;
     opacity: 0;
-    transition: height .3s cubic-bezier(.4,0,.2,1), border-color .3s, background .3s, box-shadow .3s;
+    padding: 1.25rem 0;
+    transition: border-color .3s, background .3s, box-shadow .3s;
+  }
+  @media (min-width: 768px) {
+    .cat-item { height: 88px; min-height: unset; padding: 0; transition: height .3s cubic-bezier(.4,0,.2,1), border-color .3s, background .3s, box-shadow .3s; }
+    .cat-item:hover { height: 120px; }
   }
   .cat-item.in {
     animation: catIn 0.75s cubic-bezier(0.22,1,0.36,1) both;
@@ -589,7 +595,6 @@
   .cat-item.d1.in { animation-delay: 110ms; }
   .cat-item.d2.in { animation-delay: 220ms; }
   .cat-item:hover {
-    height: 120px;
     border-color: rgba(124,58,237,.55);
     background: rgba(124,58,237,.05);
     box-shadow: 0 4px 32px rgba(124,58,237,.15);
@@ -640,7 +645,7 @@
       <div class="cat-item">
         <div class="cat-bracket-tl"></div>
         <div class="cat-bracket-br"></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 28px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 1.5rem;">
           <div>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
               <span style="font-size:.75rem;font-weight:700;color:#7c3aed;letter-spacing:.06em;">01</span>
@@ -658,7 +663,7 @@
       <div class="cat-item d1">
         <div class="cat-bracket-tl"></div>
         <div class="cat-bracket-br"></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 28px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 1.5rem;">
           <div>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
               <span style="font-size:.75rem;font-weight:700;color:#7c3aed;letter-spacing:.06em;">02</span>
@@ -676,7 +681,7 @@
       <div class="cat-item d2">
         <div class="cat-bracket-tl"></div>
         <div class="cat-bracket-br"></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 28px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 1.5rem;">
           <div>
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">
               <span style="font-size:.75rem;font-weight:700;color:#7c3aed;letter-spacing:.06em;">03</span>
@@ -829,7 +834,7 @@
   const stage    = document.getElementById('orbital-stage');
   const nodesEl  = document.getElementById('orbital-nodes');
   const N        = FEATURES.length;
-  const RADIUS   = 220;
+  const RADIUS   = () => Math.min(220, stage.offsetWidth * 0.38);
   let angle      = 0;
   let autoRotate  = true;
   let activeIdx   = null;
@@ -911,8 +916,9 @@
 
     nodes.forEach(({ wrap, popup }, i) => {
       const rad = ((i / N) * 360 + angle) * Math.PI / 180;
-      const x   = cx0 + RADIUS * Math.cos(rad);
-      const y   = cy0 + RADIUS * Math.sin(rad);
+      const r   = RADIUS();
+      const x   = cx0 + r * Math.cos(rad);
+      const y   = cy0 + r * Math.sin(rad);
       const op  = Math.max(0.35, Math.min(1, 0.35 + 0.65 * ((1 + Math.sin(rad)) / 2)));
       const z   = Math.round(10 + 5 * Math.cos(rad));
 
