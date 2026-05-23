@@ -594,7 +594,7 @@
       </div>
       <!-- Analytics content -->
       <div id="analytics-content">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;margin-bottom:1.25rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.875rem;margin-bottom:1.25rem;">
           <div class="stat-card">
             <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
             <p id="an-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
@@ -607,14 +607,29 @@
             <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Rating</p>
             <p id="an-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
           </div>
+          <div class="stat-card">
+            <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Reply Time</p>
+            <p id="an-reply-time" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
+          </div>
         </div>
         <div class="glass" style="padding:1.5rem;margin-bottom:1rem;">
           <h3 style="font-size:.875rem;font-weight:600;color:#fff;margin-bottom:1.25rem;">Rating Breakdown</h3>
           <div id="an-rating-bars" style="display:flex;flex-direction:column;gap:.75rem;"></div>
         </div>
-        <div class="glass" style="padding:1.5rem;">
+        <div class="glass" style="padding:1.5rem;margin-bottom:1rem;">
           <h3 style="font-size:.875rem;font-weight:600;color:#fff;margin-bottom:1.25rem;">Monthly Activity</h3>
           <div id="an-monthly" style="display:flex;flex-direction:column;gap:.625rem;"></div>
+        </div>
+        <div class="glass" style="padding:1.5rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.625rem;margin-bottom:1.25rem;">
+            <h3 style="font-size:.875rem;font-weight:600;color:#fff;">Sentiment Trends</h3>
+            <div style="display:flex;align-items:center;gap:.875rem;">
+              <span style="display:flex;align-items:center;gap:.3rem;font-size:.75rem;color:#71717a;"><span style="width:9px;height:9px;border-radius:50%;background:#4ade80;display:inline-block;"></span>Positive</span>
+              <span style="display:flex;align-items:center;gap:.3rem;font-size:.75rem;color:#71717a;"><span style="width:9px;height:9px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>Neutral</span>
+              <span style="display:flex;align-items:center;gap:.3rem;font-size:.75rem;color:#71717a;"><span style="width:9px;height:9px;border-radius:50%;background:#f87171;display:inline-block;"></span>Negative</span>
+            </div>
+          </div>
+          <div id="an-sentiment" style="display:flex;flex-direction:column;gap:.75rem;"></div>
         </div>
       </div>
     </div>
@@ -1417,8 +1432,14 @@ async function loadAnalytics() {
   const f = FEATURES[profile?.plan] || FEATURES.free
   if (!f.analytics) return
 
-  const { data: rows, error } = await sb.from('reviews').select('*').eq('user_id', user.id)
-  if (error || !rows) return
+  // Fetch reviews and approved drafts in parallel
+  const [reviewsRes, draftsRes] = await Promise.all([
+    sb.from('reviews').select('*').eq('user_id', user.id),
+    sb.from('reply_drafts').select('review_id, created_at').eq('user_id', user.id).eq('status', 'approved'),
+  ])
+
+  const rows   = reviewsRes.data || []
+  const drafts = draftsRes.data  || []
 
   const total    = rows.length
   const replied  = rows.filter(r => r.status === 'replied').length
@@ -1428,6 +1449,27 @@ async function loadAnalytics() {
   document.getElementById('an-total').textContent      = total
   document.getElementById('an-reply-rate').textContent = replyPct + '%'
   document.getElementById('an-avg').textContent        = avg ? avg + ' ★' : '–'
+
+  // Avg reply time (review.created_at → approved draft.created_at)
+  const reviewMap = {}
+  rows.forEach(r => { reviewMap[r.id] = r.created_at })
+
+  const replyTimes = drafts
+    .filter(d => reviewMap[d.review_id])
+    .map(d => (new Date(d.created_at) - new Date(reviewMap[d.review_id])) / 3_600_000) // hours
+    .filter(h => h >= 0)
+
+  const avgHours   = replyTimes.length ? replyTimes.reduce((s,h) => s + h, 0) / replyTimes.length : null
+  const replyTimeEl = document.getElementById('an-reply-time')
+  if (replyTimeEl) {
+    replyTimeEl.textContent = avgHours === null
+      ? '–'
+      : avgHours < 1
+        ? Math.round(avgHours * 60) + 'm'
+        : avgHours < 24
+          ? avgHours.toFixed(1) + 'h'
+          : (avgHours / 24).toFixed(1) + 'd'
+  }
 
   // Rating distribution
   const counts = [0,0,0,0,0]
@@ -1446,26 +1488,31 @@ async function loadAnalytics() {
           <span style="font-size:.8125rem;color:#52525b;width:20px;text-align:right;flex-shrink:0;">${count}</span>
         </div>`
     }).join('')
-    // Animate bars
     setTimeout(() => {
       barsEl.querySelectorAll('[data-target]').forEach(b => { b.style.width = b.dataset.target + '%' })
     }, 60)
   }
 
-  // Monthly activity (last 6 months)
+  // Monthly activity + Sentiment trends (last 6 months)
   const now      = new Date()
   const monthlyEl = document.getElementById('an-monthly')
+  const sentEl    = document.getElementById('an-sentiment')
+  const months    = []
+
+  for (let i = 5; i >= 0; i--) {
+    const d         = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    const label     = d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+    const monthRows = rows.filter(r => {
+      const rd = new Date(r.created_at)
+      return rd.getFullYear() === d.getFullYear() && rd.getMonth() === d.getMonth()
+    })
+    const pos = monthRows.filter(r => r.rating >= 4).length
+    const neu = monthRows.filter(r => r.rating === 3).length
+    const neg = monthRows.filter(r => r.rating <= 2).length
+    months.push({ label, count: monthRows.length, pos, neu, neg })
+  }
+
   if (monthlyEl) {
-    const months = []
-    for (let i = 5; i >= 0; i--) {
-      const d     = new Date(now.getFullYear(), now.getMonth() - i, 1)
-      const label = d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
-      const count = rows.filter(r => {
-        const rd = new Date(r.created_at)
-        return rd.getFullYear() === d.getFullYear() && rd.getMonth() === d.getMonth()
-      }).length
-      months.push({ label, count })
-    }
     const maxM = Math.max(...months.map(m => m.count), 1)
     monthlyEl.innerHTML = months.map(m => {
       const pct = Math.round((m.count / maxM) * 100)
@@ -1478,6 +1525,30 @@ async function loadAnalytics() {
     }).join('')
     setTimeout(() => {
       monthlyEl.querySelectorAll('[data-target]').forEach(b => { b.style.width = b.dataset.target + '%' })
+    }, 60)
+  }
+
+  if (sentEl) {
+    const maxS = Math.max(...months.map(m => m.count), 1)
+    sentEl.innerHTML = months.map(m => {
+      // Each segment width is proportional to maxS (so bars scale relative to busiest month)
+      const totPct = Math.round((m.count / maxS) * 100)
+      const posPct = m.count > 0 ? Math.round((m.pos / m.count) * totPct) : 0
+      const neuPct = m.count > 0 ? Math.round((m.neu / m.count) * totPct) : 0
+      const negPct = m.count > 0 ? totPct - posPct - neuPct : 0
+      return `
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <span style="font-size:.8125rem;color:#71717a;width:48px;flex-shrink:0;">${m.label}</span>
+          <div style="flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;display:flex;">
+            <div class="sent-bar" data-w="${posPct}" style="width:0%;height:100%;background:#4ade80;transition:width .8s cubic-bezier(0.16,1,0.3,1);"></div>
+            <div class="sent-bar" data-w="${neuPct}" style="width:0%;height:100%;background:#fbbf24;transition:width .8s cubic-bezier(0.16,1,0.3,1);"></div>
+            <div class="sent-bar" data-w="${negPct}" style="width:0%;height:100%;background:#f87171;transition:width .8s cubic-bezier(0.16,1,0.3,1);"></div>
+          </div>
+          <span style="font-size:.8125rem;color:#52525b;width:20px;text-align:right;flex-shrink:0;">${m.count}</span>
+        </div>`
+    }).join('')
+    setTimeout(() => {
+      sentEl.querySelectorAll('.sent-bar').forEach(b => { b.style.width = b.dataset.w + '%' })
     }, 60)
   }
 }
