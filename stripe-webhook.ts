@@ -82,12 +82,13 @@ Deno.serve(async (req) => {
 
   try {
     if (event.type === 'checkout.session.completed') {
-      // Initial purchase — set plan + expiry + store customer ID
+      // New purchase or upgrade — set plan + expiry + store customer ID
       const session = event.data.object as Stripe.Checkout.Session
-      const userId     = session.metadata?.user_id
-      const plan       = session.metadata?.plan
-      const billing    = session.metadata?.billing
-      const customerId = session.customer as string
+      const userId        = session.metadata?.user_id
+      const plan          = session.metadata?.plan
+      const billing       = session.metadata?.billing
+      const customerId    = session.customer as string
+      const newSubId      = session.subscription as string
 
       if (userId && plan) {
         const { error } = await supabase.from('profiles').update({
@@ -97,6 +98,17 @@ Deno.serve(async (req) => {
           updated_at:         new Date().toISOString(),
         }).eq('id', userId)
         if (error) console.error('checkout.session.completed update error:', error)
+      }
+
+      // Cancel any old subscriptions so user isn't double-charged on upgrade
+      if (customerId && newSubId) {
+        const oldSubs = await stripe.subscriptions.list({ customer: customerId, status: 'active' })
+        for (const sub of oldSubs.data) {
+          if (sub.id !== newSubId) {
+            await stripe.subscriptions.cancel(sub.id)
+            console.log('Cancelled old subscription on upgrade:', sub.id)
+          }
+        }
       }
 
       await tg(
@@ -112,11 +124,20 @@ Deno.serve(async (req) => {
       const customerId = invoice.customer as string
       const isYearly   = invoice.lines?.data?.[0]?.plan?.interval === 'year'
 
+      // Derive plan from the product name on the invoice line item
+      const productName = invoice.lines?.data?.[0]?.description ?? ''
+      const renewedPlan = Object.entries(PLAN_IDS).find(([k]) => productName.includes(k))?.[1]
+
       if (customerId) {
-        const { error } = await supabase.from('profiles').update({
+        const updates: Record<string, string> = {
           plan_expires_at: isYearly ? addDays(365) : addDays(30),
           updated_at:      new Date().toISOString(),
-        }).eq('stripe_customer_id', customerId)
+        }
+        // Only update plan on renewal (not first invoice — checkout.session.completed handles that)
+        if (renewedPlan && invoice.billing_reason === 'subscription_cycle') {
+          updates.plan = renewedPlan
+        }
+        const { error } = await supabase.from('profiles').update(updates).eq('stripe_customer_id', customerId)
         if (error) console.error('invoice.payment_succeeded update error:', error)
       }
 
