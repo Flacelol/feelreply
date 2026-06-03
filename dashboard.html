@@ -633,10 +633,10 @@
 
   <!-- ════════ AGENCY ════════ -->
   <section id="sec-agency" style="padding:1.5rem 1.75rem;display:none;">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.875rem;margin-bottom:1.25rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.875rem;margin-bottom:1.25rem;">
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Locations</p>
-        <p id="ag-locations" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">0</p>
+        <p id="ag-locations" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
@@ -649,19 +649,85 @@
     </div>
     <div class="glass" style="padding:1.5rem;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem;">
-        <h3 style="font-size:.875rem;font-weight:600;color:#fff;">Locations</h3>
-        <button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="toast('Location management coming soon')">
+        <h3 style="font-size:.875rem;font-weight:600;color:#fff;">Client Locations</h3>
+        <button class="btn-p" id="ag-add-btn" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="openLocationModal()">
           <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
           Add location
         </button>
       </div>
-      <div class="empty-state" style="padding:3rem 1rem;">
-        <svg width="40" height="40" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
-        <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No locations yet</p>
-        <p style="font-size:.875rem;color:#3f3f46;max-width:260px;line-height:1.65;">Add your first location to start managing multiple client accounts from one dashboard.</p>
-      </div>
+      <div id="ag-locations-list"></div>
     </div>
   </section>
+
+  <!-- ════════ LOCATION MODAL ════════ -->
+  <div id="location-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;overflow-y:auto;padding:1.5rem;">
+    <div class="glass" style="max-width:480px;margin:2rem auto;padding:1.75rem;border-radius:18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+        <h3 id="loc-modal-title" style="font-size:1rem;font-weight:700;color:#fff;">Add Location</h3>
+        <button onclick="closeLocationModal()" style="background:none;border:none;color:#52525b;cursor:pointer;padding:.25rem;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <input type="hidden" id="loc-id">
+      <div style="display:flex;flex-direction:column;gap:.875rem;">
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Business name <span style="color:#f87171;">*</span></label>
+          <input type="text" id="loc-name" class="input-field" placeholder="e.g. La Bella Italia">
+        </div>
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Google Maps URL</label>
+          <input type="url" id="loc-maps" class="input-field" placeholder="https://maps.google.com/...">
+        </div>
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Business type</label>
+          <select id="loc-btype" class="input-field">
+            <option value="">Select type…</option>
+            <option value="restaurant_fine">Restaurant – Fine Dining</option>
+            <option value="restaurant_casual">Restaurant – Casual Dining</option>
+            <option value="restaurant_fast">Restaurant – Fast Food</option>
+            <option value="cafe">Café / Coffee Shop</option>
+            <option value="bar">Bar / Pub</option>
+            <option value="retail">Retail Store</option>
+            <option value="salon">Salon / Spa</option>
+            <option value="gym">Gym / Fitness Center</option>
+            <option value="medical">Medical / Healthcare</option>
+            <option value="automotive">Automotive Services</option>
+            <option value="home_services">Home Services</option>
+            <option value="professional">Professional Services</option>
+            <option value="hotel">Hotel / Lodging</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">AI reply tone</label>
+          <select id="loc-tone" class="input-field">
+            <option value="professional">Professional</option>
+            <option value="friendly">Friendly & Warm</option>
+            <option value="casual">Casual</option>
+            <option value="formal">Formal</option>
+            <option value="empathetic">Empathetic</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Reply language</label>
+          <select id="loc-lang" class="input-field">
+            <option value="auto">Automatic</option>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+            <option value="it">Italian</option>
+            <option value="de">German</option>
+            <option value="pt">Portuguese</option>
+            <option value="uk">Ukrainian</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:.625rem;margin-top:1.5rem;flex-wrap:wrap;">
+        <button id="loc-save-btn" class="btn-p" style="flex:1;" onclick="saveLocation()">Save location</button>
+        <button class="btn-g" style="flex:1;" onclick="closeLocationModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ════════ SETTINGS ════════ -->
   <section id="sec-settings" style="padding:1.5rem 1.75rem;display:none;">
@@ -942,6 +1008,7 @@ function showSection(key) {
   if (key === 'reviews')   loadReviews()
   if (key === 'drafts')    loadDrafts()
   if (key === 'analytics') loadAnalytics()
+  if (key === 'agency')    loadAgency()
 }
 
 // ── Reviews ──────────────────────────────────────────────
@@ -1561,6 +1628,154 @@ async function loadAnalytics() {
     }, 60)
   }
 }
+
+// ── Agency ───────────────────────────────────────────────
+const BTYPE_LABELS = {
+  restaurant_fine:'Fine Dining', restaurant_casual:'Casual Dining', restaurant_fast:'Fast Food',
+  cafe:'Café', bar:'Bar / Pub', retail:'Retail', salon:'Salon / Spa', gym:'Gym',
+  medical:'Medical', automotive:'Automotive', home_services:'Home Services',
+  professional:'Professional Services', hotel:'Hotel', other:'Other',
+}
+
+let _agencyLocations = []
+
+async function loadAgency() {
+  const listEl = document.getElementById('ag-locations-list')
+  if (listEl) listEl.innerHTML = loading()
+
+  const [locRes, revRes, draftRes] = await Promise.all([
+    sb.from('locations').select('*').eq('user_id', user.id).order('created_at'),
+    sb.from('reviews').select('id, location_id, status').eq('user_id', user.id),
+    sb.from('reply_drafts').select('id, location_id').eq('user_id', user.id).eq('status', 'pending'),
+  ])
+
+  _agencyLocations = locRes.data || []
+  const reviews    = revRes.data   || []
+  const pending    = draftRes.data || []
+
+  // Aggregate stats
+  document.getElementById('ag-locations').textContent = _agencyLocations.length
+  document.getElementById('ag-total').textContent     = reviews.length
+  document.getElementById('ag-pending').textContent   = pending.length
+
+  // Add button — hide if at Max limit (15)
+  const addBtn = document.getElementById('ag-add-btn')
+  if (addBtn) addBtn.style.display = _agencyLocations.length >= 15 ? 'none' : ''
+
+  if (!listEl) return
+
+  if (!_agencyLocations.length) {
+    listEl.innerHTML = `
+      <div class="empty-state" style="padding:3rem 1rem;">
+        <svg width="40" height="40" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+        <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No locations yet</p>
+        <p style="font-size:.875rem;color:#3f3f46;max-width:260px;line-height:1.65;">Add your first client location to start managing multiple businesses from one dashboard.</p>
+      </div>`
+    return
+  }
+
+  // Build per-location counts
+  const revCount  = {}
+  const penCount  = {}
+  reviews.forEach(r => { if (r.location_id) revCount[r.location_id] = (revCount[r.location_id] || 0) + 1 })
+  pending.forEach(d => { if (d.location_id) penCount[d.location_id] = (penCount[d.location_id] || 0) + 1 })
+
+  listEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.875rem;">${
+    _agencyLocations.map(loc => {
+      const rc = revCount[loc.id] || 0
+      const pc = penCount[loc.id] || 0
+      const btLabel = BTYPE_LABELS[loc.business_type] || ''
+      return `
+        <div class="glass" style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;">
+            <div>
+              <p style="font-size:.9375rem;font-weight:700;color:#fff;margin-bottom:2px;">${loc.business_name}</p>
+              ${btLabel ? `<p style="font-size:.75rem;color:#52525b;">${btLabel}</p>` : ''}
+            </div>
+            <div style="display:flex;gap:.375rem;flex-shrink:0;">
+              <button onclick="openLocationModal('${loc.id}')" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:.3rem .5rem;cursor:pointer;color:#71717a;font-size:.75rem;" title="Edit">
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/></svg>
+              </button>
+              <button onclick="deleteLocation('${loc.id}')" style="background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.15);border-radius:7px;padding:.3rem .5rem;cursor:pointer;color:#f87171;font-size:.75rem;" title="Delete">
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg>
+              </button>
+            </div>
+          </div>
+          <div style="display:flex;gap:1rem;">
+            <span style="font-size:.8125rem;color:#71717a;"><strong style="color:#d4d4d8;">${rc}</strong> reviews</span>
+            <span style="font-size:.8125rem;color:#71717a;"><strong style="color:${pc > 0 ? '#fbbf24' : '#d4d4d8'}">${pc}</strong> pending</span>
+          </div>
+          ${loc.google_maps_url ? `
+            <a href="${loc.google_maps_url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.375rem;font-size:.75rem;color:#a78bfa;text-decoration:none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+              <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+              View on Google Maps
+            </a>` : ''}
+        </div>`
+    }).join('')
+  }</div>`
+}
+
+function openLocationModal(locId = null) {
+  const loc = locId ? _agencyLocations.find(l => l.id === locId) : null
+  document.getElementById('loc-modal-title').textContent = loc ? 'Edit Location' : 'Add Location'
+  document.getElementById('loc-id').value        = loc?.id          || ''
+  document.getElementById('loc-name').value      = loc?.business_name   || ''
+  document.getElementById('loc-maps').value      = loc?.google_maps_url || ''
+  document.getElementById('loc-btype').value     = loc?.business_type   || ''
+  document.getElementById('loc-tone').value      = loc?.tone_preference || 'professional'
+  document.getElementById('loc-lang').value      = loc?.reply_language  || 'auto'
+  document.getElementById('location-modal').style.display = ''
+}
+
+function closeLocationModal() {
+  document.getElementById('location-modal').style.display = 'none'
+}
+
+async function saveLocation() {
+  const btn  = document.getElementById('loc-save-btn')
+  const id   = document.getElementById('loc-id').value
+  const name = document.getElementById('loc-name').value.trim()
+  if (!name) { toast('Business name is required', true); return }
+
+  btn.disabled = true; btn.textContent = 'Saving…'
+
+  const payload = {
+    user_id:        user.id,
+    business_name:  name,
+    google_maps_url: document.getElementById('loc-maps').value.trim() || null,
+    business_type:  document.getElementById('loc-btype').value || null,
+    tone_preference: document.getElementById('loc-tone').value,
+    reply_language:  document.getElementById('loc-lang').value,
+    updated_at:      new Date().toISOString(),
+  }
+
+  let error
+  if (id) {
+    ;({ error } = await sb.from('locations').update(payload).eq('id', id).eq('user_id', user.id))
+  } else {
+    if (_agencyLocations.length >= 15) { toast('Max 15 locations on Max plan', true); btn.disabled = false; btn.textContent = 'Save location'; return }
+    ;({ error } = await sb.from('locations').insert({ ...payload }))
+  }
+
+  btn.disabled = false; btn.textContent = 'Save location'
+  if (error) { toast(error.message, true); return }
+  closeLocationModal()
+  toast(id ? 'Location updated ✓' : 'Location added ✓')
+  loadAgency()
+}
+
+async function deleteLocation(id) {
+  if (!confirm('Delete this location? This cannot be undone.')) return
+  const { error } = await sb.from('locations').delete().eq('id', id).eq('user_id', user.id)
+  if (error) { toast(error.message, true); return }
+  toast('Location deleted')
+  loadAgency()
+}
+
+// Close modal on backdrop click
+document.getElementById('location-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('location-modal')) closeLocationModal()
+})
 
 // ── Plan / Billing ───────────────────────────────────────
 const PLAN_INFO = {

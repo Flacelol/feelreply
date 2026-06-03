@@ -27,6 +27,28 @@ alter table public.profiles add column if not exists reply_language text default
 alter table public.profiles add column if not exists business_type text;
 -- Add custom_tone_prompt if upgrading an existing database (Max plan)
 alter table public.profiles add column if not exists custom_tone_prompt text;
+
+-- ── Locations (Agency / Max plan) ───────────────────────────────────────────
+
+create table if not exists public.locations (
+  id              uuid default gen_random_uuid() primary key,
+  user_id         uuid references auth.users on delete cascade not null,
+  business_name   text not null,
+  google_maps_url text,
+  business_type   text,
+  tone_preference text default 'professional',
+  reply_language  text default 'en',
+  created_at      timestamptz default now(),
+  updated_at      timestamptz default now()
+);
+
+alter table public.locations enable row level security;
+create policy "own locations" on public.locations for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- Add location_id to reviews and reply_drafts for per-location tracking
+alter table public.reviews      add column if not exists location_id uuid references public.locations on delete set null;
+alter table public.reply_drafts add column if not exists location_id uuid references public.locations on delete set null;
 -- Add auto_post_enabled if upgrading an existing database (Pro/Max)
 alter table public.profiles add column if not exists auto_post_enabled boolean default false;
 
