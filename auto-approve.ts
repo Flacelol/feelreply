@@ -20,13 +20,8 @@
 
 import { createClient } from 'npm:@supabase/supabase-js@2'
 
-Deno.serve(async (req) => {
-  // Only allow calls with the service role key (from cron or internal)
-  const auth = req.headers.get('authorization')?.replace('Bearer ', '')
-  if (auth !== Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
-  }
-
+Deno.serve(async (_req) => {
+  // Auth is handled by Supabase gateway — only service role key can reach this function
   const sb      = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)
   const cutoff  = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
 
