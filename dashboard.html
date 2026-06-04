@@ -560,6 +560,14 @@
         <p id="s-pending" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
     </div>
+    <!-- Location filter banner (Agency / Max) -->
+    <div id="location-filter-banner" style="display:none;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.2);border-radius:12px;padding:.75rem 1.25rem;margin-bottom:1.25rem;display:none;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:.625rem;">
+        <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+        <span style="font-size:.875rem;font-weight:600;color:#a78bfa;" id="location-filter-name"></span>
+      </div>
+      <button onclick="clearLocationFilter()" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:.3rem .75rem;font-size:.75rem;color:#71717a;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#71717a'">← All locations</button>
+    </div>
     <!-- List -->
     <div id="reviews-list"></div>
   </section>
@@ -1017,6 +1025,7 @@ function showSection(key) {
   // Scroll main to top on section switch (mobile)
   document.getElementById('main').scrollTop = 0
 
+  if (key !== 'reviews') _locationFilter = null
   if (key === 'reviews')   loadReviews()
   if (key === 'drafts')    loadDrafts()
   if (key === 'analytics') loadAnalytics()
@@ -1028,11 +1037,20 @@ async function loadReviews() {
   const list = document.getElementById('reviews-list')
   list.innerHTML = loading()
 
-  const { data: rows, error } = await sb
-    .from('reviews')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
+  // Show/hide location filter banner
+  const banner = document.getElementById('location-filter-banner')
+  if (banner) {
+    if (_locationFilter) {
+      document.getElementById('location-filter-name').textContent = _locationFilter.name
+      banner.style.display = 'flex'
+    } else {
+      banner.style.display = 'none'
+    }
+  }
+
+  let query = sb.from('reviews').select('*').eq('user_id', user.id)
+  if (_locationFilter) query = query.eq('location_id', _locationFilter.id)
+  const { data: rows, error } = await query.order('created_at', { ascending: false })
 
   if (error) { list.innerHTML = errMsg(error.message); return }
 
@@ -1664,7 +1682,18 @@ const BTYPE_LABELS = {
   professional:'Professional Services', hotel:'Hotel', other:'Other',
 }
 
-let _agencyLocations = []
+let _agencyLocations    = []
+let _locationFilter     = null  // { id, name } or null = show all
+
+function filterByLocation(id, name) {
+  _locationFilter = { id, name }
+  showSection('reviews')
+}
+
+function clearLocationFilter() {
+  _locationFilter = null
+  loadReviews()
+}
 
 async function preloadLocations() {
   const { data } = await sb.from('locations').select('*').eq('user_id', user.id).order('created_at')
@@ -1718,7 +1747,7 @@ async function loadAgency() {
       const pc = penCount[loc.id] || 0
       const btLabel = BTYPE_LABELS[loc.business_type] || ''
       return `
-        <div class="glass" style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;">
+        <div class="glass" style="padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;cursor:pointer;transition:border-color .2s;" onclick="filterByLocation('${loc.id}','${loc.business_name.replace(/'/g,"\\'")}')">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;">
             <div>
               <p style="font-size:.9375rem;font-weight:700;color:#fff;margin-bottom:2px;">${loc.business_name}</p>
