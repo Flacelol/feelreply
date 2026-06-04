@@ -52,6 +52,14 @@ alter table public.reply_drafts add column if not exists location_id uuid refere
 -- Add auto_post_enabled if upgrading an existing database (Pro/Max)
 alter table public.profiles add column if not exists auto_post_enabled boolean default false;
 
+-- ── Demo rate limiting ───────────────────────────────────────────────────────
+create table if not exists public.demo_rate_limits (
+  ip       text primary key,
+  count    int  not null default 1,
+  reset_at timestamptz not null default (now() + interval '1 hour')
+);
+-- No RLS — accessed only via service role key from the edge function
+
 create table if not exists public.reviews (
   id            uuid default gen_random_uuid() primary key,
   user_id       uuid references auth.users on delete cascade not null,

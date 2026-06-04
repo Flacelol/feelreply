@@ -28,6 +28,21 @@ Deno.serve(async (req) => {
     const active = prof?.plan && prof.plan !== 'free' && (!prof.plan_expires_at || new Date(prof.plan_expires_at) > new Date())
     if (!active) return new Response(JSON.stringify({ error: 'No active subscription' }), { status: 403, headers: corsHeaders })
 
+    // ── Rate limit: max 50 AI replies per user per hour ───
+    const hourAgo = new Date(Date.now() - 3_600_000).toISOString()
+    const { count: recentCount } = await sb
+      .from('reply_drafts')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .gte('created_at', hourAgo)
+    if ((recentCount ?? 0) >= 50) {
+      return new Response(
+        JSON.stringify({ error: 'Rate limit: max 50 AI replies per hour. Try again later.' }),
+        { status: 429, headers: corsHeaders }
+      )
+    }
+    // ─────────────────────────────────────────────────────
+
     const { reviewerName, rating, reviewText, businessName, businessType = '', tone = 'professional', language = 'auto', customTonePrompt = '' } = await req.json()
 
     const toneGuide: Record<string, string> = {

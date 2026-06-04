@@ -2,17 +2,53 @@
 // Deploy: Supabase → Edge Functions → New Function → name "demo-reply" → paste → Deploy
 //
 // Secrets needed:
-//   OPENAI_API_KEY = sk-...
+//   OPENAI_API_KEY            = sk-...
+//   SUPABASE_URL              = auto-provided by Supabase
+//   SUPABASE_SERVICE_ROLE_KEY = auto-provided by Supabase
+
+import { createClient } from 'npm:@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'content-type, apikey, authorization',
 }
 
+const DEMO_LIMIT    = 5    // max requests per IP per hour
+const DEMO_WINDOW   = 3_600_000 // 1 hour in ms
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
+    // ── Rate limit by IP ──────────────────────────────────
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+              || req.headers.get('x-real-ip')
+              || 'unknown'
+
+    const sb  = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!)
+    const now = Date.now()
+
+    const { data: rl } = await sb
+      .from('demo_rate_limits')
+      .select('count, reset_at')
+      .eq('ip', ip)
+      .single()
+
+    if (rl && new Date(rl.reset_at).getTime() > now) {
+      if (rl.count >= DEMO_LIMIT) {
+        return new Response(
+          JSON.stringify({ error: 'Too many requests. Please try again in an hour.' }),
+          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+      await sb.from('demo_rate_limits').update({ count: rl.count + 1 }).eq('ip', ip)
+    } else {
+      await sb.from('demo_rate_limits').upsert({
+        ip, count: 1, reset_at: new Date(now + DEMO_WINDOW).toISOString()
+      })
+    }
+    // ─────────────────────────────────────────────────────
+
     const { reviewerName, rating, reviewText, businessName, tone = 'professional' } = await req.json()
 
     const toneGuide: Record<string, string> = {
