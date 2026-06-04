@@ -986,6 +986,8 @@ async function init() {
   updatePlanBadge(profile.plan)
   applyPlanFeatures(profile.plan)
   checkExpiryWarning()
+  const f = FEATURES[profile.plan] || FEATURES.free
+  if (f.agency) await preloadLocations()
   await loadReviews()
   document.getElementById('loading-screen').style.display = 'none'
   renderStarPicker(5)
@@ -1664,6 +1666,11 @@ const BTYPE_LABELS = {
 
 let _agencyLocations = []
 
+async function preloadLocations() {
+  const { data } = await sb.from('locations').select('*').eq('user_id', user.id).order('created_at')
+  _agencyLocations = data || []
+}
+
 async function loadAgency() {
   const listEl = document.getElementById('ag-locations-list')
   if (listEl) listEl.innerHTML = loading()
@@ -1674,7 +1681,7 @@ async function loadAgency() {
     sb.from('reply_drafts').select('id, location_id').eq('user_id', user.id).eq('status', 'pending'),
   ])
 
-  _agencyLocations = locRes.data || []
+  _agencyLocations = locRes.data || []  // keep cache in sync
   const reviews    = revRes.data   || []
   const pending    = draftRes.data || []
 
