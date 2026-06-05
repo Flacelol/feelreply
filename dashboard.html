@@ -529,7 +529,7 @@
     <div style="display:flex;align-items:center;gap:.625rem;">
       <button class="btn-p" id="btn-add-review" onclick="openModal()" style="display:none;font-size:.8125rem;padding:.45rem .9rem;">
         <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-        Add review
+        Test review
       </button>
     </div>
   </div>
@@ -884,7 +884,7 @@
 <div id="modal" class="modal-overlay" style="display:none;">
   <div class="glass" style="width:100%;max-width:460px;padding:1.75rem;border-radius:20px;animation:fadeIn .22s ease;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-      <h2 style="font-size:.9375rem;font-weight:700;color:#fff;">Add review manually</h2>
+      <h2 style="font-size:.9375rem;font-weight:700;color:#fff;">Test review manually</h2>
       <button onclick="closeModal()" style="background:none;border:none;color:#52525b;cursor:pointer;padding:4px;line-height:0;transition:color .15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#52525b'">
         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
@@ -911,7 +911,7 @@
       </div>
     </div>
     <div style="display:flex;gap:.625rem;margin-top:1.25rem;">
-      <button class="btn-p" id="m-submit" onclick="submitReview()" style="font-size:.875rem;">Add review</button>
+      <button class="btn-p" id="m-submit" onclick="submitReview()" style="font-size:.875rem;">Test review</button>
       <button class="btn-g" onclick="closeModal()" style="font-size:.875rem;">Cancel</button>
     </div>
   </div>
@@ -1088,7 +1088,7 @@ async function loadReviews() {
         <svg width="44" height="44" fill="none" stroke="#27272a" viewBox="0 0 24 24" stroke-width="1.3" style="margin-bottom:1rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
         <p style="font-size:.9375rem;font-weight:600;color:#d4d4d8;margin-bottom:.375rem;">No reviews yet</p>
         <p style="font-size:.875rem;color:#3f3f46;max-width:260px;line-height:1.65;margin-bottom:1.25rem;">Add your first review manually or connect your Google Maps listing.</p>
-        <button class="btn-p" onclick="openModal()" style="font-size:.875rem;">Add first review</button>
+        <button class="btn-p" onclick="openModal()" style="font-size:.875rem;">Add first test review</button>
       </div>`
     return
   }
@@ -1161,7 +1161,7 @@ async function deleteReview(id) {
   loadReviews()
 }
 
-// ── Add Review Modal ─────────────────────────────────────
+// ── Test review Modal ─────────────────────────────────────
 function openModal() {
   document.getElementById('modal').style.display = 'flex'
   document.getElementById('m-name').value = ''
@@ -1216,7 +1216,7 @@ async function submitReview() {
 
   const { data: review, error } = await sb.from('reviews').insert(payload).select('id').single()
 
-  btn.disabled = false; btn.textContent = 'Add review'
+  btn.disabled = false; btn.textContent = 'Test review'
   if (error) { toast(error.message, true); return }
   closeModal()
 
