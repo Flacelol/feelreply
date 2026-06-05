@@ -7,14 +7,14 @@
     (function(){const img=new Image();img.crossOrigin='anonymous';img.onload=function(){const t=document.createElement('canvas');t.width=img.width;t.height=img.height;const tx=t.getContext('2d');tx.drawImage(img,0,0);const d=tx.getImageData(0,0,img.width,img.height).data;let x0=img.width,y0=img.height,x1=0,y1=0;for(let y=0;y<img.height;y++)for(let x=0;x<img.width;x++){if(d[(y*img.width+x)*4+3]>10){if(x<x0)x0=x;if(y<y0)y0=y;if(x>x1)x1=x;if(y>y1)y1=y;}}const cw=x1-x0+1,ch=y1-y0+1,c=document.createElement('canvas');c.width=64;c.height=64;const cx=c.getContext('2d'),s=Math.min(60/cw,60/ch),dw=cw*s,dh=ch*s;cx.drawImage(t,x0,y0,cw,ch,(64-dw)/2,(64-dh)/2,dw,dh);document.getElementById('favicon').href=c.toDataURL();};img.src='feelreply_logo_R.png';})();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FeelReply вЂ“ Dashboard</title>
+  <title>FeelReply – Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { font-family: 'Inter', sans-serif; box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
     body { background: #0a0a0a; color: #fff; display: flex; overflow: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* в”Ђв”Ђ Sidebar в”Ђв”Ђ */
+    /* ── Sidebar ── */
     #sidebar {
       width: 232px;
       flex-shrink: 0;
@@ -48,10 +48,10 @@
     .nav-item.active { color: #e4e4e7; background: rgba(124,58,237,0.16); }
     .nav-item.active svg { color: #a78bfa; }
 
-    /* в”Ђв”Ђ Main в”Ђв”Ђ */
+    /* ── Main ── */
     #main { flex: 1; overflow-y: auto; height: 100vh; }
 
-    /* в”Ђв”Ђ Topbar в”Ђв”Ђ */
+    /* ── Topbar ── */
     #topbar {
       position: sticky;
       top: 0;
@@ -67,7 +67,7 @@
       gap: 1rem;
     }
 
-    /* в”Ђв”Ђ Cards в”Ђв”Ђ */
+    /* ── Cards ── */
     .glass {
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.07);
@@ -88,7 +88,7 @@
     }
     .review-card:hover { border-color: rgba(124,58,237,0.25); box-shadow: 0 0 24px rgba(124,58,237,0.06); }
 
-    /* в”Ђв”Ђ Inputs в”Ђв”Ђ */
+    /* ── Inputs ── */
     .input-field {
       width: 100%;
       background: rgba(255,255,255,0.05);
@@ -117,7 +117,7 @@
       color: #e4e4e7;
     }
 
-    /* в”Ђв”Ђ Buttons в”Ђв”Ђ */
+    /* ── Buttons ── */
     .btn-p {
       display: inline-flex;
       align-items: center;
@@ -173,7 +173,7 @@
     }
     .btn-danger:hover { border-color: rgba(239,68,68,0.45); background: rgba(239,68,68,0.07); }
 
-    /* в”Ђв”Ђ Badges в”Ђв”Ђ */
+    /* ── Badges ── */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -189,16 +189,16 @@
     .badge-approved { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
     .badge-rejected { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
 
-    /* в”Ђв”Ђ Stars в”Ђв”Ђ */
+    /* ── Stars ── */
     .star      { color: #fbbf24; font-size: .9375rem; line-height: 1; }
     .star.off  { color: #27272a; }
 
-    /* в”Ђв”Ђ Scrollbar в”Ђв”Ђ */
+    /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
 
-    /* в”Ђв”Ђ Empty state в”Ђв”Ђ */
+    /* ── Empty state ── */
     .empty-state {
       display: flex;
       flex-direction: column;
@@ -208,7 +208,7 @@
       text-align: center;
     }
 
-    /* в”Ђв”Ђ Modal в”Ђв”Ђ */
+    /* ── Modal ── */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -221,7 +221,7 @@
       padding: 1rem;
     }
 
-    /* в”Ђв”Ђ Toast в”Ђв”Ђ */
+    /* ── Toast ── */
     #toast {
       position: fixed;
       bottom: 1.75rem;
@@ -242,10 +242,10 @@
     }
     #toast.show { display: flex; animation: fadeIn 0.22s ease; }
 
-    /* в”Ђв”Ђ Divider в”Ђв”Ђ */
+    /* ── Divider ── */
     .divider { height: 1px; background: rgba(255,255,255,0.06); margin: .625rem 0; }
 
-    /* в”Ђв”Ђ Animations в”Ђв”Ђ */
+    /* ── Animations ── */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spin-el { animation: spin 0.75s linear infinite; }
 
@@ -255,9 +255,9 @@
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
     .pulse { animation: pulse 2s ease-in-out infinite; }
 
-    /* в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+    /* ══════════════════════════════════
        MOBILE
-    в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ */
+    ══════════════════════════════════ */
     @media (max-width: 768px) {
 
       /* Body stacks vertically */
@@ -295,7 +295,7 @@
       #sec-agency,
       #sec-settings { padding: 1rem; }
 
-      /* Stats вЂ” stack to 1 col */
+      /* Stats — stack to 1 col */
       #sec-reviews > div:first-child {
         grid-template-columns: 1fr !important;
       }
@@ -327,7 +327,7 @@
       .review-card .btn-wrap { flex-wrap: wrap; }
     }
 
-    /* в”Ђв”Ђ Bottom navigation bar (mobile only) в”Ђв”Ђ */
+    /* ── Bottom navigation bar (mobile only) ── */
     #bottom-nav {
       display: none;
       position: fixed;
@@ -371,7 +371,7 @@
 
     @keyframes slideUp { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
 
-    /* в”Ђв”Ђ Upgrade gate в”Ђв”Ђ */
+    /* ── Upgrade gate ── */
     .upgrade-gate {
       position: relative;
       border-radius: 14px;
@@ -394,7 +394,7 @@
       border-radius: 14px;
     }
 
-    /* в”Ђв”Ђ Analytics bars в”Ђв”Ђ */
+    /* ── Analytics bars ── */
     .bar-track {
       height: 8px;
       background: rgba(255,255,255,0.06);
@@ -407,7 +407,7 @@
       transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
     }
 
-    /* в”Ђв”Ђ Usage bar (Lite) в”Ђв”Ђ */
+    /* ── Usage bar (Lite) ── */
     .usage-bar-track {
       height: 6px;
       background: rgba(255,255,255,0.06);
@@ -422,7 +422,7 @@
       transition: width 0.6s ease;
     }
 
-    /* в”Ђв”Ђ Plan banner в”Ђв”Ђ */
+    /* ── Plan banner ── */
     .plan-banner {
       display: flex;
       align-items: center;
@@ -449,9 +449,9 @@
 <!-- Toast -->
 <div id="toast"></div>
 
-<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+<!-- ══════════════════════════════════
      SIDEBAR
-в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+════════════════════════════════════ -->
 <aside id="sidebar">
 
   <!-- Logo -->
@@ -496,7 +496,7 @@
         <span id="user-initial" style="font-size:.6875rem;font-weight:700;color:#fff;">U</span>
       </div>
       <div style="min-width:0;flex:1;">
-        <p id="user-business" style="font-size:.8125rem;font-weight:600;color:#e4e4e7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">LoadingвЂ¦</p>
+        <p id="user-business" style="font-size:.8125rem;font-weight:600;color:#e4e4e7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Loading…</p>
         <div style="display:flex;align-items:center;gap:5px;margin-top:2px;">
           <p id="user-email" style="font-size:.6875rem;color:#3f3f46;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">-</p>
           <span id="plan-badge" style="display:none;font-size:.5625rem;font-weight:700;background:rgba(124,58,237,0.25);color:#a78bfa;border:1px solid rgba(124,58,237,0.35);border-radius:4px;padding:1px 5px;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;"></span>
@@ -510,9 +510,9 @@
   </div>
 </aside>
 
-<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+<!-- ══════════════════════════════════
      MAIN
-в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+════════════════════════════════════ -->
 <main id="main">
 
   <!-- Topbar -->
@@ -534,7 +534,7 @@
     </div>
   </div>
 
-  <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ REVIEWS в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+  <!-- ════════ REVIEWS ════════ -->
   <section id="sec-reviews" style="padding:1.5rem 1.75rem;">
     <!-- Usage bar (Lite plan) -->
     <div id="usage-bar-section" style="display:none;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;">
@@ -543,21 +543,21 @@
         <p style="font-size:.8125rem;color:#52525b;" id="usage-text">0 / 50</p>
       </div>
       <div class="usage-bar-track"><div class="usage-bar-fill" id="usage-bar-fill" style="width:0%;"></div></div>
-      <p style="font-size:.75rem;color:#3f3f46;margin-top:.375rem;">Upgrade to Pro for unlimited reviews вЂ” <a href="auth.html?plan=pro" style="color:#a78bfa;text-decoration:none;">Upgrade now</a></p>
+      <p style="font-size:.75rem;color:#3f3f46;margin-top:.375rem;">Upgrade to Pro for unlimited reviews — <a href="auth.html?plan=pro" style="color:#a78bfa;text-decoration:none;">Upgrade now</a></p>
     </div>
     <!-- Stats -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;margin-bottom:1.25rem;">
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
-        <p id="s-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+        <p id="s-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Rating</p>
-        <p id="s-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+        <p id="s-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Pending Reply</p>
-        <p id="s-pending" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+        <p id="s-pending" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
     </div>
     <!-- Location filter banner (Agency / Max) -->
@@ -566,13 +566,13 @@
         <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
         <span style="font-size:.875rem;font-weight:600;color:#a78bfa;" id="location-filter-name"></span>
       </div>
-      <button onclick="clearLocationFilter()" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:.3rem .75rem;font-size:.75rem;color:#71717a;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#71717a'">в†ђ All locations</button>
+      <button onclick="clearLocationFilter()" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:.3rem .75rem;font-size:.75rem;color:#71717a;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#71717a'">← All locations</button>
     </div>
     <!-- List -->
     <div id="reviews-list"></div>
   </section>
 
-  <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ DRAFTS в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+  <!-- ════════ DRAFTS ════════ -->
   <section id="sec-drafts" style="padding:1.5rem 1.75rem;display:none;">
     <!-- Location filter banner (shared state with Reviews) -->
     <div id="drafts-location-banner" style="display:none;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.2);border-radius:12px;padding:.75rem 1.25rem;margin-bottom:1.25rem;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;">
@@ -580,7 +580,7 @@
         <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
         <span style="font-size:.875rem;font-weight:600;color:#a78bfa;" id="drafts-location-name"></span>
       </div>
-      <button onclick="clearLocationFilter()" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:.3rem .75rem;font-size:.75rem;color:#71717a;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#71717a'">в†ђ All locations</button>
+      <button onclick="clearLocationFilter()" style="background:none;border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:.3rem .75rem;font-size:.75rem;color:#71717a;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#71717a'">← All locations</button>
     </div>
     <!-- Auto-post banner (Pro/Max) -->
     <div id="auto-post-banner" style="display:none;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:.875rem 1.25rem;margin-bottom:1.25rem;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
@@ -596,7 +596,7 @@
     <div id="drafts-list"></div>
   </section>
 
-  <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ ANALYTICS в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+  <!-- ════════ ANALYTICS ════════ -->
   <section id="sec-analytics" style="padding:1.5rem 1.75rem;display:none;">
     <div class="upgrade-gate" id="analytics-gate-wrapper">
       <!-- Upgrade gate (Lite / Free) -->
@@ -604,7 +604,7 @@
         <div style="width:52px;height:52px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.25);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:.5rem;">
           <svg width="24" height="24" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
         </div>
-        <p style="font-size:1rem;font-weight:700;color:#fff;">Analytics вЂ” Pro &amp; Max</p>
+        <p style="font-size:1rem;font-weight:700;color:#fff;">Analytics — Pro &amp; Max</p>
         <p style="font-size:.8125rem;color:#52525b;max-width:280px;line-height:1.6;text-align:center;">Unlock detailed insights, rating trends, and reply performance metrics.</p>
         <a href="auth.html?plan=pro" class="btn-p" style="margin-top:.25rem;text-decoration:none;">Upgrade to Pro</a>
       </div>
@@ -613,15 +613,15 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.875rem;margin-bottom:1.25rem;">
           <div class="stat-card">
             <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
-            <p id="an-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+            <p id="an-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
           </div>
           <div class="stat-card">
             <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Rating</p>
-            <p id="an-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+            <p id="an-avg" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
           </div>
           <div class="stat-card">
             <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Avg. Reply Time</p>
-            <p id="an-reply-time" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+            <p id="an-reply-time" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
           </div>
         </div>
         <div class="glass" style="padding:1.5rem;margin-bottom:1rem;">
@@ -647,20 +647,20 @@
     </div>
   </section>
 
-  <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ AGENCY в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+  <!-- ════════ AGENCY ════════ -->
   <section id="sec-agency" style="padding:1.5rem 1.75rem;display:none;">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.875rem;margin-bottom:1.25rem;">
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Locations</p>
-        <p id="ag-locations" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+        <p id="ag-locations" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Total Reviews</p>
-        <p id="ag-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+        <p id="ag-total" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
       <div class="stat-card">
         <p style="font-size:.6875rem;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.625rem;">Pending Replies</p>
-        <p id="ag-pending" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">вЂ“</p>
+        <p id="ag-pending" style="font-size:1.875rem;font-weight:800;color:#fff;letter-spacing:-.03em;">–</p>
       </div>
     </div>
     <div class="glass" style="padding:1.5rem;">
@@ -675,7 +675,7 @@
     </div>
   </section>
 
-  <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ LOCATION MODAL в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+  <!-- ════════ LOCATION MODAL ════════ -->
   <div id="location-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;overflow-y:auto;padding:1.5rem;">
     <div class="glass" style="max-width:480px;margin:2rem auto;padding:1.75rem;border-radius:18px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
@@ -697,11 +697,11 @@
         <div>
           <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Business type</label>
           <select id="loc-btype" class="input-field">
-            <option value="">Select typeвЂ¦</option>
-            <option value="restaurant_fine">Restaurant вЂ“ Fine Dining</option>
-            <option value="restaurant_casual">Restaurant вЂ“ Casual Dining</option>
-            <option value="restaurant_fast">Restaurant вЂ“ Fast Food</option>
-            <option value="cafe">CafГ© / Coffee Shop</option>
+            <option value="">Select type…</option>
+            <option value="restaurant_fine">Restaurant – Fine Dining</option>
+            <option value="restaurant_casual">Restaurant – Casual Dining</option>
+            <option value="restaurant_fast">Restaurant – Fast Food</option>
+            <option value="cafe">Café / Coffee Shop</option>
             <option value="bar">Bar / Pub</option>
             <option value="retail">Retail Store</option>
             <option value="salon">Salon / Spa</option>
@@ -745,7 +745,7 @@
     </div>
   </div>
 
-  <!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ SETTINGS в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+  <!-- ════════ SETTINGS ════════ -->
   <section id="sec-settings" style="padding:1.5rem 1.75rem;display:none;">
     <div style="max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;">
 
@@ -767,11 +767,11 @@
           <div>
             <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:5px;">Business type</label>
             <select id="s-btype" class="input-field">
-              <option value="">Select business typeвЂ¦</option>
-              <option value="restaurant_fine">Restaurant вЂ“ Fine Dining</option>
-              <option value="restaurant_casual">Restaurant вЂ“ Casual Dining</option>
-              <option value="restaurant_fast">Restaurant вЂ“ Fast Food</option>
-              <option value="cafe">CafГ© / Coffee Shop</option>
+              <option value="">Select business type…</option>
+              <option value="restaurant_fine">Restaurant – Fine Dining</option>
+              <option value="restaurant_casual">Restaurant – Casual Dining</option>
+              <option value="restaurant_fast">Restaurant – Fast Food</option>
+              <option value="cafe">Café / Coffee Shop</option>
               <option value="bar">Bar / Pub</option>
               <option value="retail">Retail Store</option>
               <option value="salon">Salon / Spa</option>
@@ -812,7 +812,7 @@
               Custom AI tone
               <span style="margin-left:.375rem;font-size:.6875rem;font-weight:600;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.3);border-radius:4px;padding:1px 6px;color:#a78bfa;vertical-align:middle;">Max</span>
             </label>
-            <textarea id="s-custom-tone" class="input-field" rows="3" placeholder="Describe your brand voice in your own words. E.g. 'We're a family-run trattoria вЂ” reply like a warm, welcoming host who takes pride in every dish. Never be corporate.'" style="resize:vertical;font-size:.8125rem;line-height:1.6;"></textarea>
+            <textarea id="s-custom-tone" class="input-field" rows="3" placeholder="Describe your brand voice in your own words. E.g. 'We're a family-run trattoria — reply like a warm, welcoming host who takes pride in every dish. Never be corporate.'" style="resize:vertical;font-size:.8125rem;line-height:1.6;"></textarea>
             <p style="font-size:.75rem;color:#3f3f46;margin-top:.375rem;">When set, this replaces the AI reply tone selector above for all your replies.</p>
           </div>
           <!-- White-label (Max) -->
@@ -852,9 +852,9 @@
 
 </main>
 
-<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+<!-- ══════════════════════════════════
      BOTTOM NAV (mobile)
-в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+════════════════════════════════════ -->
 <nav id="bottom-nav">
   <button class="bn-item active" id="bn-reviews" onclick="showSection('reviews')">
     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
@@ -878,9 +878,9 @@
   </button>
 </nav>
 
-<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
+<!-- ══════════════════════════════════
      ADD REVIEW MODAL
-в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
+════════════════════════════════════ -->
 <div id="modal" class="modal-overlay" style="display:none;">
   <div class="glass" style="width:100%;max-width:460px;padding:1.75rem;border-radius:20px;animation:fadeIn .22s ease;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
@@ -928,7 +928,7 @@ const sb = createClient(
 let user = null
 let profile = null
 
-// в”Ђв”Ђ Startup в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Startup ─────────────────────────────────────────────
 async function init() {
   const { data: { session } } = await sb.auth.getSession()
   if (!session) { window.location.href = 'auth.html'; return }
@@ -952,7 +952,7 @@ async function init() {
   const customToneEl = document.getElementById('s-custom-tone')
   if (customToneEl) customToneEl.value         = profile.custom_tone_prompt || ''
 
-  // Auto-post toggle вЂ” pre-fill + auto-save on change
+  // Auto-post toggle — pre-fill + auto-save on change
   const autoPostToggle = document.getElementById('auto-post-toggle')
   if (autoPostToggle) {
     autoPostToggle.checked = !!profile.auto_post_enabled
@@ -963,7 +963,7 @@ async function init() {
     })
   }
 
-  // Handle Stripe success return вЂ” poll for webhook, never trust URL params
+  // Handle Stripe success return — poll for webhook, never trust URL params
   const params = new URLSearchParams(window.location.search)
   let cameFromPayment = false
   if (params.get('payment') === 'success') {
@@ -1009,7 +1009,7 @@ async function init() {
   renderStarPicker(5)
 }
 
-// в”Ђв”Ђ Navigation в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Navigation ───────────────────────────────────────────
 const SECTIONS = ['reviews','drafts','analytics','agency','settings']
 const META = {
   reviews:   ['Reviews',   'Google Maps reviews collected for your business'],
@@ -1040,7 +1040,7 @@ function showSection(key) {
   if (key === 'agency')    loadAgency()
 }
 
-// в”Ђв”Ђ Reviews в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Reviews ──────────────────────────────────────────────
 async function loadReviews() {
   const list = document.getElementById('reviews-list')
   list.innerHTML = loading()
@@ -1063,11 +1063,11 @@ async function loadReviews() {
   if (error) { list.innerHTML = errMsg(error.message); return }
 
   const total   = rows.length
-  const avg     = total ? (rows.reduce((s,r) => s + r.rating, 0) / total).toFixed(1) : 'вЂ“'
+  const avg     = total ? (rows.reduce((s,r) => s + r.rating, 0) / total).toFixed(1) : '–'
   const pending = rows.filter(r => r.status === 'pending').length
 
   document.getElementById('s-total').textContent   = total
-  document.getElementById('s-avg').textContent     = total ? avg + ' в…' : 'вЂ“'
+  document.getElementById('s-avg').textContent     = total ? avg + ' ★' : '–'
   document.getElementById('s-pending').textContent = pending
 
   // Usage bar for Lite
@@ -1116,7 +1116,7 @@ async function loadReviews() {
 }
 
 function stars(n) {
-  return [1,2,3,4,5].map(i => `<span class="star${i > n ? ' off' : ''}">в…</span>`).join('')
+  return [1,2,3,4,5].map(i => `<span class="star${i > n ? ' off' : ''}">★</span>`).join('')
 }
 
 function reviewCard(r, draft = null) {
@@ -1161,7 +1161,7 @@ async function deleteReview(id) {
   loadReviews()
 }
 
-// в”Ђв”Ђ Add Review Modal в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Add Review Modal ─────────────────────────────────────
 function openModal() {
   document.getElementById('modal').style.display = 'flex'
   document.getElementById('m-name').value = ''
@@ -1192,7 +1192,7 @@ function renderStarPicker(n) {
       onclick="renderStarPicker(${i})"
       onmouseover="hoverStars(${i})"
       onmouseout="renderStarPicker(${pickedRating})"
-      style="background:none;border:none;cursor:pointer;font-size:1.875rem;color:${i <= n ? '#fbbf24' : '#27272a'};padding:0 2px;line-height:1;transition:color .12s;outline:none;">в…</button>
+      style="background:none;border:none;cursor:pointer;font-size:1.875rem;color:${i <= n ? '#fbbf24' : '#27272a'};padding:0 2px;line-height:1;transition:color .12s;outline:none;">★</button>
   `).join('')
 }
 function hoverStars(n) {
@@ -1209,7 +1209,7 @@ async function submitReview() {
   if (!name) { toast('Enter a reviewer name', true); return }
 
   const btn = document.getElementById('m-submit')
-  btn.disabled = true; btn.textContent = 'AddingвЂ¦'
+  btn.disabled = true; btn.textContent = 'Adding…'
 
   const payload = { user_id: user.id, reviewer_name: name, rating, review_text: text, status: 'pending' }
   if (locationId) payload.location_id = locationId
@@ -1222,10 +1222,10 @@ async function submitReview() {
 
   // Auto-generate draft + send email if subscription is active
   if (isSubscriptionActive()) {
-    toast('Review added вЂ” generating AI replyвЂ¦')
+    toast('Review added — generating AI reply…')
     await autoGenerateDraft(review.id, name, rating, text, locationId)
   } else {
-    toast('Review added вњ“')
+    toast('Review added ✓')
     loadReviews()
   }
 }
@@ -1252,19 +1252,19 @@ async function autoGenerateDraft(reviewId, name, rating, text, locationId = null
     console.error('Email failed:', err)
   })
 
-  toast('AI reply ready вЂ” check your email вњ“')
+  toast('AI reply ready — check your email ✓')
   loadReviews()
 }
 
-// в”Ђв”Ђ AI Drafts в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── AI Drafts ─────────────────────────────────────────────
 async function generateDraft(reviewId, name, rating, text) {
   if (!isSubscriptionActive()) {
-    toast('Subscription expired вЂ” renew to generate AI replies.', true)
+    toast('Subscription expired — renew to generate AI replies.', true)
     showExpiredBanner()
     return
   }
 
-  toast('Generating AI replyвЂ¦')
+  toast('Generating AI reply…')
   const draft = await callGenerateReply(name, rating, text)
   const { error } = await sb.from('reply_drafts').insert({
     review_id: reviewId,
@@ -1287,10 +1287,10 @@ async function generateDraft(reviewId, name, rating, text) {
   // Send email notification
   sendDraftEmail(name, rating, text, draft, inserted?.id, reviewId).catch(err => {
     console.error('Email send failed:', err)
-    toast('Draft generated вњ“ (email failed вЂ” check console)', true)
+    toast('Draft generated ✓ (email failed — check console)', true)
   })
 
-  toast('Draft generated вњ“ вЂ” email sent to ' + user.email)
+  toast('Draft generated ✓ — email sent to ' + user.email)
   showSection('drafts')
 }
 
@@ -1321,15 +1321,15 @@ async function sendDraftEmail(reviewerName, rating, reviewText, draftText, draft
 }
 
 function buildDraft(name, rating, text) {
-  // Local fallback вЂ” used only if the AI edge function fails
+  // Local fallback — used only if the AI edge function fails
   const tone = profile.tone_preference || 'professional'
   const biz  = profile.business_name || 'Our Team'
   const hi   = { professional:`Dear ${name},`, friendly:`Hi ${name}!`, casual:`Hey ${name},`, formal:`Dear ${name},` }[tone]
   const bye  = { professional:'We hope to serve you again soon.', friendly:'Hope to see you again soon!', casual:'See you around!', formal:'We remain at your full disposal.' }[tone]
 
   if (rating >= 4) return `${hi}\n\nThank you so much for your wonderful review! It truly means a lot to our team to hear that you had a great experience.\n\nWe work hard every day to deliver the best, and your kind words are a great reminder of why we do it. ${bye}\n\nWarm regards,\n${biz}`
-  if (rating >= 3) return `${hi}\n\nThank you for taking the time to leave a review. We appreciate your honest feedback вЂ” it helps us improve continuously.\n\nWe'd love the chance to exceed your expectations next time. ${bye}\n\nBest,\n${biz}`
-  return `${hi}\n\nThank you for bringing this to our attention. We sincerely apologize that your experience didn't meet your expectations вЂ” that's never what we want.\n\nWe take every review seriously and would genuinely like the opportunity to make it right. Please reach out to us directly so we can address your concerns personally. ${bye}\n\nSincerely,\n${biz}`
+  if (rating >= 3) return `${hi}\n\nThank you for taking the time to leave a review. We appreciate your honest feedback — it helps us improve continuously.\n\nWe'd love the chance to exceed your expectations next time. ${bye}\n\nBest,\n${biz}`
+  return `${hi}\n\nThank you for bringing this to our attention. We sincerely apologize that your experience didn't meet your expectations — that's never what we want.\n\nWe take every review seriously and would genuinely like the opportunity to make it right. Please reach out to us directly so we can address your concerns personally. ${bye}\n\nSincerely,\n${biz}`
 }
 
 async function callGenerateReply(name, rating, text, locationId = null) {
@@ -1438,7 +1438,7 @@ function draftCard(d) {
         return ''
       })()}
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-        <button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="approveDraft('${d.id}','${d.review_id}')">вњ“ Approve</button>
+        <button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="approveDraft('${d.id}','${d.review_id}')">✓ Approve</button>
         <button class="btn-g" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="editDraft('${d.id}')">Edit</button>
         <button class="btn-danger" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="rejectDraft('${d.id}')">Reject</button>
       </div>` : ''}
@@ -1453,7 +1453,7 @@ function editDraft(id) {
 async function saveDraft(id) {
   const text = document.getElementById(`dt-${id}`).value
   await sb.from('reply_drafts').update({ draft_text: text }).eq('id', id)
-  toast('Draft saved вњ“')
+  toast('Draft saved ✓')
   loadDrafts()
 }
 async function approveDraft(draftId, reviewId) {
@@ -1461,7 +1461,7 @@ async function approveDraft(draftId, reviewId) {
     sb.from('reply_drafts').update({ status: 'approved' }).eq('id', draftId),
     sb.from('reviews').update({ status: 'replied' }).eq('id', reviewId)
   ])
-  toast('Reply approved вњ“')
+  toast('Reply approved ✓')
   loadDrafts()
 }
 async function rejectDraft(id) {
@@ -1471,10 +1471,10 @@ async function rejectDraft(id) {
 }
 
 
-// в”Ђв”Ђ Settings в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Settings ─────────────────────────────────────────────
 async function saveSettings() {
   const btn = document.getElementById('save-btn')
-  btn.disabled = true; btn.textContent = 'SavingвЂ¦'
+  btn.disabled = true; btn.textContent = 'Saving…'
 
   const updates = {
     id: user.id,
@@ -1495,10 +1495,10 @@ async function saveSettings() {
   profile = { ...profile, ...updates }
   document.getElementById('user-business').textContent = profile.business_name || 'My Business'
   document.getElementById('user-initial').textContent  = (profile.business_name || user.email)[0].toUpperCase()
-  toast('Settings saved вњ“')
+  toast('Settings saved ✓')
 }
 
-// в”Ђв”Ђ Plan features в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Plan features ────────────────────────────────────────
 const FEATURES = {
   free: { maxReviews: 0,        analytics: false, autoPost: false, multiLang: true,  locations: 1,  customTone: false, whiteLabel: false, agency: false },
   lite: { maxReviews: 50,       analytics: false, autoPost: false, multiLang: true,  locations: 1,  customTone: false, whiteLabel: false, agency: false },
@@ -1509,11 +1509,11 @@ const FEATURES = {
 function applyPlanFeatures(plan) {
   const f = FEATURES[plan] || FEATURES.free
 
-  // Analytics nav вЂ” show lock icon for non-Pro/Max
+  // Analytics nav — show lock icon for non-Pro/Max
   const analyticsLock = document.getElementById('analytics-lock')
   if (analyticsLock) analyticsLock.style.display = f.analytics ? 'none' : 'inline-flex'
 
-  // Agency nav вЂ” Max only
+  // Agency nav — Max only
   const agencyNav   = document.getElementById('nav-agency')
   const agencyBnNav = document.getElementById('bn-agency')
   if (agencyNav)   agencyNav.style.display   = f.agency ? '' : 'none'
@@ -1530,28 +1530,28 @@ function applyPlanFeatures(plan) {
     }
   }
 
-  // Usage bar вЂ” Lite only
+  // Usage bar — Lite only
   const usageSection = document.getElementById('usage-bar-section')
   if (usageSection) usageSection.style.display = plan === 'lite' ? '' : 'none'
 
-  // Auto-post banner вЂ” Pro/Max
+  // Auto-post banner — Pro/Max
   const autoPostBanner = document.getElementById('auto-post-banner')
   if (autoPostBanner) autoPostBanner.style.display = f.autoPost ? 'flex' : 'none'
 
-  // Language setting вЂ” Pro/Max
+  // Language setting — Pro/Max
   const langSection = document.getElementById('s-lang-section')
   if (langSection) langSection.style.display = f.multiLang ? '' : 'none'
 
-  // Per-location tone вЂ” Max
+  // Per-location tone — Max
   const customToneSection = document.getElementById('s-custom-tone-section')
   if (customToneSection) customToneSection.style.display = f.customTone ? '' : 'none'
 
-  // White-label вЂ” Max
+  // White-label — Max
   const whiteLabelSection = document.getElementById('s-whitelabel-section')
   if (whiteLabelSection) whiteLabelSection.style.display = f.whiteLabel ? '' : 'none'
 }
 
-// в”Ђв”Ђ Subscription guard в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Subscription guard ───────────────────────────────────
 function isSubscriptionActive() {
   const plan = profile?.plan
   if (!plan || plan === 'free') return false
@@ -1575,7 +1575,7 @@ function showExpiredBanner() {
   banner.innerHTML = `
     <div style="display:flex;align-items:center;gap:.625rem;">
       <svg width="16" height="16" fill="none" stroke="#f87171" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>
-      <p style="font-size:.875rem;color:#fca5a5;font-weight:500;">Your subscription has expired вЂ” AI draft generation is paused.</p>
+      <p style="font-size:.875rem;color:#fca5a5;font-weight:500;">Your subscription has expired — AI draft generation is paused.</p>
     </div>
     <a href="auth.html?plan=${profile?.plan || 'pro'}" class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;text-decoration:none;flex-shrink:0;">Renew subscription</a>`
   document.getElementById('topbar').after(banner)
@@ -1589,11 +1589,11 @@ function checkExpiryWarning() {
   if (days <= 0) {
     showExpiredBanner()
   } else if (days <= 5) {
-    toast(`вљ  Your subscription expires in ${days} day${days === 1 ? '' : 's'} вЂ” renew to keep access.`)
+    toast(`⚠ Your subscription expires in ${days} day${days === 1 ? '' : 's'} — renew to keep access.`)
   }
 }
 
-// в”Ђв”Ђ Analytics в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Analytics ────────────────────────────────────────────
 async function loadAnalytics() {
   const f = FEATURES[profile?.plan] || FEATURES.free
   if (!f.analytics) return
@@ -1611,9 +1611,9 @@ async function loadAnalytics() {
   const avg   = total ? (rows.reduce((s,r) => s + r.rating, 0) / total).toFixed(1) : null
 
   document.getElementById('an-total').textContent = total
-  document.getElementById('an-avg').textContent   = avg ? avg + ' в…' : 'вЂ“'
+  document.getElementById('an-avg').textContent   = avg ? avg + ' ★' : '–'
 
-  // Avg reply time (review.created_at в†’ approved draft.created_at)
+  // Avg reply time (review.created_at → approved draft.created_at)
   const reviewMap = {}
   rows.forEach(r => { reviewMap[r.id] = r.created_at })
 
@@ -1626,7 +1626,7 @@ async function loadAnalytics() {
   const replyTimeEl = document.getElementById('an-reply-time')
   if (replyTimeEl) {
     replyTimeEl.textContent = avgHours === null
-      ? 'вЂ“'
+      ? '–'
       : avgHours < 1
         ? Math.round(avgHours * 60) + 'm'
         : avgHours < 24
@@ -1646,7 +1646,7 @@ async function loadAnalytics() {
       const color = star >= 4 ? '#4ade80' : star === 3 ? '#fbbf24' : '#f87171'
       return `
         <div style="display:flex;align-items:center;gap:.75rem;">
-          <span style="font-size:.8125rem;color:#71717a;width:20px;text-align:right;flex-shrink:0;">${star}в…</span>
+          <span style="font-size:.8125rem;color:#71717a;width:20px;text-align:right;flex-shrink:0;">${star}★</span>
           <div class="bar-track" style="flex:1;"><div class="bar-fill" style="width:0%;background:${color};" data-target="${pct}"></div></div>
           <span style="font-size:.8125rem;color:#52525b;width:20px;text-align:right;flex-shrink:0;">${count}</span>
         </div>`
@@ -1716,10 +1716,10 @@ async function loadAnalytics() {
   }
 }
 
-// в”Ђв”Ђ Agency в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Agency ───────────────────────────────────────────────
 const BTYPE_LABELS = {
   restaurant_fine:'Fine Dining', restaurant_casual:'Casual Dining', restaurant_fast:'Fast Food',
-  cafe:'CafГ©', bar:'Bar / Pub', retail:'Retail', salon:'Salon / Spa', gym:'Gym',
+  cafe:'Café', bar:'Bar / Pub', retail:'Retail', salon:'Salon / Spa', gym:'Gym',
   medical:'Medical', automotive:'Automotive', home_services:'Home Services',
   professional:'Professional Services', hotel:'Hotel', other:'Other',
 }
@@ -1764,7 +1764,7 @@ async function loadAgency() {
   document.getElementById('ag-total').textContent     = reviews.length
   document.getElementById('ag-pending').textContent   = pending.length
 
-  // Add button вЂ” hide if at Max limit (15)
+  // Add button — hide if at Max limit (15)
   const addBtn = document.getElementById('ag-add-btn')
   if (addBtn) addBtn.style.display = _agencyLocations.length >= 15 ? 'none' : ''
 
@@ -1843,7 +1843,7 @@ async function saveLocation() {
   const name = document.getElementById('loc-name').value.trim()
   if (!name) { toast('Business name is required', true); return }
 
-  btn.disabled = true; btn.textContent = 'SavingвЂ¦'
+  btn.disabled = true; btn.textContent = 'Saving…'
 
   const payload = {
     user_id:        user.id,
@@ -1866,7 +1866,7 @@ async function saveLocation() {
   btn.disabled = false; btn.textContent = 'Save location'
   if (error) { toast(error.message, true); return }
   closeLocationModal()
-  toast(id ? 'Location updated вњ“' : 'Location added вњ“')
+  toast(id ? 'Location updated ✓' : 'Location added ✓')
   loadAgency()
 }
 
@@ -1883,11 +1883,11 @@ document.getElementById('location-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('location-modal')) closeLocationModal()
 })
 
-// в”Ђв”Ђ Plan / Billing в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Plan / Billing ───────────────────────────────────────
 const PLAN_INFO = {
-  lite: { label: 'Lite', price: 'в‚¬19/mo', color: '#71717a' },
-  pro:  { label: 'Pro',  price: 'в‚¬49/mo', color: '#a78bfa' },
-  max:  { label: 'Max',  price: 'в‚¬99/mo', color: '#fbbf24' },
+  lite: { label: 'Lite', price: '€19/mo', color: '#71717a' },
+  pro:  { label: 'Pro',  price: '€49/mo', color: '#a78bfa' },
+  max:  { label: 'Max',  price: '€99/mo', color: '#fbbf24' },
 }
 
 function updatePlanBadge(plan) {
@@ -1907,12 +1907,12 @@ function updatePlanBadge(plan) {
   if (!nameEl) return
 
   if (info) {
-    nameEl.textContent = `FeelReply ${info.label} вЂ” ${info.price}`
+    nameEl.textContent = `FeelReply ${info.label} — ${info.price}`
     const expires = profile?.plan_expires_at ? new Date(profile.plan_expires_at) : null
     const daysLeft = expires ? Math.ceil((expires - new Date()) / 86400000) : null
     const isCancelling = expires && daysLeft !== null && daysLeft <= 27
     if (isCancelling && expires) {
-      descEl.innerHTML = `<span style="color:#fbbf24;">Cancellation scheduled</span> В· Access until ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}`
+      descEl.innerHTML = `<span style="color:#fbbf24;">Cancellation scheduled</span> · Access until ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}`
       btnsEl.innerHTML = ''
     } else {
       descEl.textContent = expires ? `Next payment: ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}` : 'Active subscription'
@@ -1931,7 +1931,7 @@ function showPaymentProcessing() {
   const banner = document.createElement('div')
   banner.id = 'payment-processing-banner'
   banner.style.cssText = 'position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.35);border-radius:12px;padding:.875rem 1.5rem;color:#a78bfa;font-size:.9375rem;font-weight:600;z-index:300;backdrop-filter:blur(12px);display:flex;align-items:center;gap:.625rem;box-shadow:0 8px 32px rgba(0,0,0,0.5);'
-  banner.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .7s linear infinite"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m6.364.636-2.121 2.121M21 12h-3m-.636 6.364-2.121-2.121M12 21v-3m-6.364-.636 2.121-2.121M3 12h3m.636-6.364 2.121 2.121"/></svg>Activating your planвЂ¦'
+  banner.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .7s linear infinite"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m6.364.636-2.121 2.121M21 12h-3m-.636 6.364-2.121-2.121M12 21v-3m-6.364-.636 2.121-2.121M3 12h3m.636-6.364 2.121 2.121"/></svg>Activating your plan…'
   document.body.appendChild(banner)
 }
 
@@ -1949,9 +1949,9 @@ function showPaymentPendingScreen() {
   const el = document.getElementById('loading-screen')
   el.innerHTML = `
     <img src="logo_site.png" alt="FeelReply" style="height:48px;width:auto;margin-bottom:20px;">
-    <div style="width:48px;height:48px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:22px;">вњ…</div>
+    <div style="width:48px;height:48px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:22px;">✅</div>
     <p style="font-size:1.125rem;font-weight:700;color:#fff;margin-bottom:8px;">Payment received!</p>
-    <p style="font-size:.9rem;color:#71717a;max-width:300px;text-align:center;line-height:1.65;margin-bottom:28px;">We're activating your subscription. This usually takes a few seconds вЂ” just refresh the page.</p>
+    <p style="font-size:.9rem;color:#71717a;max-width:300px;text-align:center;line-height:1.65;margin-bottom:28px;">We're activating your subscription. This usually takes a few seconds — just refresh the page.</p>
     <button onclick="window.location.reload()" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.75rem 1.75rem;font-size:.9375rem;font-weight:600;cursor:pointer;box-shadow:0 0 24px rgba(124,58,237,0.4);">Refresh page</button>
     <p style="font-size:.75rem;color:#3f3f46;margin-top:1.25rem;">Still not working? Email us at <a href="mailto:hello@feelreply.com" style="color:#52525b;">hello@feelreply.com</a></p>
   `
@@ -1962,21 +1962,21 @@ function showUpgradeScreen() {
   const el = document.getElementById('loading-screen')
   el.innerHTML = `
     <img src="logo_site.png" alt="FeelReply" style="height:48px;width:auto;margin-bottom:20px;">
-    <div style="width:48px;height:48px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:22px;">рџ”’</div>
+    <div style="width:48px;height:48px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:22px;">🔒</div>
     <p style="font-size:1.125rem;font-weight:700;color:#fff;margin-bottom:8px;">No active subscription</p>
     <p style="font-size:.9rem;color:#71717a;max-width:300px;text-align:center;line-height:1.65;margin-bottom:28px;">Choose a plan to start managing your Google Maps reviews with AI.</p>
-    <a href="index.html#pricing" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.75rem 1.75rem;font-size:.9375rem;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 0 24px rgba(124,58,237,0.4);">View plans в†’</a>
+    <a href="index.html#pricing" style="background:#7c3aed;color:#fff;border:none;border-radius:10px;padding:.75rem 1.75rem;font-size:.9375rem;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 0 24px rgba(124,58,237,0.4);">View plans →</a>
     <button onclick="sb.auth.signOut().then(()=>window.location.href='index.html')" style="background:transparent;border:none;color:#52525b;font-size:.8125rem;cursor:pointer;margin-top:16px;">Sign out</button>
   `
   el.style.cssText = 'position:fixed;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:0;'
 }
 
-// в”Ђв”Ђ Cancel subscription в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Cancel subscription ──────────────────────────────────
 async function cancelSubscription() {
   if (!confirm('Cancel your subscription? You\'ll keep access until the end of your current billing period.')) return
 
   const btn = document.querySelector('[onclick="cancelSubscription()"]')
-  if (btn) { btn.disabled = true; btn.textContent = 'CancellingвЂ¦' }
+  if (btn) { btn.disabled = true; btn.textContent = 'Cancelling…' }
 
   try {
     const { data: { session } } = await sb.auth.getSession()
@@ -1991,7 +1991,7 @@ async function cancelSubscription() {
     if (!res.ok) throw new Error(data.error || 'Failed to cancel')
 
     const cancelDate = data.cancel_at ? new Date(data.cancel_at * 1000).toLocaleDateString() : 'end of billing period'
-    toast(`Subscription cancelled вЂ” access until ${cancelDate}`)
+    toast(`Subscription cancelled — access until ${cancelDate}`)
     if (btn) { btn.textContent = `Cancels ${cancelDate}`; btn.disabled = true; btn.style.opacity = '0.5' }
   } catch (err) {
     toast(err.message, true)
@@ -1999,15 +1999,15 @@ async function cancelSubscription() {
   }
 }
 
-// в”Ђв”Ђ Auth в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Auth ─────────────────────────────────────────────────
 async function signOut() {
   await sb.auth.signOut()
   window.location.href = 'index.html'
 }
 
-// в”Ђв”Ђ Helpers в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+// ── Helpers ──────────────────────────────────────────────
 function loading() {
-  return '<div style="color:#3f3f46;font-size:.875rem;padding:.5rem 0;">LoadingвЂ¦</div>'
+  return '<div style="color:#3f3f46;font-size:.875rem;padding:.5rem 0;">Loading…</div>'
 }
 function errMsg(m) {
   return `<p style="color:#f87171;font-size:.875rem;">${m}</p>`
@@ -2035,4 +2035,3 @@ init()
 </script>
 </body>
 </html>
-
