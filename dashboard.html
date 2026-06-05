@@ -1004,7 +1004,7 @@ async function init() {
   checkExpiryWarning()
   const f = FEATURES[profile.plan] || FEATURES.free
   if (f.agency) await preloadLocations()
-  await loadReviews()
+  showSection('reviews')
   document.getElementById('loading-screen').style.display = 'none'
   renderStarPicker(5)
 }
