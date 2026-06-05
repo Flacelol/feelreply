@@ -1093,17 +1093,37 @@ async function loadReviews() {
     return
   }
 
-  list.innerHTML = `<div style="display:flex;flex-direction:column;gap:.75rem;" class="fade-in">${rows.map(reviewCard).join('')}</div>`
+  // Fetch drafts for all loaded reviews
+  const reviewIds = rows.map(r => r.id)
+  let draftMap = {}
+  if (reviewIds.length) {
+    const { data: drafts } = await sb
+      .from('reply_drafts')
+      .select('review_id, draft_text, status, created_at')
+      .in('review_id', reviewIds)
+      .order('created_at', { ascending: false })
+    if (drafts) {
+      for (const d of drafts) {
+        // Keep the first (most recent); prefer 'approved' if one exists
+        if (!draftMap[d.review_id] || d.status === 'approved') {
+          draftMap[d.review_id] = d
+        }
+      }
+    }
+  }
+
+  list.innerHTML = `<div style="display:flex;flex-direction:column;gap:.75rem;" class="fade-in">${rows.map(r => reviewCard(r, draftMap[r.id])).join('')}</div>`
 }
 
 function stars(n) {
   return [1,2,3,4,5].map(i => `<span class="star${i > n ? ' off' : ''}">★</span>`).join('')
 }
 
-function reviewCard(r) {
+function reviewCard(r, draft = null) {
   const date = new Date(r.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })
   const initial = r.reviewer_name[0].toUpperCase()
   const isPending = r.status === 'pending'
+  const draftLabel = draft?.status === 'approved' ? 'AI REPLY' : 'AI REPLY DRAFT'
 
   return `
     <div class="review-card">
@@ -1120,7 +1140,12 @@ function reviewCard(r) {
         </div>
         <span class="badge ${isPending ? 'badge-pending' : 'badge-replied'}">${isPending ? 'Pending' : 'Replied'}</span>
       </div>
-      ${r.review_text ? `<p style="font-size:.9375rem;color:#71717a;line-height:1.7;margin-bottom:1rem;">${r.review_text}</p>` : '<p style="font-size:.875rem;color:#3f3f46;margin-bottom:1rem;font-style:italic;">No review text</p>'}
+      ${r.review_text ? `<p style="font-size:.9375rem;color:#71717a;line-height:1.7;margin-bottom:${draft ? '.75rem' : '1rem'};">${r.review_text}</p>` : `<p style="font-size:.875rem;color:#3f3f46;margin-bottom:${draft ? '.75rem' : '1rem'};font-style:italic;">No review text</p>`}
+      ${draft ? `
+      <div style="background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.18);border-radius:10px;padding:.875rem 1rem;margin-bottom:1rem;">
+        <p style="font-size:.6875rem;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;">${draftLabel}</p>
+        <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.75;white-space:pre-line;">${esc(draft.draft_text)}</p>
+      </div>` : ''}
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         ${isPending ? `<button class="btn-p" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="generateDraft('${r.id}','${esc(r.reviewer_name)}',${r.rating},\`${esc(r.review_text||'')}\`)">Regenerate reply</button>` : ''}
         <button class="btn-danger" style="font-size:.8125rem;padding:.4rem .875rem;" onclick="deleteReview('${r.id}')">Delete</button>
