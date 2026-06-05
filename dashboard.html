@@ -643,6 +643,16 @@
           </div>
           <div id="an-sentiment" style="display:flex;flex-direction:column;gap:.75rem;"></div>
         </div>
+        <!-- Monthly report per location (Max plan only) -->
+        <div id="an-location-report-wrapper" style="display:none;">
+          <div class="glass" style="padding:1.5rem;margin-top:1rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:1.25rem;">
+              <h3 style="font-size:.875rem;font-weight:600;color:#fff;">Monthly Report per Location</h3>
+              <span id="an-report-month" style="font-size:.75rem;color:#52525b;"></span>
+            </div>
+            <div id="an-location-report"></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1713,6 +1723,57 @@ async function loadAnalytics() {
     setTimeout(() => {
       sentEl.querySelectorAll('.sent-bar').forEach(b => { b.style.width = b.dataset.w + '%' })
     }, 60)
+  }
+
+  // Monthly report per location — Max plan only
+  const reportWrapper = document.getElementById('an-location-report-wrapper')
+  const reportEl      = document.getElementById('an-location-report')
+  const reportMonth   = document.getElementById('an-report-month')
+  if (reportWrapper && reportEl && profile?.plan === 'max' && _agencyLocations.length > 0) {
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+    const monthName  = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+    if (reportMonth) reportMonth.textContent = monthName
+
+    const [mRevRes, mDraftRes] = await Promise.all([
+      sb.from('reviews').select('id, location_id, rating').eq('user_id', user.id).gte('created_at', monthStart),
+      sb.from('reply_drafts').select('location_id').eq('user_id', user.id).eq('status', 'approved').gte('created_at', monthStart),
+    ])
+    const mRevs   = mRevRes.data   || []
+    const mDrafts = mDraftRes.data || []
+
+    reportEl.innerHTML = _agencyLocations.map(loc => {
+      const locRevs    = mRevs.filter(r => r.location_id === loc.id)
+      const locDrafts  = mDrafts.filter(d => d.location_id === loc.id)
+      const count      = locRevs.length
+      const avg        = count ? (locRevs.reduce((s,r) => s + r.rating, 0) / count).toFixed(1) : '–'
+      const replied    = locDrafts.length
+      const replyRate  = count ? Math.round((replied / count) * 100) : null
+      const rateColor  = replyRate === null ? '#52525b' : replyRate >= 80 ? '#4ade80' : replyRate >= 50 ? '#fbbf24' : '#f87171'
+      return `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:.875rem 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:1rem;flex-wrap:wrap;">
+          <p style="font-size:.9375rem;font-weight:600;color:#e4e4e7;min-width:100px;">${loc.business_name}</p>
+          <div style="display:flex;gap:1.75rem;flex-wrap:wrap;">
+            <div style="text-align:center;">
+              <p style="font-size:1.125rem;font-weight:700;color:#fff;line-height:1;">${count}</p>
+              <p style="font-size:.625rem;color:#52525b;text-transform:uppercase;letter-spacing:.06em;margin-top:3px;">Reviews</p>
+            </div>
+            <div style="text-align:center;">
+              <p style="font-size:1.125rem;font-weight:700;color:#fff;line-height:1;">${avg}${count ? ' ★' : ''}</p>
+              <p style="font-size:.625rem;color:#52525b;text-transform:uppercase;letter-spacing:.06em;margin-top:3px;">Avg Rating</p>
+            </div>
+            <div style="text-align:center;">
+              <p style="font-size:1.125rem;font-weight:700;color:#fff;line-height:1;">${replied}</p>
+              <p style="font-size:.625rem;color:#52525b;text-transform:uppercase;letter-spacing:.06em;margin-top:3px;">Replied</p>
+            </div>
+            <div style="text-align:center;">
+              <p style="font-size:1.125rem;font-weight:700;color:${rateColor};line-height:1;">${replyRate !== null ? replyRate + '%' : '–'}</p>
+              <p style="font-size:.625rem;color:#52525b;text-transform:uppercase;letter-spacing:.06em;margin-top:3px;">Reply Rate</p>
+            </div>
+          </div>
+        </div>`
+    }).join('')
+
+    reportWrapper.style.display = ''
   }
 }
 
