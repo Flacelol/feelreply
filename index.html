@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     (function(){const img=new Image();img.crossOrigin='anonymous';img.onload=function(){const t=document.createElement('canvas');t.width=img.width;t.height=img.height;const tx=t.getContext('2d');tx.drawImage(img,0,0);const d=tx.getImageData(0,0,img.width,img.height).data;let x0=img.width,y0=img.height,x1=0,y1=0;for(let y=0;y<img.height;y++)for(let x=0;x<img.width;x++){if(d[(y*img.width+x)*4+3]>10){if(x<x0)x0=x;if(y<y0)y0=y;if(x>x1)x1=x;if(y>y1)y1=y;}}const cw=x1-x0+1,ch=y1-y0+1,c=document.createElement('canvas');c.width=64;c.height=64;const cx=c.getContext('2d'),s=Math.min(60/cw,60/ch),dw=cw*s,dh=ch*s;cx.drawImage(t,x0,y0,cw,ch,(64-dw)/2,(64-dh)/2,dw,dh);document.getElementById('favicon').href=c.toDataURL();};img.src='feelreply_logo_R.png';})();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FeelReply – AI Replies for Google Maps Reviews</title>
+  <title>FeelReply вЂ“ AI Replies for Google Maps Reviews</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
       .hero-section { padding-top: 5.5rem !important; }
     }
 
-    /* ── Gradient text ── */
+    /* в”Ђв”Ђ Gradient text в”Ђв”Ђ */
     .grad {
       background: linear-gradient(135deg, #e0d7ff 0%, #a78bfa 45%, #7c3aed 100%);
       -webkit-background-clip: text;
@@ -28,7 +28,7 @@
       background-clip: text;
     }
 
-    /* ── Glass ── */
+    /* в”Ђв”Ђ Glass в”Ђв”Ђ */
     .glass {
       background: rgba(255,255,255,0.04);
       backdrop-filter: blur(16px);
@@ -36,7 +36,7 @@
       border: 1px solid rgba(255,255,255,0.07);
     }
 
-    /* ── Scroll fade-up ── */
+    /* в”Ђв”Ђ Scroll fade-up в”Ђв”Ђ */
     .fu {
       opacity: 0;
       transform: translateY(44px) scale(0.97);
@@ -48,7 +48,7 @@
     .fu.d2  { transition-delay: 240ms; }
     .fu.d3  { transition-delay: 360ms; }
 
-    /* ── Buttons ── */
+    /* в”Ђв”Ђ Buttons в”Ђв”Ђ */
     .btn-p {
       display: inline-block;
       background: #7c3aed;
@@ -74,7 +74,7 @@
     }
     .btn-g:hover { border-color: rgba(255,255,255,0.28); color: #fff; background: rgba(255,255,255,0.04); }
 
-    /* ── Liquid Glass Button ── */
+    /* в”Ђв”Ђ Liquid Glass Button в”Ђв”Ђ */
     .btn-glass {
       position: relative;
       display: inline-flex;
@@ -139,7 +139,7 @@
       user-select: none;
     }
 
-    /* ── Liquid Nav Links ── */
+    /* в”Ђв”Ђ Liquid Nav Links в”Ђв”Ђ */
     .nav-liquid {
       position: relative;
       isolation: isolate;
@@ -178,7 +178,7 @@
       -webkit-backdrop-filter: url("#container-glass");
     }
 
-    /* ── Feature card hover ── */
+    /* в”Ђв”Ђ Feature card hover в”Ђв”Ђ */
     .fc {
       border-radius: 16px;
       transition: border-color 0.25s ease, box-shadow 0.25s ease;
@@ -187,7 +187,7 @@
       border-color: rgba(124,58,237,0.38) !important;
       box-shadow: 0 0 32px rgba(124,58,237,0.09);
     }
-    /* .fc overrides .fu transition — restore all transitions when both classes present */
+    /* .fc overrides .fu transition вЂ” restore all transitions when both classes present */
     .fu.fc {
       transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
                   transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
@@ -195,7 +195,7 @@
                   box-shadow 0.25s ease;
     }
 
-    /* ── Subtle grid bg ── */
+    /* в”Ђв”Ђ Subtle grid bg в”Ђв”Ђ */
     .grid-bg {
       background-image:
         linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
@@ -203,25 +203,25 @@
       background-size: 56px 56px;
     }
 
-    /* ── Separator ── */
+    /* в”Ђв”Ђ Separator в”Ђв”Ђ */
     .sep {
       height: 1px;
       background: linear-gradient(90deg, transparent 0%, rgba(124,58,237,0.45) 50%, transparent 100%);
     }
 
-    /* ── Phone glow ── */
+    /* в”Ђв”Ђ Phone glow в”Ђв”Ђ */
     .phone-wrap {
       filter: drop-shadow(0 0 48px rgba(124,58,237,0.35)) drop-shadow(0 40px 80px rgba(0,0,0,0.8));
     }
 
-    /* ── Pricing popular ── */
+    /* в”Ђв”Ђ Pricing popular в”Ђв”Ђ */
     .popular-card {
       background: rgba(124,58,237,0.09);
       box-shadow: 0 0 0 1px #7c3aed, 0 0 44px rgba(124,58,237,0.22);
       border-radius: 20px;
     }
 
-    /* ── Nav links ── */
+    /* в”Ђв”Ђ Nav links в”Ђв”Ђ */
     .nav-link {
       font-size: .8125rem;
       font-weight: 500;
@@ -236,7 +236,7 @@
       background: rgba(255,255,255,0.07);
     }
 
-    /* ── Nav Switcher (Apple Liquid Glass segmented pill) ── */
+    /* в”Ђв”Ђ Nav Switcher (Apple Liquid Glass segmented pill) в”Ђв”Ђ */
     #nav-switcher-wrap {
       position: relative;
       align-items: center;
@@ -298,7 +298,7 @@
     .nav-sw-link:hover,
     .nav-sw-link.sw-active { color: #e4e4e7; }
 
-    /* ── Mobile nav link (inside single glass bubble) ── */
+    /* в”Ђв”Ђ Mobile nav link (inside single glass bubble) в”Ђв”Ђ */
     .mob-nav-link {
       display: block;
       padding: .75rem 1rem;
@@ -310,18 +310,18 @@
     }
     .mob-nav-link:hover { color: #e4e4e7; background: rgba(255,255,255,0.04); }
 
-    /* ── Nav glass on scroll ── */
+    /* в”Ђв”Ђ Nav glass on scroll в”Ђв”Ђ */
     #nav.scrolled {
       background: rgba(10,10,10,0.92) !important;
       border-color: rgba(255,255,255,0.1) !important;
       box-shadow: 0 0 0 1px rgba(124,58,237,0.15), 0 8px 32px rgba(0,0,0,0.6) !important;
     }
 
-    /* ── Email / chat bubbles ── */
+    /* в”Ђв”Ђ Email / chat bubbles в”Ђв”Ђ */
     .wa-in  { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09); border-radius: 12px 12px 12px 2px; }
     .wa-out { background: rgba(109,40,217,0.35);  border: 1px solid rgba(124,58,237,0.4);  border-radius: 12px 12px 2px 12px; }
 
-    /* ── Green pulse ── */
+    /* в”Ђв”Ђ Green pulse в”Ђв”Ђ */
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
     .pulse { animation: pulse 2s ease-in-out infinite; }
 
@@ -353,20 +353,20 @@
   </defs>
 </svg>
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      NAVBAR
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <header class="fixed top-0 left-0 right-0 z-50 px-5 pt-4">
   <nav id="nav" class="max-w-6xl mx-auto flex items-center justify-between px-5 rounded-2xl"
     style="background:rgba(10,10,10,0.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);box-shadow:0 0 0 1px rgba(124,58,237,0.1),0 8px 32px rgba(0,0,0,0.4);transition:background 0.3s,border-color 0.3s;height:64px;">
 
     <!-- Logo -->
     <a href="#" class="flex items-center gap-1 cursor-pointer select-none" style="flex-shrink:0;">
-      <img src="feelreply_logo_R.png" alt="FeelReply" style="height:54px;width:auto;object-fit:contain;">
+      <img src="logo_site.png" alt="FeelReply" style="height:54px;width:auto;object-fit:contain;">
       <span style="font-size:1.05rem;font-weight:700;letter-spacing:-0.02em;margin-left:-2px;">Feel<span style="color:#a78bfa;">Reply</span></span>
     </a>
 
-    <!-- Links — Apple Liquid Glass segmented pill -->
+    <!-- Links вЂ” Apple Liquid Glass segmented pill -->
     <div id="nav-switcher-wrap" class="hidden md:flex">
       <div id="nav-switcher-pill"></div>
       <a href="#how" class="nav-sw-link" data-section="how">How It Works</a>
@@ -381,7 +381,7 @@
       <a href="auth.html" style="font-size:.8125rem;font-weight:500;" class="nav-link nav-liquid hidden md:block">Log in</a>
       <a href="auth.html" class="btn-glass hidden md:inline-flex" style="font-size:.8125rem;padding:.5rem 1.1rem;">
         <span class="btn-glass-lens"></span>
-        <span class="btn-glass-text">Get Started →</span>
+        <span class="btn-glass-text">Get Started в†’</span>
       </a>
       <!-- Hamburger (mobile only) -->
       <button id="hamburger" class="md:hidden flex flex-col justify-center items-center gap-1.5 w-9 h-9 rounded-lg" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);" onclick="toggleMobileMenu()" aria-label="Menu">
@@ -408,21 +408,21 @@
     </div>
     <a href="auth.html" class="btn-glass" style="display:flex;width:100%;justify-content:center;margin-top:.75rem;padding:.75rem;border-radius:10px;font-size:.9375rem;">
       <span class="btn-glass-lens"></span>
-      <span class="btn-glass-text">Get Started →</span>
+      <span class="btn-glass-text">Get Started в†’</span>
     </a>
   </div>
 </header>
 
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      HERO
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <section class="grid-bg relative hero-section" style="padding: 1.5rem 1rem 0; min-height:100vh; display:flex; flex-direction:column; align-items:center; overflow:hidden;">
 
   <!-- WebGL shader background -->
   <canvas id="heroGlCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;pointer-events:none;"></canvas>
 
-  <!-- ── Text block — centered ── -->
+  <!-- в”Ђв”Ђ Text block вЂ” centered в”Ђв”Ђ -->
   <div class="max-w-2xl mx-auto w-full relative" style="z-index:1;text-align:center;">
     <!-- Badge -->
     <div class="fu inline-flex items-center gap-2 mb-5" style="background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.18);border-radius:999px;padding:.25rem .875rem;opacity:.55;">
@@ -450,7 +450,7 @@
     </div>
   </div>
 
-  <!-- ── Phone — centered below text, bottom crops at section edge ── -->
+  <!-- в”Ђв”Ђ Phone вЂ” centered below text, bottom crops at section edge в”Ђв”Ђ -->
   <div class="fu d2 relative" style="z-index:1;display:flex;justify-content:center;width:100%;margin-top:3.5rem;flex-shrink:0;">
 
     <!-- Glow halo -->
@@ -467,7 +467,7 @@
 
           <!-- WA Header -->
           <div style="background:#111827;padding:32px 14px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
-            <img src="feelreply_logo_R.png" alt="FeelReply" style="width:50px;height:50px;object-fit:contain;flex-shrink:0;">
+            <img src="logo_site.png" alt="FeelReply" style="width:50px;height:50px;object-fit:contain;flex-shrink:0;">
             <div>
               <p style="color:#fff;font-size:.8125rem;font-weight:600;line-height:1.2;">FeelReply</p>
               <div style="display:flex;align-items:center;gap:4px;">
@@ -565,9 +565,9 @@
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      HOW IT WORKS
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <style>
   @keyframes catIn {
     from { opacity: 0; transform: translateY(30px); }
@@ -703,9 +703,9 @@
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      FEATURES
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <section id="features" style="padding:6rem 1rem;">
   <div class="max-w-6xl mx-auto">
 
@@ -817,7 +817,7 @@
     },
     {
       title:'24/7 Monitoring',
-      desc:'FeelReply never sleeps. Every review is caught instantly — day, night, or weekend.',
+      desc:'FeelReply never sleeps. Every review is caught instantly вЂ” day, night, or weekend.',
       svg:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>',
     },
     {
@@ -948,9 +948,9 @@
 
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      LIVE DEMO
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <section id="demo" style="padding:6rem 1rem;">
   <div style="max-width:680px;margin:0 auto;">
 
@@ -971,7 +971,7 @@
       <!-- Card header -->
       <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #1f1f1f;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
         <div style="display:flex;align-items:center;gap:.875rem;">
-          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">🍕</div>
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">рџЌ•</div>
           <div>
             <div style="font-size:.9375rem;font-weight:700;color:#fff;">Tony's Pizzeria</div>
             <div style="font-size:.75rem;color:#52525b;">Tone: <span style="color:#a78bfa;" id="demo-tone-label">Professional</span></div>
@@ -1003,11 +1003,11 @@
           <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:.625rem;">Star rating</label>
           <div style="display:flex;align-items:center;gap:.5rem;">
             <div id="demo-stars" style="display:flex;gap:.25rem;">
-              <span class="demo-star active" data-v="1" onclick="setDemoRating(1)">★</span>
-              <span class="demo-star active" data-v="2" onclick="setDemoRating(2)">★</span>
-              <span class="demo-star active" data-v="3" onclick="setDemoRating(3)">★</span>
-              <span class="demo-star active" data-v="4" onclick="setDemoRating(4)">★</span>
-              <span class="demo-star" data-v="5" onclick="setDemoRating(5)">★</span>
+              <span class="demo-star active" data-v="1" onclick="setDemoRating(1)">в…</span>
+              <span class="demo-star active" data-v="2" onclick="setDemoRating(2)">в…</span>
+              <span class="demo-star active" data-v="3" onclick="setDemoRating(3)">в…</span>
+              <span class="demo-star active" data-v="4" onclick="setDemoRating(4)">в…</span>
+              <span class="demo-star" data-v="5" onclick="setDemoRating(5)">в…</span>
             </div>
             <span id="demo-rating-label" style="font-size:.8125rem;color:#a78bfa;font-weight:500;">Positive</span>
           </div>
@@ -1016,7 +1016,7 @@
         <!-- Review text -->
         <div>
           <label style="display:block;font-size:.8125rem;font-weight:500;color:#71717a;margin-bottom:.625rem;">Type a review to test</label>
-          <textarea id="demo-review-text" placeholder="e.g. Great pizza but parking was a nightmare…" style="width:100%;background:#0d0d0d;border:1px solid #262626;border-radius:12px;padding:1rem;font-size:.9375rem;color:#d4d4d8;line-height:1.65;resize:none;height:90px;outline:none;transition:border-color .2s;font-family:inherit;box-sizing:border-box;" onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='#262626'"></textarea>
+          <textarea id="demo-review-text" placeholder="e.g. Great pizza but parking was a nightmareвЂ¦" style="width:100%;background:#0d0d0d;border:1px solid #262626;border-radius:12px;padding:1rem;font-size:.9375rem;color:#d4d4d8;line-height:1.65;resize:none;height:90px;outline:none;transition:border-color .2s;font-family:inherit;box-sizing:border-box;" onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='#262626'"></textarea>
         </div>
 
         <!-- Generate button -->
@@ -1039,7 +1039,7 @@
           <div style="margin-top:1rem;display:flex;gap:.625rem;justify-content:flex-end;">
             <button onclick="copyDemoReply()" style="padding:.5rem 1rem;background:transparent;border:1px solid #262626;border-radius:8px;font-size:.8125rem;color:#a1a1aa;cursor:pointer;transition:border-color .2s,color .2s;" onmouseover="this.style.borderColor='#7c3aed';this.style.color='#a78bfa'" onmouseout="this.style.borderColor='#262626';this.style.color='#a1a1aa'" id="demo-copy-btn">Copy reply</button>
             <a href="/dashboard.html" style="padding:.5rem 1rem;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;border-radius:8px;font-size:.8125rem;font-weight:600;color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:.375rem;">
-              Get started →
+              Get started в†’
             </a>
           </div>
         </div>
@@ -1117,7 +1117,7 @@
     result.style.display   = 'none';
     errorBox.style.display = 'none';
     btn.disabled  = true;
-    btnLabel.textContent = 'Generating…';
+    btnLabel.textContent = 'GeneratingвЂ¦';
 
     try {
       const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/demo-reply', {
@@ -1162,9 +1162,9 @@
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      TESTIMONIALS
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <section id="testimonials" style="padding:6rem 1rem;overflow:hidden;">
   <style>
     @keyframes tcScrollUp { from{transform:translateY(0)} to{transform:translateY(-50%)} }
@@ -1188,7 +1188,7 @@
 
     <div style="display:flex;justify-content:center;gap:1.5rem;max-height:740px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent,black 25%,black 75%,transparent);mask-image:linear-gradient(to bottom,transparent,black 25%,black 75%,transparent);">
 
-      <!-- Column 1 — 15s -->
+      <!-- Column 1 вЂ” 15s -->
       <div style="flex:1;max-width:320px;min-width:0;">
         <div style="display:flex;flex-direction:column;gap:1.5rem;padding-bottom:1.5rem;animation:tcScrollUp 15s linear infinite;">
           <div class="tc-card">
@@ -1197,27 +1197,27 @@
               <img src="https://randomuser.me/api/portraits/men/32.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Marco Ferretti">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Marco Ferretti</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Trattoria al Porto · Milan</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Trattoria al Porto В· Milan</div>
               </div>
             </div>
           </div>
           <div class="tc-card">
-            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"As a hotel manager, I was drowning in reviews across three properties. FeelReply drafts replies that actually sound like us — not like a robot. Guests have noticed the difference."</p>
+            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"As a hotel manager, I was drowning in reviews across three properties. FeelReply drafts replies that actually sound like us вЂ” not like a robot. Guests have noticed the difference."</p>
             <div style="display:flex;align-items:center;gap:10px;margin-top:1.25rem;">
               <img src="https://randomuser.me/api/portraits/women/44.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Sophie Vandermeer">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Sophie Vandermeer</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Boutique Hotel Group · Brussels</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Boutique Hotel Group В· Brussels</div>
               </div>
             </div>
           </div>
           <div class="tc-card">
             <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"A negative review used to ruin my whole morning. Now FeelReply catches it immediately, drafts a calm professional reply, and I just click approve. My stress level has dropped noticeably."</p>
             <div style="display:flex;align-items:center;gap:10px;margin-top:1.25rem;">
-              <img src="https://randomuser.me/api/portraits/men/18.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Andrés Ruiz">
+              <img src="https://randomuser.me/api/portraits/men/18.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="AndrГ©s Ruiz">
               <div>
-                <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Andrés Ruiz</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Café Central · Madrid</div>
+                <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">AndrГ©s Ruiz</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">CafГ© Central В· Madrid</div>
               </div>
             </div>
           </div>
@@ -1228,34 +1228,34 @@
               <img src="https://randomuser.me/api/portraits/men/32.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Marco Ferretti">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Marco Ferretti</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Trattoria al Porto · Milan</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Trattoria al Porto В· Milan</div>
               </div>
             </div>
           </div>
           <div class="tc-card">
-            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"As a hotel manager, I was drowning in reviews across three properties. FeelReply drafts replies that actually sound like us — not like a robot. Guests have noticed the difference."</p>
+            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"As a hotel manager, I was drowning in reviews across three properties. FeelReply drafts replies that actually sound like us вЂ” not like a robot. Guests have noticed the difference."</p>
             <div style="display:flex;align-items:center;gap:10px;margin-top:1.25rem;">
               <img src="https://randomuser.me/api/portraits/women/44.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Sophie Vandermeer">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Sophie Vandermeer</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Boutique Hotel Group · Brussels</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Boutique Hotel Group В· Brussels</div>
               </div>
             </div>
           </div>
           <div class="tc-card">
             <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"A negative review used to ruin my whole morning. Now FeelReply catches it immediately, drafts a calm professional reply, and I just click approve. My stress level has dropped noticeably."</p>
             <div style="display:flex;align-items:center;gap:10px;margin-top:1.25rem;">
-              <img src="https://randomuser.me/api/portraits/men/18.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Andrés Ruiz">
+              <img src="https://randomuser.me/api/portraits/men/18.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="AndrГ©s Ruiz">
               <div>
-                <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Andrés Ruiz</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Café Central · Madrid</div>
+                <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">AndrГ©s Ruiz</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">CafГ© Central В· Madrid</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Column 2 — 19s (hidden on mobile) -->
+      <!-- Column 2 вЂ” 19s (hidden on mobile) -->
       <div class="hidden md:block" style="flex:1;max-width:320px;min-width:0;">
         <div style="display:flex;flex-direction:column;gap:1.5rem;padding-bottom:1.5rem;animation:tcScrollUp 19s linear infinite;">
           <div class="tc-card">
@@ -1264,7 +1264,7 @@
               <img src="https://randomuser.me/api/portraits/women/68.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Laura Schmidt">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Laura Schmidt</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Smile Dental Clinic · Berlin</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Smile Dental Clinic В· Berlin</div>
               </div>
             </div>
           </div>
@@ -1274,17 +1274,17 @@
               <img src="https://randomuser.me/api/portraits/men/22.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Tom Eriksson">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Tom Eriksson</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Northside Barbershop · Stockholm</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Northside Barbershop В· Stockholm</div>
               </div>
             </div>
           </div>
           <div class="tc-card">
-            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"Our spa gets 30–40 reviews a month and personalising each reply was a full-time job. FeelReply does it better than we ever did — and the tone is always warm and on-brand."</p>
+            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"Our spa gets 30вЂ“40 reviews a month and personalising each reply was a full-time job. FeelReply does it better than we ever did вЂ” and the tone is always warm and on-brand."</p>
             <div style="display:flex;align-items:center;gap:10px;margin-top:1.25rem;">
               <img src="https://randomuser.me/api/portraits/women/29.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Natalia Kowalski">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Natalia Kowalski</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Aura Wellness Spa · Warsaw</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Aura Wellness Spa В· Warsaw</div>
               </div>
             </div>
           </div>
@@ -1295,7 +1295,7 @@
               <img src="https://randomuser.me/api/portraits/women/68.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Laura Schmidt">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Laura Schmidt</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Smile Dental Clinic · Berlin</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Smile Dental Clinic В· Berlin</div>
               </div>
             </div>
           </div>
@@ -1305,24 +1305,24 @@
               <img src="https://randomuser.me/api/portraits/men/22.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Tom Eriksson">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Tom Eriksson</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Northside Barbershop · Stockholm</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Northside Barbershop В· Stockholm</div>
               </div>
             </div>
           </div>
           <div class="tc-card">
-            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"Our spa gets 30–40 reviews a month and personalising each reply was a full-time job. FeelReply does it better than we ever did — and the tone is always warm and on-brand."</p>
+            <p style="font-size:.9375rem;color:#d4d4d8;line-height:1.7;">"Our spa gets 30вЂ“40 reviews a month and personalising each reply was a full-time job. FeelReply does it better than we ever did вЂ” and the tone is always warm and on-brand."</p>
             <div style="display:flex;align-items:center;gap:10px;margin-top:1.25rem;">
               <img src="https://randomuser.me/api/portraits/women/29.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Natalia Kowalski">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Natalia Kowalski</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Aura Wellness Spa · Warsaw</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Aura Wellness Spa В· Warsaw</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Column 3 — 17s (hidden on mobile & tablet) -->
+      <!-- Column 3 вЂ” 17s (hidden on mobile & tablet) -->
       <div class="hidden lg:block" style="flex:1;max-width:320px;min-width:0;">
         <div style="display:flex;flex-direction:column;gap:1.5rem;padding-bottom:1.5rem;animation:tcScrollUp 17s linear infinite;">
           <div class="tc-card">
@@ -1331,7 +1331,7 @@
               <img src="https://randomuser.me/api/portraits/men/55.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Pavel Novak">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Pavel Novak</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Golden Bakery · Prague</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Golden Bakery В· Prague</div>
               </div>
             </div>
           </div>
@@ -1341,7 +1341,7 @@
               <img src="https://randomuser.me/api/portraits/women/12.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Elena Rossi">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Elena Rossi</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Fit & Flow Studio · Rome</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Fit & Flow Studio В· Rome</div>
               </div>
             </div>
           </div>
@@ -1351,7 +1351,7 @@
               <img src="https://randomuser.me/api/portraits/men/41.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="James O'Brien">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">James O'Brien</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">O'Brien Plumbing · Dublin</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">O'Brien Plumbing В· Dublin</div>
               </div>
             </div>
           </div>
@@ -1362,7 +1362,7 @@
               <img src="https://randomuser.me/api/portraits/men/55.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Pavel Novak">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Pavel Novak</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Golden Bakery · Prague</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Golden Bakery В· Prague</div>
               </div>
             </div>
           </div>
@@ -1372,7 +1372,7 @@
               <img src="https://randomuser.me/api/portraits/women/12.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="Elena Rossi">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">Elena Rossi</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Fit & Flow Studio · Rome</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">Fit & Flow Studio В· Rome</div>
               </div>
             </div>
           </div>
@@ -1382,7 +1382,7 @@
               <img src="https://randomuser.me/api/portraits/men/41.jpg" width="40" height="40" style="border-radius:50%;object-fit:cover;flex-shrink:0;" alt="James O'Brien">
               <div>
                 <div style="font-size:.875rem;font-weight:600;color:#fff;line-height:1.3;">James O'Brien</div>
-                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">O'Brien Plumbing · Dublin</div>
+                <div style="font-size:.8125rem;line-height:1.3;color:#71717a;">O'Brien Plumbing В· Dublin</div>
               </div>
             </div>
           </div>
@@ -1396,9 +1396,9 @@
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      PRICING
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <section id="pricing" style="padding:6rem 1rem;">
   <div class="max-w-6xl mx-auto">
 
@@ -1426,7 +1426,7 @@
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Up to 50 reviews/month</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>AI reads &amp; analyses every review</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>AI drafts a contextual response for each review</li>
-          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Email notification — approve with one click</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Email notification вЂ” approve with one click</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Manual approval required before every post</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Basic support via email</li>
           <li style="height:1px;background:rgba(255,255,255,0.06);margin:4px 0;list-style:none;"></li>
@@ -1449,7 +1449,7 @@
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unlimited reviews/month</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Everything in Lite</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Auto-post after 24h if not approved</li>
-          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Analytics — reply time, rating trends, sentiment</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Analytics вЂ” reply time, rating trends, sentiment</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#d4d4d8;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Priority support via email</li>
           <li style="height:1px;background:rgba(255,255,255,0.08);margin:4px 0;list-style:none;"></li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#4b4558;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#4b4558" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>No white-label</li>
@@ -1468,10 +1468,10 @@
         <ul style="display:flex;flex-direction:column;gap:9px;">
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unlimited reviews/month</li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Everything in Pro</li>
-          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Custom AI tone — describe your brand voice in your own words</li>
-          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#52525b;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#6b7280" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>White-label — resell under your own brand <span style="font-size:.625rem;font-weight:600;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;vertical-align:middle;color:#52525b;">soon</span></li>
-          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unified agency dashboard — all clients in one view</li>
-          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#52525b;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#6b7280" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>Client access controls — individual login per owner <span style="font-size:.625rem;font-weight:600;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;vertical-align:middle;color:#52525b;">soon</span></li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Custom AI tone вЂ” describe your brand voice in your own words</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#52525b;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#6b7280" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>White-label вЂ” resell under your own brand <span style="font-size:.625rem;font-weight:600;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;vertical-align:middle;color:#52525b;">soon</span></li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Unified agency dashboard вЂ” all clients in one view</li>
+          <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#52525b;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#6b7280" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>Client access controls вЂ” individual login per owner <span style="font-size:.625rem;font-weight:600;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;vertical-align:middle;color:#52525b;">soon</span></li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#52525b;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#6b7280" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>Monthly performance report per location <span style="font-size:.625rem;font-weight:600;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;vertical-align:middle;color:#52525b;">soon</span></li>
           <li style="display:flex;align-items:flex-start;gap:9px;font-size:.8125rem;color:#a1a1aa;"><svg style="flex-shrink:0;margin-top:2px;" width="14" height="14" fill="none" stroke="#7c3aed" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>Dedicated priority support via email</li>
         </ul>
@@ -1489,9 +1489,9 @@
 <div class="sep" style="max-width:72rem;margin:0 auto;"></div>
 
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      CTA
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <section style="padding:7rem 1rem;position:relative;overflow:hidden;">
   <!-- Glow -->
   <div style="position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;">
@@ -1521,16 +1521,16 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════
+<!-- в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ
      FOOTER
-════════════════════════════════════════════ -->
+в•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђв•ђ -->
 <footer style="border-top:1px solid rgba(255,255,255,.06);padding:3rem 1rem;">
   <div class="max-w-6xl mx-auto">
     <div class="grid md:grid-cols-4 gap-8 mb-10">
 
       <div class="md:col-span-2">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <img src="feelreply_logo_R.png" alt="FeelReply" style="height:50px;width:auto;object-fit:contain;">
+          <img src="logo_site.png" alt="FeelReply" style="height:50px;width:auto;object-fit:contain;">
           <span style="font-size:1rem;font-weight:700;">Feel<span style="color:#a78bfa;">Reply</span></span>
         </div>
         <p style="font-size:.875rem;color:#52525b;line-height:1.65;max-width:230px;">AI review replies via email. One click to publish on Google Maps.</p>
@@ -1710,12 +1710,12 @@
       yBtn.style.color = '#a1a1aa';
     }
     const p = isYearly
-      ? { lite: '€15', pro: '€39', max: '€79' }
-      : { lite: '€19', pro: '€49', max: '€99' };
+      ? { lite: 'в‚¬15', pro: 'в‚¬39', max: 'в‚¬79' }
+      : { lite: 'в‚¬19', pro: 'в‚¬49', max: 'в‚¬99' };
     document.getElementById('price-lite').textContent = p.lite;
     document.getElementById('price-pro').textContent  = p.pro;
     document.getElementById('price-max').textContent  = p.max;
-    const suffix = isYearly ? ' · billed yearly' : '';
+    const suffix = isYearly ? ' В· billed yearly' : '';
     document.getElementById('sub-lite').textContent = '1 location' + suffix;
     document.getElementById('sub-pro').textContent  = 'up to 5 locations' + suffix;
     document.getElementById('sub-max').textContent  = 'up to 15 locations' + suffix;
@@ -1808,3 +1808,4 @@
 
 </body>
 </html>
+
