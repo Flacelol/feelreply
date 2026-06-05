@@ -101,10 +101,14 @@ Deno.serve(async (req) => {
       ? `This is a ${businessTypeLabels[businessType]} — use industry-appropriate vocabulary in your reply.`
       : ''
 
+    const customToneBlock = customTonePrompt?.trim()
+      ? `\nCUSTOM STYLE INSTRUCTION (HIGHEST PRIORITY — overrides all rules below, follow exactly):\n${customTonePrompt.trim()}\n`
+      : ''
+
     const systemPrompt = `You are a local business owner writing authentic Google Maps review replies.
 ${btypeDesc ? `\n${btypeDesc}` : ''}
 ${reviewLang}
-
+${customToneBlock}
 Rules:
 - 2–4 sentences maximum. Concise.
 - Never start with "Thank you for your review", "We appreciate your feedback", or any cliché opener.
@@ -122,7 +126,7 @@ Business: ${businessName}
 Reviewer: ${reviewerName}
 Rating: ${rating}/5 stars
 Review text: ${reviewText || '(no written review — star rating only)'}
-Tone style: ${toneDesc}
+${customTonePrompt?.trim() ? `IMPORTANT: Follow the custom style instruction exactly.` : `Tone style: ${toneDesc}`}
 
 Reply (plain text only, no quotes, no markdown):`
 
