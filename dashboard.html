@@ -847,6 +847,11 @@
           </div>
           <div id="plan-upgrade-btns" style="display:flex;gap:.5rem;flex-wrap:wrap;"></div>
         </div>
+        <div id="refund-btn-wrap" style="display:none;margin-top:.75rem;">
+          <button onclick="requestRefund()" id="btn-refund" style="background:none;border:none;font-size:.8125rem;color:#52525b;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;">
+            Request refund (7-day guarantee)
+          </button>
+        </div>
       </div>
 
       <div class="glass" style="padding:1.5rem;">
@@ -1967,6 +1972,7 @@ function updatePlanBadge(plan) {
   const btnsEl = document.getElementById('plan-upgrade-btns')
   if (!nameEl) return
 
+  const refundWrap = document.getElementById('refund-btn-wrap')
   if (info) {
     nameEl.textContent = `FeelReply ${info.label} — ${info.price}`
     const expires = profile?.plan_expires_at ? new Date(profile.plan_expires_at) : null
@@ -1979,12 +1985,14 @@ function updatePlanBadge(plan) {
       descEl.textContent = expires ? `Next payment: ${expires.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })}` : 'Active subscription'
       btnsEl.innerHTML = `<button onclick="cancelSubscription()" style="font-size:.75rem;padding:.375rem .875rem;background:transparent;border:1px solid rgba(239,68,68,0.35);color:#f87171;border-radius:8px;cursor:pointer;font-weight:500;transition:background .2s,border-color .2s;" onmouseover="this.style.background='rgba(239,68,68,0.1)';this.style.borderColor='rgba(239,68,68,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(239,68,68,0.35)'">Cancel subscription</button>`
     }
+    if (refundWrap) refundWrap.style.display = ''
   } else {
     nameEl.textContent = 'Free'
     descEl.textContent = 'No active subscription'
     btnsEl.innerHTML = Object.entries(PLAN_INFO).map(([key, p]) =>
       `<a href="auth.html?plan=${key}" class="btn-p" style="font-size:.75rem;padding:.375rem .75rem;">${p.label} ${p.price}</a>`
     ).join('')
+    if (refundWrap) refundWrap.style.display = 'none'
   }
 }
 
@@ -2057,6 +2065,36 @@ async function cancelSubscription() {
   } catch (err) {
     toast(err.message, true)
     if (btn) { btn.disabled = false; btn.textContent = 'Cancel subscription' }
+  }
+}
+
+// ── Refund subscription ──────────────────────────────────
+async function requestRefund() {
+  if (!confirm('Request a refund?\n\nThis will:\n• Refund your last payment\n• Cancel your subscription immediately\n• Downgrade your account to Free\n\nThis cannot be undone.')) return
+
+  const btn = document.getElementById('btn-refund')
+  if (btn) { btn.disabled = true; btn.textContent = 'Processing…' }
+
+  try {
+    const { data: { session } } = await sb.auth.getSession()
+    const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/refund-subscription', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || 'Refund failed')
+
+    toast(`Refund of ${data.currency} ${data.amount} processed. You'll receive it within 5–10 business days.`)
+    profile.plan = 'free'
+    profile.plan_expires_at = null
+    updatePlanBadge('free')
+    applyPlanFeatures('free')
+  } catch (err) {
+    toast(err.message, true)
+    if (btn) { btn.disabled = false; btn.textContent = 'Request refund (7-day guarantee)' }
   }
 }
 
