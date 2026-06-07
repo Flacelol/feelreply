@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FeelReply – AI Replies for Google Maps Reviews</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
@@ -378,7 +379,7 @@
 
     <!-- CTA + hamburger -->
     <div class="flex items-center gap-3" style="flex-shrink:0;">
-      <a href="auth.html" style="font-size:.8125rem;font-weight:500;" class="nav-link nav-liquid hidden md:block">Log in</a>
+      <a id="nav-login" href="auth.html" style="font-size:.8125rem;font-weight:500;" class="nav-link nav-liquid hidden md:block">Log in</a>
       <a href="auth.html" class="btn-glass hidden md:inline-flex" style="font-size:.8125rem;padding:.5rem 1.1rem;">
         <span class="btn-glass-lens"></span>
         <span class="btn-glass-text">Get Started →</span>
@@ -403,7 +404,7 @@
       <a href="#pricing"       onclick="toggleMobileMenu()" class="mob-nav-link">Pricing</a>
     </div>
     <!-- Log in bubble -->
-    <div style="border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);overflow:hidden;margin-top:.5rem;">
+    <div id="mob-login-wrap" style="border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);overflow:hidden;margin-top:.5rem;">
       <a href="auth.html" class="mob-nav-link">Log in</a>
     </div>
     <a href="auth.html" class="btn-glass" style="display:flex;width:100%;justify-content:center;margin-top:.75rem;padding:.75rem;border-radius:10px;font-size:.9375rem;">
@@ -1802,6 +1803,43 @@
       toggleMobileMenu(true);
     }
   });
+</script>
+
+<script>
+  // Auth state — replace Log in with user info if already signed in
+  (async function() {
+    const SUPABASE_URL = 'https://alqevbdpeuwrosjcvauf.supabase.co'
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFscWV2YmRwZXV3cm9zamN2YXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMDQxNDksImV4cCI6MjA5MzU4MDE0OX0.pb8d-ZCnDJuJR42-hTfF_O-5xDdIYaAukHj5sXCxXtE'
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    const { data: { session } } = await sb.auth.getSession()
+    if (!session) return
+
+    const { data: prof } = await sb.from('profiles').select('business_name').eq('id', session.user.id).single()
+    const name = prof?.business_name || session.user.email?.split('@')[0] || 'Dashboard'
+
+    // Desktop: replace "Log in" with person icon + business name → dashboard
+    const navLogin = document.getElementById('nav-login')
+    if (navLogin) {
+      navLogin.href = 'dashboard.html'
+      navLogin.style.display = 'flex'
+      navLogin.style.alignItems = 'center'
+      navLogin.style.gap = '6px'
+      navLogin.innerHTML = `
+        <span style="width:26px;height:26px;background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="13" height="13" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+        </span>
+        <span style="color:#a78bfa;font-size:.8125rem;font-weight:500;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${name}</span>`
+    }
+
+    // Mobile: replace "Log in" bubble with dashboard link
+    const mobWrap = document.getElementById('mob-login-wrap')
+    if (mobWrap) {
+      mobWrap.innerHTML = `<a href="dashboard.html" class="mob-nav-link" style="display:flex;align-items:center;gap:8px;">
+        <svg width="15" height="15" fill="none" stroke="#a78bfa" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+        ${name} — Dashboard
+      </a>`
+    }
+  })()
 </script>
 
 </body>
