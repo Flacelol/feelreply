@@ -24,6 +24,8 @@ const PLAN_IDS: Record<string, string> = {
   'FeelReply Max':  'max',
 }
 
+const PLAN_RANK: Record<string, number> = { free: 0, lite: 1, pro: 2, max: 3 }
+
 const PLAN_LABELS: Record<string, string> = {
   lite: 'Lite  €19/mo',
   pro:  'Pro  €49/mo',
@@ -102,8 +104,11 @@ Deno.serve(async (req) => {
 
       // Cancel any old subscriptions so user isn't double-charged on upgrade
       if (customerId && newSubId) {
-        const oldSubs = await stripe.subscriptions.list({ customer: customerId, status: 'active' })
-        for (const sub of oldSubs.data) {
+        const [activeSubs, trialingSubs] = await Promise.all([
+          stripe.subscriptions.list({ customer: customerId, status: 'active' }),
+          stripe.subscriptions.list({ customer: customerId, status: 'trialing' }),
+        ])
+        for (const sub of [...activeSubs.data, ...trialingSubs.data]) {
           if (sub.id !== newSubId) {
             await stripe.subscriptions.cancel(sub.id)
             console.log('Cancelled old subscription on upgrade:', sub.id)
@@ -133,9 +138,16 @@ Deno.serve(async (req) => {
           plan_expires_at: isYearly ? addDays(365) : addDays(30),
           updated_at:      new Date().toISOString(),
         }
-        // Only update plan on renewal (not first invoice — checkout.session.completed handles that)
+        // Only update plan on renewal, and only if it's the same or higher tier than current
         if (renewedPlan && invoice.billing_reason === 'subscription_cycle') {
-          updates.plan = renewedPlan
+          const { data: currentProf } = await supabase.from('profiles').select('plan').eq('stripe_customer_id', customerId).single()
+          const currentRank = PLAN_RANK[currentProf?.plan ?? 'free'] ?? 0
+          const renewedRank = PLAN_RANK[renewedPlan] ?? 0
+          if (renewedRank >= currentRank) {
+            updates.plan = renewedPlan
+          } else {
+            console.log(`Skipping plan downgrade: current=${currentProf?.plan}, renewed=${renewedPlan}`)
+          }
         }
         const { error } = await supabase.from('profiles').update(updates).eq('stripe_customer_id', customerId)
         if (error) console.error('invoice.payment_succeeded update error:', error)
@@ -176,18 +188,25 @@ Deno.serve(async (req) => {
       const customerId = sub.customer as string
 
       if (customerId) {
-        const { error } = await supabase.from('profiles').update({
-          plan:            'free',
-          plan_expires_at: null,
-          updated_at:      new Date().toISOString(),
-        }).eq('stripe_customer_id', customerId)
-        if (error) console.error('subscription_deleted update error:', error)
-      }
+        // Only downgrade to free if no other active subscriptions remain.
+        // This prevents old-sub cancellations (during upgrade) from wiping the new plan.
+        const remaining = await stripe.subscriptions.list({ customer: customerId, status: 'active' })
+        if (remaining.data.length === 0) {
+          const { error } = await supabase.from('profiles').update({
+            plan:            'free',
+            plan_expires_at: null,
+            updated_at:      new Date().toISOString(),
+          }).eq('stripe_customer_id', customerId)
+          if (error) console.error('subscription_deleted update error:', error)
 
-      await tg(
-        `❌ <b>Subscription cancelled</b>\n` +
-        `👤 Customer: <code>${customerId}</code>`
-      )
+          await tg(
+            `❌ <b>Subscription cancelled</b>\n` +
+            `👤 Customer: <code>${customerId}</code>`
+          )
+        } else {
+          console.log(`Subscription deleted but customer still has ${remaining.data.length} active sub(s), skipping downgrade`)
+        }
+      }
     }
 
   } catch (err) {
