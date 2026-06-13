@@ -20,7 +20,7 @@ Deno.serve(async (req) => {
 
   try {
     const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY')!, { apiVersion: '2024-06-20' })
-    const { plan, billing, email, userId, origin } = await req.json()
+    const { plan, billing, email, userId, stripeCustomerId, origin } = await req.json()
 
     const planInfo = PLANS[plan]
     if (!planInfo) throw new Error(`Invalid plan: ${plan}`)
@@ -29,6 +29,11 @@ Deno.serve(async (req) => {
     const amount = isYearly ? planInfo.yearly : planInfo.monthly
     const interval = isYearly ? 'year' : 'month'
     const description = isYearly ? 'Annual subscription · cancel anytime' : 'Monthly subscription · cancel anytime'
+
+    // Reuse existing Stripe customer to prevent duplicate customers on upgrade
+    const customerParam = stripeCustomerId
+      ? { customer: stripeCustomerId }
+      : { customer_email: email }
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
@@ -42,7 +47,7 @@ Deno.serve(async (req) => {
         },
         quantity: 1,
       }],
-      customer_email: email,
+      ...customerParam,
       success_url: `${origin}/dashboard.html?payment=success&plan=${plan}`,
       cancel_url: `${origin}/index.html#pricing`,
       metadata: { user_id: userId, plan, billing: billing || 'monthly' },

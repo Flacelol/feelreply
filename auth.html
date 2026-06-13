@@ -251,10 +251,14 @@
       if (btn) { btn.disabled = true; btn.textContent = 'Redirecting to checkout…' }
 
       try {
+        // Fetch existing stripe_customer_id so Stripe reuses the same customer on upgrade
+        const { data: prof } = await sb.from('profiles').select('stripe_customer_id').eq('id', session.user.id).single()
+        const stripeCustomerId = prof?.stripe_customer_id || null
+
         const res = await fetch('https://alqevbdpeuwrosjcvauf.supabase.co/functions/v1/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-          body: JSON.stringify({ plan, billing, email: session.user.email, userId: session.user.id, origin: window.location.origin + window.location.pathname.replace('auth.html', '').replace(/\/$/, '') })
+          body: JSON.stringify({ plan, billing, email: session.user.email, userId: session.user.id, stripeCustomerId, origin: window.location.origin + window.location.pathname.replace('auth.html', '').replace(/\/$/, '') })
         })
         const { url, error } = await res.json()
         if (error) throw new Error(error)
