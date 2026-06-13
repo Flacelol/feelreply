@@ -60,6 +60,9 @@
     localStorage.setItem(KEY, choice)
     banner.style.transform = 'translateX(-50%) translateY(140%)'
     setTimeout(() => banner.remove(), 500)
+    if (choice === 'accepted') {
+      document.dispatchEvent(new CustomEvent('cookieAccepted'))
+    }
   }
 
   document.getElementById('cookie-accept').addEventListener('click', () => dismiss('accepted'))
