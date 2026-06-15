@@ -4,6 +4,17 @@
 
 import { createClient } from 'npm:@supabase/supabase-js@2'
 
+async function tg(text: string): Promise<void> {
+  const token  = Deno.env.get('TELEGRAM_BOT_TOKEN')
+  const chatId = Deno.env.get('TELEGRAM_CHAT_ID')
+  if (!token || !chatId) return
+  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' }),
+  }).catch(() => {})
+}
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -26,7 +37,7 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders })
     }
 
-    const { data: profile } = await sb.from('profiles').select('stripe_customer_id').eq('id', user.id).single()
+    const { data: profile } = await sb.from('profiles').select('stripe_customer_id, plan, notification_email').eq('id', user.id).single()
 
     let customerId = profile?.stripe_customer_id
 
@@ -86,6 +97,16 @@ Deno.serve(async (req) => {
         .update({ plan_expires_at: new Date(cancelData.cancel_at * 1000).toISOString() })
         .eq('id', user.id)
     }
+
+    const accessUntil = cancelData.cancel_at
+      ? new Date(cancelData.cancel_at * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+      : 'end of period'
+    await tg(
+      `😢 <b>Cancellation requested</b>\n` +
+      `User: ${profile?.notification_email || user.email}\n` +
+      `Plan: ${(profile?.plan || 'unknown').toUpperCase()}\n` +
+      `Access until: ${accessUntil}`
+    )
 
     return new Response(JSON.stringify({ success: true, cancel_at: cancelData.cancel_at }), {
       status: 200,
