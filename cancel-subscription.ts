@@ -27,15 +27,37 @@ Deno.serve(async (req) => {
     }
 
     const { data: profile } = await sb.from('profiles').select('stripe_customer_id').eq('id', user.id).single()
-    if (!profile?.stripe_customer_id) {
+
+    let customerId = profile?.stripe_customer_id
+
+    // Fallback: look up customer by email if stripe_customer_id is missing
+    if (!customerId) {
+      const searchRes = await fetch(
+        `https://api.stripe.com/v1/customers/search?query=email:"${encodeURIComponent(user.email!)}"&limit=1`,
+        { headers: { 'Authorization': `Bearer ${Deno.env.get('STRIPE_SECRET_KEY')}` } }
+      )
+      const searchData = await searchRes.json()
+      customerId = searchData.data?.[0]?.id
+      if (customerId) {
+        await sb.from('profiles').update({ stripe_customer_id: customerId }).eq('id', user.id)
+      }
+    }
+
+    if (!customerId) {
       return new Response(JSON.stringify({ error: 'No subscription found' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
 
-    // Find active subscription
-    const listRes = await fetch(`https://api.stripe.com/v1/subscriptions?customer=${profile.stripe_customer_id}&status=active&limit=1`, {
-      headers: { 'Authorization': `Bearer ${Deno.env.get('STRIPE_SECRET_KEY')}` },
-    })
-    const listData = await listRes.json()
+    // Find active or trialing subscription
+    const [activeRes, trialRes] = await Promise.all([
+      fetch(`https://api.stripe.com/v1/subscriptions?customer=${customerId}&status=active&limit=1`, {
+        headers: { 'Authorization': `Bearer ${Deno.env.get('STRIPE_SECRET_KEY')}` },
+      }),
+      fetch(`https://api.stripe.com/v1/subscriptions?customer=${customerId}&status=trialing&limit=1`, {
+        headers: { 'Authorization': `Bearer ${Deno.env.get('STRIPE_SECRET_KEY')}` },
+      }),
+    ])
+    const [activeData, trialData] = await Promise.all([activeRes.json(), trialRes.json()])
+    const listData = { data: [...(activeData.data || []), ...(trialData.data || [])] }
 
     if (!listData.data?.length) {
       return new Response(JSON.stringify({ error: 'No active subscription found' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
