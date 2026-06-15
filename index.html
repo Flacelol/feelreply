@@ -1839,12 +1839,8 @@
     }
   }
 
-  // Run only if consent already given; otherwise wait for Accept click
-  if (localStorage.getItem('fr_cookie_consent') === 'accepted') {
-    initAuthNavbar()
-  } else {
-    document.addEventListener('cookieAccepted', initAuthNavbar, { once: true })
-  }
+  // Auth check is always safe — it reads the user's own existing session, not tracking
+  initAuthNavbar()
 </script>
 
 <script src="cookie-consent.js"></script>
