@@ -1473,7 +1473,7 @@ async function saveDraft(id) {
 }
 async function approveDraft(draftId, reviewId) {
   await Promise.all([
-    sb.from('reply_drafts').update({ status: 'approved' }).eq('id', draftId),
+    sb.from('reply_drafts').update({ status: 'approved', approved_at: new Date().toISOString() }).eq('id', draftId),
     sb.from('reviews').update({ status: 'replied' }).eq('id', reviewId)
   ])
   toast('Reply approved ✓')
@@ -1616,7 +1616,7 @@ async function loadAnalytics() {
   // Fetch reviews and approved drafts in parallel
   const [reviewsRes, draftsRes] = await Promise.all([
     sb.from('reviews').select('*').eq('user_id', user.id),
-    sb.from('reply_drafts').select('review_id, created_at').eq('user_id', user.id).eq('status', 'approved'),
+    sb.from('reply_drafts').select('review_id, created_at, approved_at').eq('user_id', user.id).eq('status', 'approved'),
   ])
 
   const rows   = reviewsRes.data || []
@@ -1633,8 +1633,8 @@ async function loadAnalytics() {
   rows.forEach(r => { reviewMap[r.id] = r.created_at })
 
   const replyTimes = drafts
-    .filter(d => reviewMap[d.review_id])
-    .map(d => (new Date(d.created_at) - new Date(reviewMap[d.review_id])) / 3_600_000) // hours
+    .filter(d => reviewMap[d.review_id] && (d.approved_at || d.created_at))
+    .map(d => (new Date(d.approved_at || d.created_at) - new Date(reviewMap[d.review_id])) / 3_600_000) // hours
     .filter(h => h >= 0)
 
   const avgHours   = replyTimes.length ? replyTimes.reduce((s,h) => s + h, 0) / replyTimes.length : null
